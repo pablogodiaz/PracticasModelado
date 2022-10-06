@@ -33,11 +33,16 @@ end
 
 class Cliente
      attributes
-        esVip:Boolean derive: (self.pedido.compra.cantidad > 1000) or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+        --Coger el precio de cada pedido, sumarlo y si supera los 1000 euros es true
+        esVip:Boolean derive: (self.pedido.precioTotal->sum() > 1000) 
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
+    attributes
+        --Coger todas las compras del pedido, y multiplicar la cantidad por el precio de la existencia
+        precioTotal:Real derive: self.compra->iterate(c:Compra; precio:Real = 0 | c.cantidad*c.existencia.precio)
 end
 
 class Compra
@@ -103,12 +108,12 @@ end
 
 association ClientePedido between
     Cliente [*] role cliente
-    Pedido [1] role pedido
+    Pedido [*] role pedido
 end
 
 association PedidoCompra between
     Pedido [1] role pedido
-    Compra [1] role compra
+    Compra [*] role compra
 end
 
 association CompraExistencia between
