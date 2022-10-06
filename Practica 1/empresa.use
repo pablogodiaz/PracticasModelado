@@ -1,0 +1,128 @@
+model Universidad
+
+class Empresa
+    attributes
+        valorminimo : Real
+end
+
+class Persona
+end
+
+class Director
+end
+
+class Gerente
+end
+
+class Trabajador
+end
+
+class Contrato
+    attributes
+        salario : Integer
+end
+
+class Producto
+end
+
+class Existencia
+    attributes
+        precio : Real
+end
+
+class ClienteNormal
+end
+
+class ClienteVIP
+end
+
+class Pedido
+    attributes
+        cantidad : Integer
+end
+
+class Almacen
+end
+
+
+association ContratoEmpresa between
+    Contrato [1] role contrato
+    Empresa [*] role empresa
+end
+    
+association DirectorContrato between
+    Director [1] role director
+    Contrato [1] role empleador
+end
+
+association GerenteContrato between
+    Gerente [1] role gerente
+    Contrato [1] role empleador
+end
+
+association TrabajadorContrato between
+    Trabajador [1] role trabajador
+    Contrato [1] role empleador
+end
+
+association DirectorEmpleado between
+    Director [1] role director
+    Persona [1] role empleado
+end
+
+association GerenteEmpleado between
+    Gerente [1] role gerente
+    Persona [1] role empleado
+end
+
+association TrabajadorEmpleado between
+    Trabajador [1] role trabajador
+    Persona [1] role empleado
+end
+
+association ClienteNormalCliente between
+    ClienteNormal [1] role clientenormal
+    Persona [1] role cliente
+end
+
+association ClienteVIPCliente between
+    ClienteVIP [1] role clientevip
+    Persona [1] role cliente
+end
+
+association ExistenciaEmpresa between
+    Existencia [0..*] role existencia
+    Empresa [*] role empresa
+end
+    
+association ProductoExistencia between
+    Producto [*] role producto
+    Existencia [1] role existencia
+end
+
+association PedidoEmpresa between
+    Pedido [0..*] role pedido
+    Empresa [*] role empresa
+end
+
+association ClienteVIPPedido between
+    ClienteVIP [*] role clientevip
+    Pedido [1] role pedido
+end
+
+association ClienteNormalPedido between
+    ClienteNormal [*] role clientenormal
+    Pedido [1] role pedido
+end
+
+association EmpresaAlmacen between
+    Empresa [1] role empresa
+    Almacen [1] role almacen
+end
+
+association AlmacenExistencia between
+    Almacen [1] role almacen
+    Existencia [0..*] role existencia
+end
+
+
