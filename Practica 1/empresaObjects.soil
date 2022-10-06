@@ -1,0 +1,69 @@
+reset
+
+!new Persona('Director')
+!new Persona('Gerente')
+!new Persona('Trabajador')
+
+!new Director('D')
+!new Gerente('G')
+!new Trabajador('T')
+
+!new Persona('Victor')
+
+!new Contrato('CD')
+!new Contrato('CG')
+!new Contrato('CT')
+
+!new Empresa('E')
+
+!new Producto('P1')
+!new Producto('P2')
+
+!new Existencia('EP1')
+!new Existencia('EP2')
+
+!new Cliente('VE')
+
+!new Pedido('Pe1')
+!new Pedido('Pe2')
+
+!new Compra('C1')
+!new Compra('C2')
+!new Compra('C3')
+!new Compra('C4')
+
+!insert(CD,E) into ContratoEmpresa
+!insert(CG,E) into ContratoEmpresa
+!insert(CT,E) into ContratoEmpresa
+
+!insert(D,CD) into DirectorContrato
+!insert(G,CG) into GerenteContrato
+!insert(T,CT) into TrabajadorContrato
+
+!insert(D,Director) into DirectorEmpleado
+!insert(G,Gerente) into GerenteEmpleado
+!insert(T,Trabajador) into TrabajadorEmpleado
+
+!insert(VE,Victor) into ClientePersona
+
+!insert(EP1,E) into ExistenciaEmpresa
+!insert(EP2,E) into ExistenciaEmpresa
+
+!insert(P1,EP1) into ProductoExistencia
+!insert(P2,EP2) into ProductoExistencia
+
+!insert(Pe1,E) into PedidoEmpresa
+!insert(Pe2,E) into PedidoEmpresa
+
+!insert(VE,Pe1) into ClientePedido
+!insert(VE,Pe2) into ClientePedido
+
+!insert(Pe1,C1) into PedidoCompra
+!insert(Pe1,C2) into PedidoCompra
+!insert(Pe2,C3) into PedidoCompra
+!insert(Pe2,C4) into PedidoCompra
+
+!insert(C1,EP1) into CompraExistencia
+!insert(C2,EP2) into CompraExistencia
+!insert(C3,EP1) into CompraExistencia
+!insert(C4,EP2) into CompraExistencia
