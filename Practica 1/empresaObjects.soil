@@ -20,7 +20,11 @@ reset
 !new Producto('P2')
 
 !new Existencia('EP1')
+!EP1.precio := 200
+!EP1.cantidad := 100
 !new Existencia('EP2')
+!EP2.precio := 100
+!EP2.cantidad := 50
 
 !new Cliente('VE')
 
@@ -28,9 +32,13 @@ reset
 !new Pedido('Pe2')
 
 !new Compra('C1')
+!C1.cantidad := 1
 !new Compra('C2')
+!C2.cantidad := 1
 !new Compra('C3')
+!C3.cantidad := 1
 !new Compra('C4')
+!C4.cantidad := 1
 
 !insert(CD,E) into ContratoEmpresa
 !insert(CG,E) into ContratoEmpresa
