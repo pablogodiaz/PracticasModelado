@@ -30,19 +30,17 @@ class Existencia
         precio : Real
 end
 
-class ClienteNormal
+class Cliente
+     attributes
+        esVip:Boolean derive: (self.pedido.cantidad > 1000) or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
-class ClienteVIP
-end
 
 class Pedido
     attributes
         cantidad : Integer
 end
 
-class Almacen
-end
 
 
 association ContratoEmpresa between
@@ -80,15 +78,11 @@ association TrabajadorEmpleado between
     Persona [1] role empleado
 end
 
-association ClienteNormalCliente between
-    ClienteNormal [1] role clientenormal
-    Persona [1] role cliente
+association ClientePersona between
+    Cliente [1] role cliente
+    Persona [1] role persona
 end
 
-association ClienteVIPCliente between
-    ClienteVIP [1] role clientevip
-    Persona [1] role cliente
-end
 
 association ExistenciaEmpresa between
     Existencia [0..*] role existencia
@@ -105,24 +99,13 @@ association PedidoEmpresa between
     Empresa [*] role empresa
 end
 
-association ClienteVIPPedido between
-    ClienteVIP [*] role clientevip
+association ClientePedido between
+    Cliente [*] role cliente
     Pedido [1] role pedido
 end
 
-association ClienteNormalPedido between
-    ClienteNormal [*] role clientenormal
-    Pedido [1] role pedido
-end
-
-association EmpresaAlmacen between
-    Empresa [1] role empresa
-    Almacen [1] role almacen
-end
-
-association AlmacenExistencia between
-    Almacen [1] role almacen
-    Existencia [0..*] role existencia
-end
 
 
+constraints
+
+--context Persona inv SueldosCrecientes:  Persona
