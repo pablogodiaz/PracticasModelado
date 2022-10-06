@@ -28,6 +28,7 @@ end
 class Existencia
     attributes
         precio : Real
+        cantidad : Integer
 end
 
 class Cliente
