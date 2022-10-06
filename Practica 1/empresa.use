@@ -46,23 +46,23 @@ class Compra
 end
 
 association ContratoEmpresa between
-    Contrato [1] role contrato
-    Empresa [*] role empresa
+    Contrato [3..*] role contrato
+    Empresa [1] role empresa
 end
     
 association DirectorContrato between
-    Director [1] role director
-    Contrato [1] role empleador
+    Director [0..3] role director
+    Contrato [1] role puesto
 end
 
 association GerenteContrato between
-    Gerente [1] role gerente
-    Contrato [1] role empleador
+    Gerente [0..3] role gerente
+    Contrato [1] role puesto
 end
 
 association TrabajadorContrato between
-    Trabajador [1] role trabajador
-    Contrato [1] role empleador
+    Trabajador [0..3] role trabajador
+    Contrato [1] role puesto
 end
 
 association DirectorEmpleado between
@@ -115,8 +115,8 @@ association CompraExistencia between
     Compra [1] role compra
     Existencia [1] role existencia
 end
-
 constraints
+
 
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
