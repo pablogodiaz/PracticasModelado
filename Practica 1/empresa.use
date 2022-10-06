@@ -33,16 +33,17 @@ end
 
 class Cliente
      attributes
-        esVip:Boolean derive: (self.pedido.cantidad > 1000) or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+        esVip:Boolean derive: (self.pedido.compra.cantidad > 1000) or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
-    attributes
-        cantidad : Integer
 end
 
-
+class Compra
+        attributes
+                cantidad : Integer
+end
 
 association ContratoEmpresa between
     Contrato [1] role contrato
@@ -105,8 +106,37 @@ association ClientePedido between
     Pedido [1] role pedido
 end
 
+association PedidoCompra between
+    Pedido [1] role pedido
+    Compra [1] role compra
+end
 
-
+association CompraExistencia between
+    Compra [1] role compra
+    Existencia [1] role existencia
+end
 constraints
 
 --context Persona inv SueldosCrecientes:  Persona
+
+/*
+operations
+
+comprarExistencia(l:Libro,n:Integer) 
+begin
+declare ed:Edicion, e:Ejemplar;
+ed:=new Edicion;
+ed.tipo:=#bolsillo;
+ed.anyo:=2019;
+ed.idioma:='Español';
+ed.numPaginas:=100;
+insert(l,ed) into EdicionLibro;
+if l.edicionOriginal=null then insert(l,ed) into EdicionOriginal; end;
+insert(self,ed) into CrearEdicion;
+for i in Sequence{1..n} do
+e:=new Ejemplar;
+insert(ed,e)into Publicacion;
+insert(e,self)into Propiedad;
+end;
+end
+end*/
