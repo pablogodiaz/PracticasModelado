@@ -21,10 +21,10 @@ reset
 
 !new Existencia('EP1')
 !EP1.precio := 200
-!EP1.cantidad := 100
+!EP1.cantidadinicial := 100
 !new Existencia('EP2')
 !EP2.precio := 100
-!EP2.cantidad := 50
+!EP2.cantidadinicial := 100
 
 !new Cliente('VE')
 
