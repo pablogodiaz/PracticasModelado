@@ -57,58 +57,58 @@ association ContratoEmpresa between
 end
     
 association DirectorContrato between
-    Director [0..3] role director
-    Contrato [1] role puesto
+    Director [0..1] role director
+    Contrato [0..1] role puesto
 end
 
 association GerenteContrato between
-    Gerente [0..3] role gerente
-    Contrato [1] role puesto
+    Gerente [0..1] role gerente
+    Contrato [0..1] role puesto
 end
 
 association TrabajadorContrato between
-    Trabajador [0..3] role trabajador
-    Contrato [1] role puesto
+    Trabajador [0..1] role trabajador
+    Contrato [0..1] role puesto
 end
 
 association DirectorEmpleado between
-    Director [1] role director
-    Persona [1] role empleado
+    Director [0..3] role director
+    Persona [0..1] role empleado
 end
 
 association GerenteEmpleado between
-    Gerente [1] role gerente
-    Persona [1] role empleado
+    Gerente [0..3] role gerente
+    Persona [0..1] role empleado
 end
 
 association TrabajadorEmpleado between
-    Trabajador [1] role trabajador
-    Persona [1] role empleado
+    Trabajador [0..3] role trabajador
+    Persona [0..1] role empleado
 end
 
 association ClientePersona between
-    Cliente [1] role cliente
+    Cliente [0..1] role cliente
     Persona [1] role persona
 end
 
 
 association ExistenciaEmpresa between
-    Existencia [0..*] role existencia
+    Existencia [1] role existencia
     Empresa [*] role empresa
 end
     
 association ProductoExistencia between
-    Producto [*] role producto
-    Existencia [1] role existencia
+    Producto [1] role producto
+    Existencia [*] role existencia
 end
 
 association PedidoEmpresa between
-    Pedido [0..*] role pedido
-    Empresa [*] role empresa
+    Pedido [*] role pedido
+    Empresa [1] role empresa
 end
 
 association ClientePedido between
-    Cliente [*] role cliente
+    Cliente [1] role cliente
     Pedido [*] role pedido
 end
 
