@@ -27,8 +27,9 @@ end
 
 class Existencia
     attributes
+        cantidadinicial : Integer
         precio : Real
-        cantidad : Integer
+        cantidad : Integer derive: self.cantidadinicial - self.compra.cantidad -> sum()
 end
 
 class Cliente
@@ -117,7 +118,7 @@ association PedidoCompra between
 end
 
 association CompraExistencia between
-    Compra [1] role compra
+    Compra [*] role compra
     Existencia [1] role existencia
 end
 constraints
