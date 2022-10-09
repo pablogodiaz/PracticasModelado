@@ -5,16 +5,16 @@ class Empresa
         valorminimo : Real
 end
 
-abstract class Empleado
+class Persona
 end
 
-class Director < Empleado
+class Director
 end
 
-class Gerente < Empleado
+class Gerente
 end
 
-class Trabajador < Empleado
+class Trabajador
 end
 
 class Contrato
@@ -28,34 +28,66 @@ end
 class Existencia
     attributes
         precio : Real
-end
-
-abstract class Cliente
-end
-
-class ClienteNormal < Cliente
-end
-
-class ClienteVIP < Cliente
-end
-
-class Pedido
-    attributes
         cantidad : Integer
 end
 
-class Almacen
+class Cliente
+     attributes
+        --Coger el precio de cada pedido, sumarlo y si supera los 1000 euros es true
+        esVip:Boolean derive: (self.pedido.precioTotal->sum() > 1000) 
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
+
+class Pedido
+    attributes
+        --Coger todas las compras del pedido, y multiplicar la cantidad por el precio de la existencia
+        precioTotal:Real derive: self.compra->iterate(c:Compra; precio:Real = 0 | c.cantidad*c.existencia.precio)
+end
+
+class Compra
+        attributes
+                cantidad : Integer
+end
 
 association ContratoEmpresa between
-    Contrato [1] role contrato
-    Empresa [*] role empresa
+    Contrato [3..*] role contrato
+    Empresa [1] role empresa
 end
     
-association EmpleadosContrato between
-    Empleado [0..3] role empleado
-    Contrato [1] role empleador
+association DirectorContrato between
+    Director [0..3] role director
+    Contrato [1] role puesto
+end
+
+association GerenteContrato between
+    Gerente [0..3] role gerente
+    Contrato [1] role puesto
+end
+
+association TrabajadorContrato between
+    Trabajador [0..3] role trabajador
+    Contrato [1] role puesto
+end
+
+association DirectorEmpleado between
+    Director [1] role director
+    Persona [1] role empleado
+end
+
+association GerenteEmpleado between
+    Gerente [1] role gerente
+    Persona [1] role empleado
+end
+
+association TrabajadorEmpleado between
+    Trabajador [1] role trabajador
+    Persona [1] role empleado
+end
+
+association ClientePersona between
+    Cliente [1] role cliente
+    Persona [1] role persona
 end
 
 
@@ -76,16 +108,21 @@ end
 
 association ClientePedido between
     Cliente [*] role cliente
+    Pedido [*] role pedido
+end
+
+association PedidoCompra between
     Pedido [1] role pedido
+    Compra [*] role compra
 end
 
-
-association EmpresaAlmacen between
-    Empresa [1] role empresa
-    Almacen [1] role almacen
+association CompraExistencia between
+    Compra [1] role compra
+    Existencia [1] role existencia
 end
+constraints
 
-association AlmacenExistencia between
-    Almacen [1] role almacen
-    Existencia [0..*] role existencia
-end
+
+context Empresa
+    inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
+    inv SueldoGerenteMayorTrabajador: self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario
