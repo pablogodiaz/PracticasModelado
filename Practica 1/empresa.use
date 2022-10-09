@@ -43,7 +43,7 @@ end
 class Pedido
     attributes
         --Coger todas las compras del pedido, y multiplicar la cantidad por el precio de la existencia
-        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
+        --precioTotal:Real derive: if self.cliente.esVip then self.compra->collect(cantidad*existencia.precio)->sum()*0.1 else self.compra->collect(cantidad*existencia.precio)->sum() endif
 end
 
 class Compra

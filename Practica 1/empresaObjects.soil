@@ -35,13 +35,13 @@ reset
 !new Pedido('Pe2')
 
 !new Compra('C1')
-!C1.cantidad := 1
+!C1.cantidad := 2
 !new Compra('C2')
-!C2.cantidad := 1
+!C2.cantidad := 2
 !new Compra('C3')
-!C3.cantidad := 1
+!C3.cantidad := 2
 !new Compra('C4')
-!C4.cantidad := 1
+!C4.cantidad := 2
 
 !insert(CD,E) into ContratoEmpresa
 !insert(CG,E) into ContratoEmpresa
