@@ -11,8 +11,11 @@ reset
 !new Persona('Victor')
 
 !new Contrato('CD')
+!CD.salario := 5000
 !new Contrato('CG')
+!CG.salario := 3000
 !new Contrato('CT')
+!CT.salario := 1000
 
 !new Empresa('E')
 
