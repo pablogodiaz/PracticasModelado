@@ -33,7 +33,7 @@ class Existencia
 end
 
 class Cliente
-     attributes
+    attributes
         esVip:Boolean derive: (self.pedido.precioTotal->sum() > 1000) 
         or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
@@ -45,8 +45,8 @@ class Pedido
 end
 
 class Compra
-        attributes
-                cantidad : Integer
+    attributes
+        cantidad : Integer
 end
 
 association ContratoEmpresa between
@@ -128,4 +128,7 @@ context Empresa
     inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> size() = 0
 
 context Persona
-    inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3    
+    inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
+
+context Pedido
+    inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
