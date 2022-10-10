@@ -33,15 +33,19 @@ class Existencia
 end
 
 class Cliente
-     attributes
-        esVip:Boolean derive: (self.pedido.precioTotal->sum() > 1000) 
+    attributes
+        descuento : Real derive: if self.esVip() then 0.9 else 1 endif
+     operations
+        esVip():Boolean = (self.pedido.precioTotal->sum() > 1000)
         or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
     attributes
-        precioTotal:Real derive: if self.cliente.esVip then (self.compra->collect(cantidad*existencia.precio)->sum()*0.1) else (self.compra->collect(cantidad*existencia.precio)->sum()) endif
+        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
+        precioDescontado: Real derive: precioTotal * self.cliente.descuento
+
 end
 
 class Compra
