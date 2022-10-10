@@ -132,3 +132,12 @@ context Persona
 
 context Pedido
     inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
+
+context Compra
+    inv CantidadMayorQueZero: self.cantidad > 0
+
+context Existencia
+    inv CantidadMayorOIgualQueZero: self.cantidad >= 0
+
+context Contrato
+    inv SoloUnEmpleado: self.trabajador -> union(self.gerente) -> union(self.trabajador) -> size() = 1
