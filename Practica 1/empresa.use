@@ -49,8 +49,8 @@ class Pedido
 end
 
 class Compra
-        attributes
-                cantidad : Integer
+    attributes
+        cantidad : Integer
 end
 
 association ContratoEmpresa between
@@ -129,9 +129,19 @@ constraints
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
     inv SueldoGerenteMayorTrabajador: self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario
+    inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> size() = 0
 
-
-
---constraint una persona solo puede tener 3 trabajos como maximo
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
+
+context Pedido
+    inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
+
+context Compra
+    inv CantidadMayorQueZero: self.cantidad > 0
+
+context Existencia
+    inv CantidadMayorOIgualQueZero: self.cantidad >= 0
+
+context Contrato
+    inv SoloUnEmpleado: self.trabajador -> union(self.gerente) -> union(self.trabajador) -> size() = 1
