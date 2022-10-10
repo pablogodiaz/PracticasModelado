@@ -34,7 +34,6 @@ end
 
 class Cliente
      attributes
-        --Coger el precio de cada pedido, sumarlo y si supera los 1000 euros es true
         esVip:Boolean derive: (self.pedido.precioTotal->sum() > 1000) 
         or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
@@ -42,8 +41,7 @@ end
 
 class Pedido
     attributes
-        --Coger todas las compras del pedido, y multiplicar la cantidad por el precio de la existencia
-        precioTotal:Real derive: if self.cliente.esVip then self.compra->collect(cantidad*existencia.precio)->sum()*0.1 else self.compra->collect(cantidad*existencia.precio)->sum() endif
+        precioTotal:Real derive: if self.cliente.esVip then (self.compra->collect(cantidad*existencia.precio)->sum()*0.1) else (self.compra->collect(cantidad*existencia.precio)->sum()) endif
 end
 
 class Compra
@@ -127,3 +125,9 @@ constraints
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
     inv SueldoGerenteMayorTrabajador: self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario
+
+
+
+--constraint una persona solo puede tener 3 trabajos como maximo
+context Persona
+    inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
