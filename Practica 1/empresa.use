@@ -122,8 +122,9 @@ association CompraExistencia between
     Compra [*] role compra
     Existencia [1] role existencia
 end
-constraints
 
+
+constraints
 
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
@@ -143,4 +144,4 @@ context Existencia
     inv CantidadMayorOIgualQueZero: self.cantidad >= 0
 
 context Contrato
-    --inv SoloUnEmpleado: self.trabajador -> union(self.gerente) -> union(self.trabajador) -> size() = 1
+    inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.trabajador}) -> size() = 1
