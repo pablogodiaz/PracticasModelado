@@ -34,17 +34,16 @@ end
 
 class Cliente
     attributes
-        descuento : Real derive: if self.esVip() then 0.9 else 1 endif
+        esVip : Boolean
      operations
-        esVip():Boolean = (self.pedido.precioTotal->sum() > 1000)
-        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+        --esVip():Boolean = (self.pedido->select(p:Pedido | p <> self.pedido->asOrderedSet()->last()).precioTotal->sum() > 1000)
+        --or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
     attributes
-        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
-        precioDescontado: Real derive: precioTotal * self.cliente.descuento
+        precioTotal:Real derive: if self.cliente.esVip then self.compra->collect(cantidad*existencia.precio)->sum()*0.1 else self.compra->collect(cantidad*existencia.precio)->sum() endif
 
 end
 
@@ -144,4 +143,4 @@ context Existencia
     inv CantidadMayorOIgualQueZero: self.cantidad >= 0
 
 context Contrato
-    inv SoloUnEmpleado: self.trabajador -> union(self.gerente) -> union(self.trabajador) -> size() = 1
+    --inv SoloUnEmpleado: self.trabajador -> union(self.gerente) -> union(self.trabajador) -> size() = 1
