@@ -18,6 +18,7 @@ reset
 !CT.salario := 1000
 
 !new Empresa('E')
+!E.valorminimo := 10
 
 !new Producto('P1')
 !new Producto('P2')
@@ -30,6 +31,7 @@ reset
 !EP2.cantidadinicial := 100
 
 !new Cliente('VE')
+!VE.esVip := true
 
 !new Pedido('Pe1')
 !new Pedido('Pe2')

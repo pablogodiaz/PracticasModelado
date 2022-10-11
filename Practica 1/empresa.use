@@ -43,7 +43,8 @@ end
 
 class Pedido
     attributes
-        precioTotal:Real derive: if self.cliente.esVip then self.compra->collect(cantidad*existencia.precio)->sum()*0.1 else self.compra->collect(cantidad*existencia.precio)->sum() endif
+        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
+        precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
 
 end
 
@@ -94,8 +95,8 @@ end
 
 
 association ExistenciaEmpresa between
-    Existencia [1] role existencia
-    Empresa [*] role empresa
+    Existencia [*] role existencia
+    Empresa [1] role empresa
 end
     
 association ProductoExistencia between
@@ -144,4 +145,8 @@ context Existencia
     inv CantidadMayorOIgualQueZero: self.cantidad >= 0
 
 context Contrato
-    inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.trabajador}) -> size() = 1
+    inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.director})->excluding(null) -> size() = 1
+
+context Cliente
+    inv esVip: (self.pedido.precioTotal->sum() > 1000)
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
