@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_eS918EnCEe2LV6LkYsMPQg" name="Practica1">
+  <ownedRule xmi:type="uml:Constraint" xmi:id="_67qdQEnZEe2LV6LkYsMPQg">
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_67rEUEnZEe2LV6LkYsMPQg" name="constraintSpec">
+      <language>OCL</language>
+      <body>SoloUnEmpleado=Set{self.trabajador}->union(Set{self.gerente})->union(Set{self.trabajador})->excluding(null)->size()=1</body>
+    </specification>
+  </ownedRule>
+  <ownedRule xmi:type="uml:Constraint" xmi:id="_26TLgEnXEe2LV6LkYsMPQg">
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_26TLgUnXEe2LV6LkYsMPQg" name="constraintSpec">
+      <language>OCL</language>
+      <body>self.cantidad > 0</body>
+    </specification>
+  </ownedRule>
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_eWm_0EnCEe2LV6LkYsMPQg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_YJAQQEnREe2LV6LkYsMPQg" name="Persona" visibility="package"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_aSTfEEnREe2LV6LkYsMPQg" name="Cliente">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_nSk-MEojEe2gB91s_i9xFQ">
+      <specification xmi:type="uml:OpaqueExpression" xmi:id="_nSznsEojEe2gB91s_i9xFQ" name="constraintSpec">
+        <language>OCL</language>
+        <body>(self.pedido.precioTotal -> sum() > 1000) or (self.persona.trabajador -> notEmpty()) or (self.persona.gerente -> notEmpty()) or (self.persona.director -> notEmpty())</body>
+      </specification>
+    </ownedRule>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_LAGD0EnSEe2LV6LkYsMPQg" name="esVip" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nuzD8EnSEe2LV6LkYsMPQg"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_dFXckEnREe2LV6LkYsMPQg" name="Pedido">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_5k4UsEnSEe2LV6LkYsMPQg" name="precioTotal" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="__W59sEnSEe2LV6LkYsMPQg" name="precioDescontado" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_k1M2EEnREe2LV6LkYsMPQg" name="Empresa" visibility="package">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="__Pth0EnYEe2LV6LkYsMPQg">
+      <specification xmi:type="uml:OpaqueExpression" xmi:id="__PuI4EnYEe2LV6LkYsMPQg" name="constraintSpec">
+        <language>OCL</language>
+        <body>self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario</body>
+      </specification>
+    </ownedRule>
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_DLy84EnZEe2LV6LkYsMPQg">
+      <specification xmi:type="uml:OpaqueExpression" xmi:id="_DLy84UnZEe2LV6LkYsMPQg" name="constraintSpec">
+        <language>OCL</language>
+        <body>self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario</body>
+      </specification>
+    </ownedRule>
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_GWpvUEnZEe2LV6LkYsMPQg">
+      <specification xmi:type="uml:OpaqueExpression" xmi:id="_GWqWYEnZEe2LV6LkYsMPQg" name="constraintSpec">
+        <language>OCL</language>
+        <body>self.contrato.trabajador -> select(t : Trabajador | t &lt;> null).empleado -> intersection(self.contrato.director -> select(d : Director | d &lt;> null).empleado) -> intersection(self.contrato.gerente -> select(g : Gerente | g &lt;> null).empleado) -> size() = 0</body>
+      </specification>
+    </ownedRule>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_ZbRXIEnWEe2LV6LkYsMPQg" name="valorminimo" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_pIDyYEnREe2LV6LkYsMPQg" name="Compra">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_s0s0gEnXEe2LV6LkYsMPQg" name="cantidad" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_qE84cEnREe2LV6LkYsMPQg" name="Existencia" visibility="public">
+    <ownedRule xmi:type="uml:Constraint" xmi:id="_lWSbMEokEe2gB91s_i9xFQ">
+      <specification xmi:type="uml:OpaqueExpression" xmi:id="_lWTCQEokEe2gB91s_i9xFQ" name="constraintSpec">
+        <language>OCL</language>
+        <body>self.cantidad>=0</body>
+      </specification>
+    </ownedRule>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_LgQVIEnTEe2LV6LkYsMPQg" name="precio" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_NMlMsEnWEe2LV6LkYsMPQg" name="cantidadInicial" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_UBcLsEnWEe2LV6LkYsMPQg" name="cantidad" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_sqNDcEnREe2LV6LkYsMPQg" name="Producto" visibility="package"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_u3VpYEnREe2LV6LkYsMPQg" name="Director"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_v39Y4EnREe2LV6LkYsMPQg" name="Gerente"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_wzGLcEnREe2LV6LkYsMPQg" name="Trabajador"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_yd1O8EnREe2LV6LkYsMPQg" name="Contrato">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_q72OwEnSEe2LV6LkYsMPQg" name="salario" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Constraint" xmi:id="_PkseIEnXEe2LV6LkYsMPQg" constrainedElement="_YJAQQEnREe2LV6LkYsMPQg">
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_PktFMEnXEe2LV6LkYsMPQg" name="constraintSpec" visibility="private">
+      <language>OCL</language>
+      <body>self.trabajador->union(self.gerente)->union(self.director)->size()&lt;=3</body>
+    </specification>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_T1jZ4EnYEe2LV6LkYsMPQg" name="ProductoExistencia"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_5m7UYEnYEe2LV6LkYsMPQg" name="ContratoEmpresa"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_SYLAcEnZEe2LV6LkYsMPQg"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_G-9akEnbEe2LV6LkYsMPQg" name="PedidoCompra"/>
+  <packagedElement xmi:type="uml:Constraint" xmi:id="_ts4SsEokEe2gB91s_i9xFQ" constrainedElement="_dFXckEnREe2LV6LkYsMPQg">
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_ts45wEokEe2gB91s_i9xFQ" name="constraintSpec">
+      <language>OCL</language>
+      <body>self.precioTotal>=self.empresa.valorminimo</body>
+    </specification>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_tb7zAEosEe2gB91s_i9xFQ" name="ClientePersona"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_bPMgUEotEe2gB91s_i9xFQ" name="DirectorEmpleado"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ei6T0EotEe2gB91s_i9xFQ" name="GerenteEmpleado"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_h2eWUEotEe2gB91s_i9xFQ" name="TrabajadorEmpleado"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_vwc94EotEe2gB91s_i9xFQ" name="DirectorContrato"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_wwmzUEotEe2gB91s_i9xFQ" name="GerenteContrato"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_xtQo0EotEe2gB91s_i9xFQ" name="TrabajadorContrato"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_E9s-wEouEe2gB91s_i9xFQ" name="ClientePedido"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_cr8VsEouEe2gB91s_i9xFQ" name="PedidoEmpresa"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_la3NoEouEe2gB91s_i9xFQ" name="CompraExistencia"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_ORlpwEnSEe2LV6LkYsMPQg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ORmQ0EnSEe2LV6LkYsMPQg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>
