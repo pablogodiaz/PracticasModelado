@@ -124,6 +124,7 @@ context Empresa
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
     inv DiezProductosDistintosMaximo: self.cliente.pedido.ejemplar.producto->asSet()->size()<=10
+    
 
 
 context Pedido
