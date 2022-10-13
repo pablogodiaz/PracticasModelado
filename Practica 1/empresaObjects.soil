@@ -66,9 +66,6 @@ reset
 !insert(ej10,E) into EjemplarEmpresa
 !insert(ej11,E) into EjemplarEmpresa
 
-!insert(P1,EP1) into ProductoExistencia
-!insert(P2,EP2) into ProductoExistencia
-
 !insert(Pe1,E) into PedidoEmpresa
 !insert(Pe2,E) into PedidoEmpresa
 
@@ -92,10 +89,15 @@ reset
 !insert(P1,ej3) into MaterializacionProducto
 !insert(P1,ej4) into MaterializacionProducto
 !insert(P1,ej5) into MaterializacionProducto
-!insert(P1,ej6) into MaterializacionProducto
-!insert(P1,ej7) into MaterializacionProducto
-!insert(P1,ej8) into MaterializacionProducto
-!insert(P1,ej9) into MaterializacionProducto
-!insert(P1,ej10) into MaterializacionProducto
-!insert(P1,ej11) into MaterializacionProducto
+!insert(P2,ej6) into MaterializacionProducto
+!insert(P2,ej7) into MaterializacionProducto
+!insert(P2,ej8) into MaterializacionProducto
+!insert(P2,ej9) into MaterializacionProducto
+!insert(P2,ej10) into MaterializacionProducto
+!insert(P2,ej11) into MaterializacionProducto
 
+!Venta1 := new Venta between(E,P1)
+!Venta1.precio := 100
+
+!Venta2 := new Venta between(E,P2)
+!Venta2.precio := 200

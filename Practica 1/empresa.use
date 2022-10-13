@@ -35,26 +35,16 @@ associationclass Venta between
         precio : Real
 end
 
---class Existencia
-  --  attributes
-    --    cantidadinicial : Integer
-      --  precio : Real
-       -- cantidad : Integer derive: self.cantidadinicial - self.compra.cantidad -> sum()
---end
-
 class Cliente
     attributes
         esVip : Boolean
-     operations
-        --esVip():Boolean = (self.pedido->select(p:Pedido | p <> self.pedido->asOrderedSet()->last()).precioTotal->sum() > 1000)
-        --or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
     attributes
-        --precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
-        --precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
+        precioTotal:Real derive: self.ejemplar.producto.venta.precio->sum()
+        precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
 
 end
 
@@ -94,7 +84,7 @@ association TrabajadorEmpleado between
 end
 
 association ClientePersona between
-    Cliente [0..1] role cliente
+    Cliente [*] role cliente
     Persona [1] role persona
 end
 
@@ -133,20 +123,16 @@ context Empresa
 
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
-    --inv prueba: ?Victor.pertenencia.producto->select(p:Producto|p.ejemplar.perteneciente
+    inv DiezProductosDistintosMaximo: self.cliente.pedido.ejemplar.producto->asSet()->size()<=10
 
 
 context Pedido
-    --inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
+    inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
 
 
 context Contrato
     inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.director})->excluding(null) -> size() = 1
 
 context Cliente
-    --inv esVip: (self.pedido.precioTotal->sum() > 1000)
-        --or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
-
---{P1,P2,P2} ->select(p:Producto | count(p) > 10)->size()=0
-
---?Victor.cliente.pedido.ejemplar.producto->select(p:Producto | Victor.cliente.pedido.ejemplar.producto->count(p) > 10)->size()=0
+    inv esVip: (self.pedido.precioTotal->sum() > 1000)
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
