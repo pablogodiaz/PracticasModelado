@@ -25,6 +25,9 @@ end
 class Producto
 end
 
+class Ejemplar
+end
+
 class Existencia
     attributes
         cantidadinicial : Integer
@@ -124,6 +127,15 @@ association CompraExistencia between
     Existencia [1] role existencia
 end
 
+association MaterializacionProducto between
+    Producto[1] role producto
+    Ejemplar[*] role ejemplar
+end
+
+association Pertenencia between
+    Ejemplar[*] role pertenencia
+    Persona[0..1] role perteneciente
+end
 
 constraints
 
