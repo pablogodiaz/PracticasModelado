@@ -1,4 +1,4 @@
-model Universidad
+model Empresa
 
 class Empresa
     attributes
