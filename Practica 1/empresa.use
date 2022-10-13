@@ -28,12 +28,19 @@ end
 class Ejemplar
 end
 
-class Existencia
+associationclass Venta between
+    Empresa[*] role vendedor
+    Producto[*] role producto
     attributes
-        cantidadinicial : Integer
         precio : Real
-        cantidad : Integer derive: self.cantidadinicial - self.compra.cantidad -> sum()
 end
+
+--class Existencia
+  --  attributes
+    --    cantidadinicial : Integer
+      --  precio : Real
+       -- cantidad : Integer derive: self.cantidadinicial - self.compra.cantidad -> sum()
+--end
 
 class Cliente
     attributes
@@ -46,14 +53,9 @@ end
 
 class Pedido
     attributes
-        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
-        precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
+        --precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
+        --precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
 
-end
-
-class Compra
-    attributes
-        cantidad : Integer
 end
 
 association ContratoEmpresa between
@@ -97,14 +99,9 @@ association ClientePersona between
 end
 
 
-association ExistenciaEmpresa between
-    Existencia [*] role existencia
+association EjemplarEmpresa between
+    Ejemplar [*] role ejemplar
     Empresa [1] role empresa
-end
-    
-association ProductoExistencia between
-    Producto [1] role producto
-    Existencia [*] role existencia
 end
 
 association PedidoEmpresa between
@@ -117,24 +114,14 @@ association ClientePedido between
     Pedido [*] role pedido
 end
 
-association PedidoCompra between
-    Pedido [1] role pedido
-    Compra [*] role compra
-end
-
-association CompraExistencia between
-    Compra [*] role compra
-    Existencia [1] role existencia
+association Compra between
+    Pedido[0..1] role pedido
+    Ejemplar[1..*] role ejemplar
 end
 
 association MaterializacionProducto between
     Producto[1] role producto
     Ejemplar[*] role ejemplar
-end
-
-association Pertenencia between
-    Ejemplar[*] role pertenencia
-    Persona[0..1] role perteneciente
 end
 
 constraints
@@ -146,19 +133,20 @@ context Empresa
 
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
+    --inv prueba: ?Victor.pertenencia.producto->select(p:Producto|p.ejemplar.perteneciente
+
 
 context Pedido
-    inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
+    --inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
 
-context Compra
-    inv CantidadMayorQueZero: self.cantidad > 0
-
-context Existencia
-    inv CantidadMayorOIgualQueZero: self.cantidad >= 0
 
 context Contrato
     inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.director})->excluding(null) -> size() = 1
 
 context Cliente
-    inv esVip: (self.pedido.precioTotal->sum() > 1000)
-        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+    --inv esVip: (self.pedido.precioTotal->sum() > 1000)
+        --or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+
+--{P1,P2,P2} ->select(p:Producto | count(p) > 10)->size()=0
+
+--?Victor.cliente.pedido.ejemplar.producto->select(p:Producto | Victor.cliente.pedido.ejemplar.producto->count(p) > 10)->size()=0
