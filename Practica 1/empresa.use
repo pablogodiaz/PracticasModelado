@@ -46,7 +46,7 @@ end
 
 class Pedido
     attributes
-        precioTotal:Real derive: self.ejemplar.producto.venta.precio->sum()
+        precioTotal:Real derive: self.ejemplar.producto.venta->select(v:Venta | v.vendedor = self.empresa).precio->sum()
         precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
 
 end
@@ -73,17 +73,17 @@ end
 
 association DirectorEmpleado between
     Director [0..3] role director
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association GerenteEmpleado between
     Gerente [0..3] role gerente
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association TrabajadorEmpleado between
     Trabajador [0..3] role trabajador
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association ClientePersona between
@@ -132,7 +132,7 @@ constraints
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
     inv SueldoGerenteMayorTrabajador: self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario
-    inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> size() = 0
+    inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> excluding(null) -> size() = 0
 
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
@@ -148,8 +148,10 @@ context Contrato
     inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.director})->excluding(null) -> size() = 1
 
 context Cliente
-    inv esVip: (self.pedido.precioTotal->sum() > 1000)
-        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+    inv esVip: if (self.pedido.precioTotal->sum() > 1000)
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty()) then
+        self.esVip = true else self.esVip = false endif
+    inv clienteUnicoPorEmpresa: self.pedido.empresa->asSet()->size()<=1
 
 context Ejemplar
     inv EjemplarAlmacenadoOComprado: self.almacen->size() + self.pedido->size() = 1
