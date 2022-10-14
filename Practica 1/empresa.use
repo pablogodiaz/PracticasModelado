@@ -5,6 +5,9 @@ class Empresa
         valorminimo : Real
 end
 
+class Almacen
+end
+
 class Persona
 end
 
@@ -114,6 +117,16 @@ association MaterializacionProducto between
     Ejemplar[*] role ejemplar
 end
 
+association EmpresaAlmacen between
+    Empresa[1] role empresa
+    Almacen[1] role almacen
+end
+
+association Almacenamiento between
+    Almacen[0..1] role almacen
+    Ejemplar[*] role ejemplar
+end
+
 constraints
 
 context Empresa
@@ -137,3 +150,6 @@ context Contrato
 context Cliente
     inv esVip: (self.pedido.precioTotal->sum() > 1000)
         or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+
+context Ejemplar
+    inv EjemplarAlmacenadoOComprado: self.almacen->size() + self.pedido->size() = 1
