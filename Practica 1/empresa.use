@@ -1,8 +1,11 @@
-model Universidad
+model Empresa
 
 class Empresa
     attributes
         valorminimo : Real
+end
+
+class Almacen
 end
 
 class Persona
@@ -25,32 +28,27 @@ end
 class Producto
 end
 
-class Existencia
+class Ejemplar
+end
+
+associationclass Venta between
+    Empresa[*] role vendedor
+    Producto[*] role producto
     attributes
-        cantidadinicial : Integer
         precio : Real
-        cantidad : Integer derive: self.cantidadinicial - self.compra.cantidad -> sum()
 end
 
 class Cliente
     attributes
         esVip : Boolean
-     operations
-        --esVip():Boolean = (self.pedido->select(p:Pedido | p <> self.pedido->asOrderedSet()->last()).precioTotal->sum() > 1000)
-        --or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
 end
 
 
 class Pedido
     attributes
-        precioTotal:Real derive: self.compra->collect(cantidad*existencia.precio)->sum()
+        precioTotal:Real derive: self.ejemplar.producto.venta->select(v:Venta | v.vendedor = self.empresa).precio->sum()
         precioDescuento: Real derive: if self.cliente.esVip then precioTotal*0.9 else precioTotal endif
 
-end
-
-class Compra
-    attributes
-        cantidad : Integer
 end
 
 association ContratoEmpresa between
@@ -75,33 +73,28 @@ end
 
 association DirectorEmpleado between
     Director [0..3] role director
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association GerenteEmpleado between
     Gerente [0..3] role gerente
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association TrabajadorEmpleado between
     Trabajador [0..3] role trabajador
-    Persona [0..1] role empleado
+    Persona [1] role empleado
 end
 
 association ClientePersona between
-    Cliente [0..1] role cliente
+    Cliente [*] role cliente
     Persona [1] role persona
 end
 
 
-association ExistenciaEmpresa between
-    Existencia [*] role existencia
+association EjemplarEmpresa between
+    Ejemplar [*] role ejemplar
     Empresa [1] role empresa
-end
-    
-association ProductoExistencia between
-    Producto [1] role producto
-    Existencia [*] role existencia
 end
 
 association PedidoEmpresa between
@@ -114,39 +107,51 @@ association ClientePedido between
     Pedido [*] role pedido
 end
 
-association PedidoCompra between
-    Pedido [1] role pedido
-    Compra [*] role compra
+association Compra between
+    Pedido[0..1] role pedido
+    Ejemplar[1..*] role ejemplar
 end
 
-association CompraExistencia between
-    Compra [*] role compra
-    Existencia [1] role existencia
+association MaterializacionProducto between
+    Producto[1] role producto
+    Ejemplar[*] role ejemplar
 end
 
+association EmpresaAlmacen between
+    Empresa[1] role empresa
+    Almacen[1] role almacen
+end
+
+association Almacenamiento between
+    Almacen[0..1] role almacen
+    Ejemplar[*] role ejemplar
+end
 
 constraints
 
 context Empresa
     inv SueldoDirectorMayorGerente: self.contrato -> select(c : Contrato | c.director -> notEmpty()) -> any(true).salario > self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario
     inv SueldoGerenteMayorTrabajador: self.contrato -> select(c : Contrato | c.gerente -> notEmpty()) -> any(true).salario > self.contrato -> asOrderedSet() -> sortedBy(salario) -> select(c : Contrato | c.trabajador -> notEmpty()) -> last().salario
-    inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> size() = 0
+    inv SoloUnRol: self.contrato.trabajador->select(t : Trabajador | t <> null).empleado -> intersection(self.contrato.director->select(d : Director | d <> null).empleado) -> intersection(self.contrato.gerente->select(g : Gerente | g <> null).empleado) -> excluding(null) -> size() = 0
 
 context Persona
     inv TresTrabajosMaximo: self.trabajador->union(self.gerente)->union(self.director)->size() <= 3
+    inv DiezProductosDistintosMaximo: self.cliente.pedido.ejemplar.producto->asSet()->size()<=10
+    
+
 
 context Pedido
     inv PrecioMayorQueMinimo: self.precioTotal >= self.empresa.valorminimo
 
-context Compra
-    inv CantidadMayorQueZero: self.cantidad > 0
-
-context Existencia
-    inv CantidadMayorOIgualQueZero: self.cantidad >= 0
 
 context Contrato
     inv SoloUnEmpleado: Set{self.trabajador} -> union(Set{self.gerente}) -> union(Set{self.director})->excluding(null) -> size() = 1
 
 context Cliente
-    inv esVip: (self.pedido.precioTotal->sum() > 1000)
-        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty())
+    inv esVip: if (self.pedido.precioTotal->sum() > 1000)
+        or (self.persona.trabajador->notEmpty()) or (self.persona.gerente->notEmpty()) or (self.persona.director->notEmpty()) then
+        self.esVip = true else self.esVip = false endif
+    inv clienteUnicoPorEmpresa: self.pedido.empresa->asSet()->size()<=1
+
+context Ejemplar
+    inv EjemplarAlmacenadoOComprado: self.almacen->size() + self.pedido->size() = 1

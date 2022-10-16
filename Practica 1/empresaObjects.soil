@@ -1,82 +1,245 @@
 reset
 
-!new Persona('Director')
-!new Persona('Gerente')
-!new Persona('Trabajador')
-
-!new Director('D')
-!new Gerente('G')
-!new Trabajador('T')
-
 !new Persona('Victor')
 
-!new Contrato('CD')
-!CD.salario := 5000
-!new Contrato('CG')
-!CG.salario := 3000
-!new Contrato('CT')
-!CT.salario := 1000
+!new Persona('Pepe')
+!new Persona('Maria')
+!new Persona('Paco')
+!new Persona('Pablo')
 
-!new Empresa('E')
-!E.valorminimo := 10
+!new Persona('Josefa')
+!new Persona('Jose')
+!new Persona('Pepa')
 
-!new Producto('P1')
-!new Producto('P2')
+!new Director('DEbay')
+!new Gerente('GEbay')
+!new Trabajador('TEbay1')
 
-!new Existencia('EP1')
-!EP1.precio := 200
-!EP1.cantidadinicial := 100
-!new Existencia('EP2')
-!EP2.precio := 100
-!EP2.cantidadinicial := 100
+!new Director('DAmazon')
+!new Gerente('GAmazon')
+!new Trabajador('TEbay2')
+!new Trabajador('TAmazon1')
 
-!new Cliente('VE')
-!VE.esVip := true
 
-!new Pedido('Pe1')
-!new Pedido('Pe2')
 
-!new Compra('C1')
-!C1.cantidad := 3
-!new Compra('C2')
-!C2.cantidad := 1
-!new Compra('C3')
-!C3.cantidad := 1
-!new Compra('C4')
-!C4.cantidad := 2
+!new Contrato('CDEbay')
+!CDEbay.salario := 5000
+!new Contrato('CGEbay')
+!CGEbay.salario := 3000
+!new Contrato('CTEbay1')
+!CTEbay1.salario := 1000
+!new Contrato('CTEbay2')
+!CTEbay2.salario := 1000
 
-!insert(CD,E) into ContratoEmpresa
-!insert(CG,E) into ContratoEmpresa
-!insert(CT,E) into ContratoEmpresa
+!new Contrato('CDAmazon')
+!CDAmazon.salario := 8000
+!new Contrato('CGAmazon')
+!CGAmazon.salario := 5000
+!new Contrato('CTAmazon1')
+!CTAmazon1.salario := 2000
 
-!insert(D,CD) into DirectorContrato
-!insert(G,CG) into GerenteContrato
-!insert(T,CT) into TrabajadorContrato
+!new Empresa('Ebay')
+!Ebay.valorminimo := 1
 
-!insert(D,Director) into DirectorEmpleado
-!insert(G,Gerente) into GerenteEmpleado
-!insert(T,Trabajador) into TrabajadorEmpleado
+!new Almacen('AlmEbay')
 
-!insert(VE,Victor) into ClientePersona
+!new Empresa('Amazon')
+!Amazon.valorminimo := 1
 
-!insert(EP1,E) into ExistenciaEmpresa
-!insert(EP2,E) into ExistenciaEmpresa
+!new Almacen('AlmAmazon')
 
-!insert(P1,EP1) into ProductoExistencia
-!insert(P2,EP2) into ProductoExistencia
+!new Producto('Martillo')
+!new Producto('Tuerca')
+!new Producto('Tornillo')
+!new Producto('Raton')
+!new Producto('Teclado')
+!new Producto('Cargador')
+!new Producto('Lapiz')
+!new Producto('Camara')
+!new Producto('Pulsera')
+!new Producto('Pendrive')
+!new Producto('Goma')
 
-!insert(Pe1,E) into PedidoEmpresa
-!insert(Pe2,E) into PedidoEmpresa
+!new Ejemplar('martillo1')
+!new Ejemplar('martillo2')
+!new Ejemplar('tuerca1')
+!new Ejemplar('tuerca2')
+!new Ejemplar('tornillo1')
 
-!insert(VE,Pe1) into ClientePedido
-!insert(VE,Pe2) into ClientePedido
+!new Ejemplar('raton1')
+!new Ejemplar('teclado1')
+!new Ejemplar('cargador1')
+!new Ejemplar('lapiz1')
+!new Ejemplar('camara1')
+!new Ejemplar('pulsera1')
 
-!insert(Pe1,C1) into PedidoCompra
-!insert(Pe1,C2) into PedidoCompra
-!insert(Pe2,C3) into PedidoCompra
-!insert(Pe2,C4) into PedidoCompra
+!new Ejemplar('pendrive1')
+!new Ejemplar('goma1')
+!new Ejemplar('cargador2')
+!new Ejemplar('lapiz2')
+!new Ejemplar('camara2')
+!new Ejemplar('pulsera2')
 
-!insert(C1,EP1) into CompraExistencia
-!insert(C2,EP2) into CompraExistencia
-!insert(C3,EP1) into CompraExistencia
-!insert(C4,EP2) into CompraExistencia
+!new Cliente('VictorEbay')
+!VictorEbay.esVip := true
+
+!new Cliente('VictorAmazon')
+!VictorAmazon.esVip := false
+
+!new Cliente('PepaAmazon')
+!PepaAmazon.esVip := true
+
+!new Cliente('MariaAmazon')
+!MariaAmazon.esVip := true
+
+!new Pedido('Pedido1')
+!new Pedido('Pedido2')
+!new Pedido('Pedido3')
+!new Pedido('Pedido4')
+
+
+!insert(CDEbay,Ebay) into ContratoEmpresa
+!insert(CGEbay,Ebay) into ContratoEmpresa
+!insert(CTEbay1,Ebay) into ContratoEmpresa
+!insert(CTEbay2,Ebay) into ContratoEmpresa
+
+!insert(CDAmazon,Amazon) into ContratoEmpresa
+!insert(CGAmazon,Amazon) into ContratoEmpresa
+!insert(CTAmazon1,Amazon) into ContratoEmpresa
+
+!insert(DEbay,CDEbay) into DirectorContrato
+!insert(GEbay,CGEbay) into GerenteContrato
+!insert(TEbay1,CTEbay1) into TrabajadorContrato
+!insert(TEbay2,CTEbay2) into TrabajadorContrato
+
+!insert(DAmazon,CDAmazon) into DirectorContrato
+!insert(GAmazon,CGAmazon) into GerenteContrato
+!insert(TAmazon1,CTAmazon1) into TrabajadorContrato
+
+!insert(DEbay,Pepe) into DirectorEmpleado
+!insert(GEbay,Maria) into GerenteEmpleado
+!insert(TEbay1,Paco) into TrabajadorEmpleado
+!insert(TEbay2,Pablo) into TrabajadorEmpleado
+
+!insert(DAmazon,Josefa) into DirectorEmpleado
+!insert(GAmazon,Jose) into GerenteEmpleado
+!insert(TAmazon1,Pepa) into TrabajadorEmpleado
+
+!insert(VictorEbay,Victor) into ClientePersona
+!insert(VictorAmazon,Victor) into ClientePersona
+!insert(PepaAmazon,Pepa) into ClientePersona
+!insert(MariaAmazon,Maria) into ClientePersona
+
+!insert(martillo1,Ebay) into EjemplarEmpresa
+!insert(martillo2,Amazon) into EjemplarEmpresa
+!insert(tuerca1,Ebay) into EjemplarEmpresa
+!insert(tuerca2,Ebay) into EjemplarEmpresa
+!insert(tornillo1,Amazon) into EjemplarEmpresa
+!insert(raton1,Ebay) into EjemplarEmpresa
+!insert(teclado1,Amazon) into EjemplarEmpresa
+!insert(cargador1,Amazon) into EjemplarEmpresa
+!insert(cargador2,Ebay) into EjemplarEmpresa
+!insert(lapiz1,Amazon) into EjemplarEmpresa
+!insert(lapiz2,Amazon) into EjemplarEmpresa
+!insert(camara1,Ebay) into EjemplarEmpresa
+!insert(camara2,Amazon) into EjemplarEmpresa
+!insert(pendrive1,Amazon) into EjemplarEmpresa
+!insert(goma1,Ebay) into EjemplarEmpresa
+!insert(pulsera1,Amazon) into EjemplarEmpresa
+!insert(pulsera2,Amazon) into EjemplarEmpresa
+
+!insert(Pedido1,Ebay) into PedidoEmpresa
+!insert(Pedido2,Amazon) into PedidoEmpresa
+!insert(Pedido3,Amazon) into PedidoEmpresa
+!insert(Pedido4,Amazon) into PedidoEmpresa
+
+!insert(VictorEbay,Pedido1) into ClientePedido
+!insert(VictorAmazon,Pedido2) into ClientePedido
+!insert(MariaAmazon,Pedido3) into ClientePedido
+!insert(PepaAmazon,Pedido4) into ClientePedido
+
+!insert(Pedido1,camara1) into Compra
+!insert(Pedido1,martillo1) into Compra
+!insert(Pedido1,raton1) into Compra
+!insert(Pedido2,martillo2) into Compra
+!insert(Pedido3,cargador1) into Compra
+!insert(Pedido3,pulsera2) into Compra
+!insert(Pedido4,lapiz1) into Compra
+!insert(Pedido4,lapiz2) into Compra
+
+!insert(Martillo,martillo1) into MaterializacionProducto
+!insert(Martillo,martillo2) into MaterializacionProducto
+!insert(Tuerca,tuerca1) into MaterializacionProducto
+!insert(Tuerca,tuerca2) into MaterializacionProducto
+!insert(Tornillo,tornillo1) into MaterializacionProducto
+!insert(Raton,raton1) into MaterializacionProducto
+!insert(Teclado,teclado1) into MaterializacionProducto
+!insert(Cargador,cargador1) into MaterializacionProducto
+!insert(Cargador,cargador2) into MaterializacionProducto
+!insert(Lapiz,lapiz1) into MaterializacionProducto
+!insert(Lapiz,lapiz2) into MaterializacionProducto
+!insert(Camara,camara1) into MaterializacionProducto
+!insert(Camara,camara2) into MaterializacionProducto
+!insert(Pendrive,pendrive1) into MaterializacionProducto
+!insert(Goma,goma1) into MaterializacionProducto
+!insert(Pulsera,pulsera1) into MaterializacionProducto
+!insert(Pulsera,pulsera2) into MaterializacionProducto
+
+
+!insert(Ebay, AlmEbay) into EmpresaAlmacen
+!insert(Amazon, AlmAmazon) into EmpresaAlmacen
+
+!insert(AlmEbay,tuerca1) into Almacenamiento
+!insert(AlmEbay,tuerca2) into Almacenamiento
+!insert(AlmEbay,cargador2) into Almacenamiento
+!insert(AlmEbay,goma1) into Almacenamiento
+
+!insert(AlmAmazon,tornillo1) into Almacenamiento
+!insert(AlmAmazon,teclado1) into Almacenamiento
+!insert(AlmAmazon,camara2) into Almacenamiento
+!insert(AlmAmazon,pendrive1) into Almacenamiento
+!insert(AlmAmazon,pulsera1) into Almacenamiento
+
+
+
+!MartilloAmazon := new Venta('MartilloAmazon') between(Amazon,Martillo)
+!MartilloAmazon.precio := 20
+
+!MartilloEbay := new Venta('MartilloEbay') between(Ebay,Martillo)
+!MartilloEbay.precio := 25
+
+!TornilloAmazon := new Venta('TornilloAmazon') between(Amazon,Tornillo)
+!TornilloAmazon.precio := 2
+
+!TuercaEbay := new Venta('TuercaEbay') between(Ebay,Tuerca)
+!TuercaEbay.precio := 2
+
+!RatonEbay := new Venta('RatonEbay') between(Ebay,Raton)
+!RatonEbay.precio := 15
+
+!TecladoAmazon := new Venta('TecladoAmazon') between(Amazon,Teclado)
+!TecladoAmazon.precio := 10
+
+!CargadorEbay := new Venta('CargadorEbay') between(Ebay,Cargador)
+!CargadorEbay.precio := 5
+
+!CargadorAmazon := new Venta('CargadorAmazon') between(Amazon,Cargador)
+!CargadorAmazon.precio := 8
+
+!LapizAmazon := new Venta('LapizAmazon') between(Amazon,Lapiz)
+!LapizAmazon.precio := 2
+
+!CamaraEbay := new Venta('CamaraEbay') between(Ebay,Camara)
+!CamaraEbay.precio := 1000
+
+!CamaraAmazon := new Venta('CamaraAmazon') between(Amazon,Camara)
+!CamaraAmazon.precio := 800
+
+!PendriveAmazon := new Venta('PendriveAmazon') between(Amazon,Pendrive)
+!PendriveAmazon.precio := 20
+
+!GomaEbay := new Venta('GomaEbay') between(Ebay,Goma)
+!GomaEbay.precio := 2
+
+!PulseraAmazon := new Venta('PulseraAmazon') between(Amazon,Pulsera)
+!PulseraAmazon.precio := 10
