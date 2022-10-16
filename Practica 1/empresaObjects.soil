@@ -130,24 +130,6 @@ reset
 !insert(PepaAmazon,Pepa) into ClientePersona
 !insert(MariaAmazon,Maria) into ClientePersona
 
-!insert(martillo1,Ebay) into EjemplarEmpresa
-!insert(martillo2,Amazon) into EjemplarEmpresa
-!insert(tuerca1,Ebay) into EjemplarEmpresa
-!insert(tuerca2,Ebay) into EjemplarEmpresa
-!insert(tornillo1,Amazon) into EjemplarEmpresa
-!insert(raton1,Ebay) into EjemplarEmpresa
-!insert(teclado1,Amazon) into EjemplarEmpresa
-!insert(cargador1,Amazon) into EjemplarEmpresa
-!insert(cargador2,Ebay) into EjemplarEmpresa
-!insert(lapiz1,Amazon) into EjemplarEmpresa
-!insert(lapiz2,Amazon) into EjemplarEmpresa
-!insert(camara1,Ebay) into EjemplarEmpresa
-!insert(camara2,Amazon) into EjemplarEmpresa
-!insert(pendrive1,Amazon) into EjemplarEmpresa
-!insert(goma1,Ebay) into EjemplarEmpresa
-!insert(pulsera1,Amazon) into EjemplarEmpresa
-!insert(pulsera2,Amazon) into EjemplarEmpresa
-
 !insert(Pedido1,Ebay) into PedidoEmpresa
 !insert(Pedido2,Amazon) into PedidoEmpresa
 !insert(Pedido3,Amazon) into PedidoEmpresa
