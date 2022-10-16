@@ -91,12 +91,6 @@ association ClientePersona between
     Persona [1] role persona
 end
 
-
-association EjemplarEmpresa between
-    Ejemplar [*] role ejemplar
-    Empresa [1] role empresa
-end
-
 association PedidoEmpresa between
     Pedido [*] role pedido
     Empresa [1] role empresa
