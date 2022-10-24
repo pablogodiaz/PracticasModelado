@@ -1,0 +1,84 @@
+model Divertimento
+
+class Parque
+end
+
+class Divertimento
+end
+
+class Noria < Atraccion
+end
+
+class MRusa < Atraccion
+end
+
+abstract class Atraccion
+end
+
+abstract class ComponenteVehiculo
+end
+
+class Vehiculo < ComponenteVehiculo
+        attributes
+                numero : Integer
+end
+
+class Vagon < ComponenteVehiculo
+        attributes
+                numero : Integer
+end
+
+class Dispositivo
+end
+
+class CRA
+end
+
+class Operario
+end
+
+association Vagones between
+    MRusa [1] role mrusa
+    Vagon [*] role vagon
+end
+
+association Enganche between
+    Noria [1] role noria
+    Vehiculo [*] role vehiculo
+end
+
+association Parques between
+    Divertimento [1] role propietaria
+    Parque [*] role parque
+end
+
+association Atracciones between
+    Atraccion [*] role atraccion
+    Parque [*] role parque
+end
+
+association DispositivoOperario between
+    Dispositivo [1] role dispositivo
+    Operario [0..1] role operario
+end
+
+association EnganchePosterior between
+    Vagon [0..1] role enganchep
+    Vagon [0..1] role enganchea
+end
+
+association CRAComponente between
+    CRA [*] role cra
+    ComponenteVehiculo [*] role componente
+end
+
+association CRADispositivo between
+    CRA [*] role cra
+    Dispositivo [*] role dispositivo
+end
+
+association CRAParque between
+    CRA [1] role cra
+    Parque [1] role parque
+end
+
