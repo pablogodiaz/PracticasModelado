@@ -63,14 +63,13 @@ class Operario
          operations
                 repararAveria(componente: ComponenteAtraccion)
             begin
-            delete (self.dispositivo, self.dispositivo.averiado) from AveriaDispositivo
-            estaLibre = true
-            dispositivo.resueltos := dispositivo.resueltos+1
+            delete (self.dispositivo.averiado, self.dispositivo) from AveriaDispositivo;
+            self.estaLibre := true;
+            self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
             end
         pre asignado:      estaLibre = false
         post libre:        estaLibre = true
-        post masResueltos:  dispositivo.resueltos = dispositivo.resueltos@pre + 1
-        comprobarLibres()
+        post masResueltos:  dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
 end
 
 association Vagones between
