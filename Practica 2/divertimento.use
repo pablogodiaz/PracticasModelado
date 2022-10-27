@@ -25,7 +25,7 @@ end
 
 class Vagon < ComponenteAtraccion
         attributes
-            numero : Integer
+                numero : Integer
 end
 
 class Dispositivo
@@ -33,15 +33,10 @@ class Dispositivo
                 averiasResueltas : Integer
 end
 
-class Averia
-end
-
 class CRA
 end
 
 class Operario
-    attributes
-        libre : Boolean
 end
 
 association Vagones between
@@ -61,7 +56,7 @@ end
 
 association Atracciones between
     Atraccion [*] role atraccion
-    Parque [1] role parque
+    Parque [*] role parque
 end
 
 association DispositivoOperario between
@@ -90,13 +85,9 @@ association CRAParque between
 end
 
 association AveriaDispositivo between
-    Averia [*] role averia
+    ComponenteAtraccion [0..1] role averiado
     Dispositivo [0..1] role dispositivo
 end
 
-association AveriaComponente between
-    Averia [0..1] role averia
-    ComponenteAtraccion [1] role componente
-end
 
 
