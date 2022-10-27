@@ -33,19 +33,20 @@ class MRusa < Atraccion
 end
 
 abstract class Atraccion
+        attributes
+                calle : String
 end
 
 abstract class ComponenteAtraccion
+        attributes
+                numero : Integer
+                isAveriado : Boolean
 end
 
 class Vehiculo < ComponenteAtraccion
-        attributes
-                numero : Integer
 end
 
 class Vagon < ComponenteAtraccion
-        attributes
-                numero : Integer
 end
 
 class Dispositivo
@@ -57,6 +58,8 @@ class CRA
 end
 
 class Operario
+        attributes
+                isLibre : Boolean
 end
 
 association Vagones between
