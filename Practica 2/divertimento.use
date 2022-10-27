@@ -16,8 +16,8 @@ operations
                 do self.tick();
             end
         end
-        pre PositiveInteger: n <> null and n > 0
-        post checkRun: self.NOW@pre + n = self.NOW
+        pre enteroPositivo: n <> null and n > 0
+        post comprobar: self.NOW@pre + n = self.NOW
 end
 
 class Parque
@@ -40,7 +40,7 @@ end
 abstract class ComponenteAtraccion
         attributes
                 numero : Integer
-                isAveriado : Boolean
+                estaAveriado : Boolean
 end
 
 class Vehiculo < ComponenteAtraccion
@@ -59,7 +59,18 @@ end
 
 class Operario
         attributes
-                isLibre : Boolean
+                estaLibre : Boolean
+         operations
+                repararAveria(componente: ComponenteAtraccion)
+            begin
+            delete (self.dispositivo, self.dispositivo.averiado) from AveriaDispositivo
+            isLibre = true
+            dispositivo.resueltos := dispositivo.resueltos+1
+            end
+        pre asignado:      isLibre = false
+        post libre:        isLibre = true
+        post masResueltos:  dispositivo.resueltos = dispositivo.resueltos@pre + 1
+        comprobarLibres()
 end
 
 association Vagones between
