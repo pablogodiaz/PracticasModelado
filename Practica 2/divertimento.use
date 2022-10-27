@@ -15,22 +15,25 @@ end
 abstract class Atraccion
 end
 
-abstract class ComponenteVehiculo
+abstract class ComponenteAtraccion
 end
 
-class Vehiculo < ComponenteVehiculo
+class Vehiculo < ComponenteAtraccion
         attributes
                 numero : Integer
 end
 
-class Vagon < ComponenteVehiculo
+class Vagon < ComponenteAtraccion
         attributes
             numero : Integer
 end
 
 class Dispositivo
-    attributes
-        averiasResueltas : Integer
+        attributes
+                averiasResueltas : Integer
+end
+
+class Averia
 end
 
 class CRA
@@ -73,7 +76,7 @@ end
 
 association CRAComponente between
     CRA [*] role cra
-    ComponenteVehiculo [*] role componente
+    ComponenteAtraccion [*] role componente
 end
 
 association CRADispositivo between
@@ -85,4 +88,15 @@ association CRAParque between
     CRA [1] role cra
     Parque [1] role parque
 end
+
+association AveriaDispositivo between
+    Averia [*] role averia
+    Dispositivo [0..1] role dispositivo
+end
+
+association AveriaComponente between
+    Averia [0..1] role averia
+    ComponenteAtraccion [1] role componente
+end
+
 
