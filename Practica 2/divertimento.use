@@ -64,11 +64,11 @@ class Operario
                 repararAveria(componente: ComponenteAtraccion)
             begin
             delete (self.dispositivo, self.dispositivo.averiado) from AveriaDispositivo
-            isLibre = true
+            estaLibre = true
             dispositivo.resueltos := dispositivo.resueltos+1
             end
-        pre asignado:      isLibre = false
-        post libre:        isLibre = true
+        pre asignado:      estaLibre = false
+        post libre:        estaLibre = true
         post masResueltos:  dispositivo.resueltos = dispositivo.resueltos@pre + 1
         comprobarLibres()
 end
