@@ -1,5 +1,25 @@
 model Divertimento
 
+class Clock
+attributes
+    NOW : Integer
+operations
+    tick()
+        begin
+            self.NOW := self.NOW + 1;
+        end
+        post checkTick: self.NOW@pre + 1 = self.NOW;
+
+    run(n : Integer)
+        begin
+            for i in Sequence{1..n}
+                do self.tick();
+            end
+        end
+        pre PositiveInteger: n <> null and n > 0
+        post checkRun: self.NOW@pre + n = self.NOW
+end
+
 class Parque
 end
 
