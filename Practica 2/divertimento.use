@@ -35,12 +35,19 @@ end
 abstract class Atraccion
         attributes
                 calle : String
+                averia : Boolean
 end
 
 abstract class ComponenteAtraccion
         attributes
                 numero : Integer
                 isAveriado : Boolean
+        operations
+            informarAveria(a:Atraccion, cra:CRA) begin
+                insert(cra,self) into CRAComponente;
+                a.averia := true
+                
+            end
 end
 
 class Vehiculo < ComponenteAtraccion
