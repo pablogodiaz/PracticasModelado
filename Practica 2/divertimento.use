@@ -16,8 +16,8 @@ operations
                 do self.tick();
             end
         end
-        pre PositiveInteger: n <> null and n > 0
-        post checkRun: self.NOW@pre + n = self.NOW
+        pre enteroPositivo: n <> null and n > 0
+        post comprobar: self.NOW@pre + n = self.NOW
 end
 
 class Parque
@@ -41,7 +41,7 @@ end
 abstract class ComponenteAtraccion
         attributes
                 numero : Integer
-                isAveriado : Boolean
+                estaAveriado : Boolean
         operations
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
@@ -66,7 +66,17 @@ end
 
 class Operario
         attributes
-                isLibre : Boolean
+                estaLibre : Boolean
+         operations
+                repararAveria(componente: ComponenteAtraccion)
+            begin
+            delete (self.dispositivo.averiado, self.dispositivo) from AveriaDispositivo;
+            self.estaLibre := true;
+            self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
+            end
+        pre asignado:      estaLibre = false
+        post libre:        estaLibre = true
+        post masResueltos:  dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
 end
 
 association Vagones between
