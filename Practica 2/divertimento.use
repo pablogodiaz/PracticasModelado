@@ -46,8 +46,10 @@ abstract class ComponenteAtraccion
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averia := true
-                
             end
+            pre noInformadoAnteriormente: self.cra->size() = 0
+            post craInformada: self.cra@pre->size() = self.cra->size() + 1
+            post atraccionInformada: a.averia = true
 end
 
 class Vehiculo < ComponenteAtraccion
