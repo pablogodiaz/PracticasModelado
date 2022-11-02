@@ -145,5 +145,8 @@ constraints
     context ComponenteAtraccion
         inv numeroMayorZero: self.numero > 0
 
-    context MRusa
-        inv numeroVagonMenorSize: self.vagon -> select(v : Vagon | v.numero < self.vagon -> size()) -> size() = self.vagon -> size()
+    context Vagon
+        inv numeroVagonDistinto: Vagon.allInstances() -> isUnique(numero)
+
+    context Vehiculo
+        inv numeroVehiculoDistinto: Vehiculo.allInstances() -> isUnique(numero)
