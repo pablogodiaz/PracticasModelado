@@ -67,8 +67,8 @@ class CRA
     operations
         buscarOperario(c : ComponenteAtraccion)
         begin
-            if(self.dispositivo.operario -> select(o : Operario | o.esLibre == true).size() > 0) then
-                self.dispositivo.operario -> select(o : Operario | o.esLibre == true).first().reparar(c)
+            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0) then
+                self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().repararAveria(c)
             end
         end
 end
@@ -124,7 +124,7 @@ association CRAComponente between
 end
 
 association CRADispositivo between
-    CRA [*] role cra
+    CRA [1] role cra
     Dispositivo [*] role dispositivo
 end
 
@@ -137,3 +137,13 @@ association AveriaDispositivo between
     ComponenteAtraccion [0..1] role averiado
     Dispositivo [0..1] role dispositivo
 end
+
+constraints
+    context Dispositivo
+        inv averiasResueltasMayorIgualZero: self.averiasResueltas >= 0
+    
+    context ComponenteAtraccion
+        inv numeroMayorZero: self.numero > 0
+
+    context MRusa
+        inv numeroVagonMenorSize: self.vagon -> select(v : Vagon | v.numero < self.vagon -> size()) -> size() = self.vagon -> size()
