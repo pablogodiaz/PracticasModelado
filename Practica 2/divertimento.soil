@@ -62,3 +62,7 @@ reset
 !insert(cra, d1) into CRADispositivo
 
 !insert(d1, op1) into DispositivoOperario
+
+!ve1.informarAveria(n1,cra)
+!cra.buscarOperario(ve1)
+!op1.repararAveria(ve1)
