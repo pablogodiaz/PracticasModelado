@@ -9,36 +9,37 @@ reset
 
 !new Vehiculo('ve1')
 !ve1.numero := 1
-!ve1.averia := false
+!ve1.estaAveriado := true
 
 !new Vehiculo('ve2')
 !ve2.numero := 2
-!ve2.averia := false
+!ve2.estaAveriado := false
 
 !new Vehiculo('ve3')
 !ve3.numero := 3
-!ve3.averia := false
+!ve3.estaAveriado := false
 
 !new MRusa('mr1')
 !mr1.calle := "Carratraca, 27"
 
 !new Vagon('va1')
 !va1.numero := 1
-!va1.averia := false
+!va1.estaAveriado := false
 
 !new Vagon('va2')
 !va2.numero := 2
-!va2.averia := false
+!va2.estaAveriado := false
 
 !new Vagon('va3')
 !va3.numero := 3
-!va3.averia := false
+!va3.estaAveriado := false
 
 !new CRA('cra')
 
 !new Dispositivo('d1')
 
 !new Operario('op1')
+!op1.estaLibre := true
 
 !insert(Divertimento, Parque1) into Parques
 

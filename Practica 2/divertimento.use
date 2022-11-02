@@ -28,7 +28,8 @@ abstract class ComponenteAtraccion
                 a.averia := true
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
-            post craInformada: self.cra@pre->size() = self.cra->size() + 1
+            pre estaAveriado: self.estaAveriado = true
+            post craInformada: self.cra->size() = self.cra@pre->size() + 1
             post atraccionInformada: a.averia = true
 end
 
@@ -47,7 +48,7 @@ class CRA
     operations
         buscarOperario(c : ComponenteAtraccion)
         begin
-            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0) then
+            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0)
                 self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().repararAveria(c)
             end
         end
@@ -63,7 +64,7 @@ class Operario
                 self.estaLibre := true;
                 self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
             end
-            pre asignado:      estaLibre = false
+            pre asignado:      estaLibre@pre = false
             post libre:        estaLibre = true
             post masResueltos:  dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
 end
