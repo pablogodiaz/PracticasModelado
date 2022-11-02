@@ -31,6 +31,13 @@ abstract class ComponenteAtraccion
             pre estaAveriado: self.estaAveriado = true
             post craInformada: self.cra->size() = self.cra@pre->size() + 1
             post atraccionInformada: a.averia = true
+
+            averiar() begin
+                self.estaAveriado := true
+                --informarAveria(self.)
+            end
+            pre noAveriadoAntes: self.estaAveriado@pre = false
+            post averiadoDespues: self.estaAveriado = true
 end
 
 class Vehiculo < ComponenteAtraccion
@@ -48,8 +55,9 @@ class CRA
     operations
         buscarOperario(c : ComponenteAtraccion)
         begin
-            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0)
-                self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().repararAveria(c)
+            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0) then
+                insert(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().dispositivo, c) into AveriaDispositivo;
+                self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().estaLibre := false;
             end
         end
 end
