@@ -68,7 +68,7 @@ class CRA
         buscarOperario(c : ComponenteAtraccion)
         begin
             if(self.dispositivo.operario -> select(o : Operario | o.esLibre == true).size() > 0) then
-                self.dispositivo.operario -> select(o : Operario | o.esLibre == true).first().repargitar(c)
+                self.dispositivo.operario -> select(o : Operario | o.esLibre == true).first().reparar(c)
             end
         end
 end
@@ -137,6 +137,3 @@ association AveriaDispositivo between
     ComponenteAtraccion [0..1] role averiado
     Dispositivo [0..1] role dispositivo
 end
-
-
-
