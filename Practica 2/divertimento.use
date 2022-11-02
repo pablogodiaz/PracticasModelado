@@ -23,7 +23,7 @@ end
 class Parque
 end
 
-class Divertimento
+class Empresa
 end
 
 class Noria < Atraccion
@@ -99,7 +99,7 @@ association Enganche between
 end
 
 association Parques between
-    Divertimento [1] role propietaria
+    Empresa [1] role propietaria
     Parque [*] role parque
 end
 

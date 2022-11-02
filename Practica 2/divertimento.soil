@@ -1,77 +1,63 @@
 reset
 
-!new Persona('Director')
-!new Persona('Gerente')
-!new Persona('Trabajador')
+!new Empresa('Divertimento')
 
-!new Director('D')
-!new Gerente('G')
-!new Trabajador('T')
+!new Parque('Parque1')
 
-!new Persona('Victor')
+!new Noria('n1')
+!n1.calle := "Mar menor, 5"
 
-!new Contrato('CD')
-!new Contrato('CG')
-!new Contrato('CT')
+!new Vehiculo('ve1')
+!ve1.numero := 1
+!ve1.averia := false
 
-!new Empresa('E')
+!new Vehiculo('ve2')
+!ve2.numero := 2
+!ve2.averia := false
 
-!new Producto('P1')
-!new Producto('P2')
+!new Vehiculo('ve3')
+!ve3.numero := 3
+!ve3.averia := false
 
-!new Existencia('EP1')
-!EP1.precio := 200
-!EP1.cantidadinicial := 100
-!new Existencia('EP2')
-!EP2.precio := 100
-!EP2.cantidadinicial := 50
+!new MRusa('mr1')
+!mr1.calle := "Carratraca, 27"
 
-!new Cliente('VE')
+!new Vagon('va1')
+!va1.numero := 1
+!va1.averia := false
 
-!new Pedido('Pe1')
-!new Pedido('Pe2')
+!new Vagon('va2')
+!va2.numero := 2
+!va2.averia := false
 
-!new Compra('C1')
-!C1.cantidad := 1
-!new Compra('C2')
-!C2.cantidad := 1
-!new Compra('C3')
-!C3.cantidad := 1
-!new Compra('C4')
-!C4.cantidad := 1
+!new Vagon('va3')
+!va3.numero := 3
+!va3.averia := false
 
-!insert(CD,E) into ContratoEmpresa
-!insert(CG,E) into ContratoEmpresa
-!insert(CT,E) into ContratoEmpresa
+!new CRA('cra')
 
-!insert(D,CD) into DirectorContrato
-!insert(G,CG) into GerenteContrato
-!insert(T,CT) into TrabajadorContrato
+!new Dispositivo('d1')
 
-!insert(D,Director) into DirectorEmpleado
-!insert(G,Gerente) into GerenteEmpleado
-!insert(T,Trabajador) into TrabajadorEmpleado
+!new Operario('op1')
 
-!insert(VE,Victor) into ClientePersona
+!insert(Divertimento, Parque1) into Parques
 
-!insert(EP1,E) into ExistenciaEmpresa
-!insert(EP2,E) into ExistenciaEmpresa
+!insert(n1,Parque1) into Atracciones
+!insert(mr1, Parque1) into Atracciones
 
-!insert(P1,EP1) into ProductoExistencia
-!insert(P2,EP2) into ProductoExistencia
+!insert(n1,ve1) into Enganche
+!insert(n1,ve2) into Enganche
+!insert(n1,ve3) into Enganche
 
-!insert(Pe1,E) into PedidoEmpresa
-!insert(Pe2,E) into PedidoEmpresa
+!insert(mr1, va1) into Vagones
+!insert(mr1, va2) into Vagones
+!insert(mr1, va3) into Vagones
 
-!insert(VE,Pe1) into ClientePedido
-!insert(VE,Pe2) into ClientePedido
+!insert(va1, va2) into EnganchePosterior
+!insert(va2, va3) into EnganchePosterior
 
-!insert(Pe1,C1) into PedidoCompra
-!insert(Pe1,C2) into PedidoCompra
-!insert(Pe2,C3) into PedidoCompra
-!insert(Pe2,C4) into PedidoCompra
+!insert(cra, Parque1) into CRAParque
 
-!insert(C1,EP1) into CompraExistencia
-!insert(C2,EP2) into CompraExistencia
-!insert(C3,EP1) into CompraExistencia
-!insert(C4,EP2) into CompraExistencia 
+!insert(cra, d1) into CRADispositivo
+
+!insert(d1, op1) into DispositivoOperario
