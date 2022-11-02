@@ -1,25 +1,5 @@
 model Divertimento
 
-class Clock
-attributes
-    NOW : Integer
-operations
-    tick()
-        begin
-            self.NOW := self.NOW + 1;
-        end
-        post checkTick: self.NOW@pre + 1 = self.NOW;
-
-    run(n : Integer)
-        begin
-            for i in Sequence{1..n}
-                do self.tick();
-            end
-        end
-        pre enteroPositivo: n <> null and n > 0
-        post comprobar: self.NOW@pre + n = self.NOW
-end
-
 class Parque
 end
 
@@ -145,5 +125,8 @@ constraints
     context ComponenteAtraccion
         inv numeroMayorZero: self.numero > 0
 
-    context MRusa
-        inv numeroVagonMenorSize: self.vagon -> select(v : Vagon | v.numero < self.vagon -> size()) -> size() = self.vagon -> size()
+    context Vagon
+        inv numeroVagonDistinto: Vagon.allInstances() -> isUnique(numero)
+
+    context Vehiculo
+        inv numeroVehiculoDistinto: Vehiculo.allInstances() -> isUnique(numero)
