@@ -64,21 +64,28 @@ class Dispositivo
 end
 
 class CRA
+    operations
+        buscarOperario(c : ComponenteAtraccion)
+        begin
+            if(self.dispositivo.operario -> select(o : Operario | o.esLibre == true).size() > 0) then
+                self.dispositivo.operario -> select(o : Operario | o.esLibre == true).first().repargitar(c)
+            end
+        end
 end
 
 class Operario
         attributes
-                estaLibre : Boolean
-         operations
-                repararAveria(componente: ComponenteAtraccion)
+            estaLibre : Boolean
+        operations
+            repararAveria(componente: ComponenteAtraccion)
             begin
-            delete (self.dispositivo.averiado, self.dispositivo) from AveriaDispositivo;
-            self.estaLibre := true;
-            self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
+                delete (self.dispositivo.averiado, self.dispositivo) from AveriaDispositivo;
+                self.estaLibre := true;
+                self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
             end
-        pre asignado:      estaLibre = false
-        post libre:        estaLibre = true
-        post masResueltos:  dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
+            pre asignado:      estaLibre = false
+            post libre:        estaLibre = true
+            post masResueltos:  dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
 end
 
 association Vagones between
