@@ -47,6 +47,27 @@ abstract class ComponenteAtraccion
             end
             pre noAveriadoAntes: self.estaAveriado = false
             post averiadoDespues: self.estaAveriado = true
+
+            reparado() begin
+                self.estaAveriado := false;
+            end
+            pre averiadoAntes: self.estaAveriado = true
+            post noAveriadoDespues: self.estaAveriado = false
+
+        statemachines
+            psm EstadoComponente
+                states
+                    inicio:initial
+                    noAveriado [estaAveriado = false]
+                    Averiado [estaAveriado = true]
+                transitions
+                    --Transicion de creacion
+                    inicio -> noAveriado { create }
+
+                    noAveriado -> Averiado { averiar() }
+
+                    Averiado -> noAveriado { reparado() }
+            end
 end
 
 class Vehiculo < ComponenteAtraccion
@@ -84,7 +105,7 @@ class Operario
                 delete (c.cra, c) from CRAComponente;
                 self.estaLibre := true;
                 self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
-                c.estaAveriado := false;
+                c.reparado();
                 if c.oclIsTypeOf(Vehiculo) then c.oclAsType(Vehiculo).noria.mantenimiento() end;
                 if c.oclIsTypeOf(Vagon) then c.oclAsType(Vagon).mrusa.mantenimiento() end;
             end
