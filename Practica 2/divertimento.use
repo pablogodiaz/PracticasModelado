@@ -9,14 +9,14 @@ end
 class Noria < Atraccion
         operations
             mantenimiento() begin 
-                if self.vehiculo->select(v : Vehiculo | v.estaAveriado = true)->size() > 0 then self.averia := true else self.averia := false end
+                if self.vehiculo->select(v : Vehiculo | v.estaAveriado = true)->size() > 0 then self.averiado() else self.arreglado() end
             end
 end
 
 class MRusa < Atraccion
         operations
             mantenimiento() begin 
-                if self.vagon->select(v : Vagon | v.estaAveriado = true)->size() > 0 then self.averia := true else self.averia := false end
+                if self.vagon->select(v : Vagon | v.estaAveriado = true)->size() > 0 then self.averiado() else self.arreglado() end
             end
 end
 
@@ -26,7 +26,7 @@ abstract class Atraccion
                 averia : Boolean
                 enFuncionamiento : Boolean
         operations
-        
+
             arreglado() begin
                 averia := false
             end
@@ -51,7 +51,7 @@ abstract class ComponenteAtraccion
         operations
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
-                --a.averia := true
+                a.averiado()
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado = true
