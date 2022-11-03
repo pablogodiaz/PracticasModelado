@@ -121,7 +121,7 @@ class Operario
             begin
                 delete (c, self.dispositivo) from AveriaDispositivo;
                 delete (c.cra, c) from CRAComponente;
-                self.estaLibre := true;
+                self.libre();
                 self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
                 c.reparado();
                 if c.oclIsTypeOf(Vehiculo) then c.oclAsType(Vehiculo).noria.mantenimiento() end;
@@ -133,6 +133,32 @@ class Operario
             post libre: estaLibre = true
             post arreglado: c.estaAveriado = false
             post masResueltos: dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
+        
+            libre() begin
+                self.estaLibre := true;
+            end
+            pre ocupadoAntes: estaLibre = false
+            post libreDespues: estaLibre = true
+
+            ocupado() begin
+                self.estaLibre := false;
+            end
+            pre libreAntes: estaLibre = true
+            post ocupadoDespues: estaLibre = false
+
+        statemachines
+            psm EstadoOperario
+                states
+                    inicio:initial
+                    libre [estaLibre = true]
+                    ocupado [estaLibre = false]
+                transitions
+                    inicio -> libre { create }
+
+                    libre -> ocupado { libre() }
+
+                    ocupado -> libre { ocupado() }
+            end
 end
 
 association Vagones between
