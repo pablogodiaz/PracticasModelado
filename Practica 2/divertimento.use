@@ -40,10 +40,10 @@ abstract class ComponenteAtraccion
             post craInformada: self.cra->size() = self.cra@pre->size() + 1
             post atraccionInformada: a.averia = true
 
-            averiar(cra:CRA) begin
+            averiar() begin
                 self.estaAveriado := true;
-                if self.oclIsTypeOf(Vehiculo) then self.oclAsType(Vehiculo).informarAveria(self.oclAsType(Vehiculo).noria, cra) end;
-                if self.oclIsTypeOf(Vagon) then self.oclAsType(Vagon).informarAveria(self.oclAsType(Vagon).mrusa, cra) end;
+                if self.oclIsTypeOf(Vehiculo) then self.oclAsType(Vehiculo).informarAveria(self.oclAsType(Vehiculo).noria, self.oclAsType(Vehiculo).noria.parque.cra -> asOrderedSet() -> first()) end;
+                if self.oclIsTypeOf(Vagon) then self.oclAsType(Vagon).informarAveria(self.oclAsType(Vagon).mrusa, self.oclAsType(Vagon).mrusa.parque.cra -> asOrderedSet() -> first()) end;
             end
             pre noAveriadoAntes: self.estaAveriado = false
             post averiadoDespues: self.estaAveriado = true
