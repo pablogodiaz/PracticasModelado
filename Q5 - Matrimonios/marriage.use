@@ -54,3 +54,35 @@ association HusbandWife between
     Person [1] role husband
     Marriage [*] role wife
 end
+
+
+constraints
+
+context Person inv DeathBorn:
+(self.birthYear < self.deathYear) or (self.deahtYear=-1)
+
+context Marriage inv StartBeforeEnd:
+(self.startYear < self.endYear) or (self.endYear=-1)
+
+context Person inv NoDeathMarriage:
+self.isDead implies (self.husband->forAll(endYear >= 0) and 
+self.wife->forAll(endYear >= 0))
+
+context Person inv BornPast:
+self.birthYear <= Clock.allInstances  
+
+context Marriage inv NoFutureMarriage:
+self.startYear <= Clock.allInstances  
+
+context Clock inv OneClock:
+Clock.allInstances -> size()=1
+
+context Person inv NoSelfMarriage:
+(not self.husband.husband -> includes(self)) and 
+(not self.wife.wife -> includes(self))
+
+context Person inv OneMarriage:
+(self.husband -> collect(endYear = -1) -> size() = 1 and
+self.wife -> collect(endYear = -1) -> size() = 0) or
+(self.wife -> collect(endYear = -1) -> size() = 1 and
+self.husband -> collect(endYear = -1) -> size() = 0)
