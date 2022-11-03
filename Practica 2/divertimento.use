@@ -24,6 +24,24 @@ abstract class Atraccion
         attributes
                 calle : String
                 averia : Boolean
+                enFuncionamiento : Boolean
+        operations
+        
+            arreglado() begin
+                averia := false
+            end
+
+            averiado() begin
+                averia := true
+            end
+
+            funcionamiento() begin
+                enFuncionamiento := true
+            end
+
+            parada() begin
+                enFuncionamiento := false
+            end
 end
 
 abstract class ComponenteAtraccion
@@ -33,7 +51,7 @@ abstract class ComponenteAtraccion
         operations
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
-                a.averia := true
+                --a.averia := true
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado = true
