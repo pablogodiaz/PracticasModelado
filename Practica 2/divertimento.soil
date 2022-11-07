@@ -43,7 +43,7 @@ reset
 !op1.estaLibre := true
 
 !new Operario('op2')
-!op1.estaLibre := true
+!op2.estaLibre := true
 
 !insert(Divertimento, Parque1) into Parques
 
@@ -68,3 +68,5 @@ reset
 
 !insert(d1, op1) into DispositivoOperario
 !insert(d2, op2) into DispositivoOperario
+
+!ve1.informarAveria(n1,cra)
