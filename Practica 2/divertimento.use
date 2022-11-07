@@ -28,19 +28,19 @@ abstract class Atraccion
         operations
 
             arreglado() begin
-                averia := false
+                averia := false;
             end
 
             averiado() begin
-                averia := true
+                averia := true;
             end
 
             funcionamiento() begin
-                enFuncionamiento := true
+                enFuncionamiento := true;
             end
 
             parada() begin
-                enFuncionamiento := false
+                enFuncionamiento := false;
             end
 end
 
@@ -51,7 +51,8 @@ abstract class ComponenteAtraccion
         operations
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
-                a.averiado()
+                a.averiado();
+                cra.buscarOperario(self)
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado = true

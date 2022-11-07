@@ -6,6 +6,8 @@ reset
 
 !new Noria('n1')
 !n1.calle := "Mar menor, 5"
+!n1.enFuncionamiento := false
+!n1.averia := false
 
 !new Vehiculo('ve1')
 !ve1.numero := 1
@@ -21,6 +23,7 @@ reset
 
 !new MRusa('mr1')
 !mr1.calle := "Carratraca, 27"
+!mr1.enFuncionamiento := false
 
 !new Vagon('va1')
 !va1.numero := 1
