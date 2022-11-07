@@ -41,6 +41,17 @@ abstract class Atraccion
 
             parada() begin
                 self.enFuncionamiento := false;
+                if self.oclIsTypeOf(Noria) then
+                    for ve in self.oclAsType(Noria).vehiculo
+                        do ve.comprobarAveria();
+                    end;
+                end;
+
+                if self.oclIsTypeOf(MRusa) then
+                    for va in self.oclAsType(MRusa).vagon
+                        do va.comprobarAveria();
+                    end;
+                end;
             end
         statemachines
             psm FuncionamientoAtraccion
@@ -75,6 +86,13 @@ abstract class ComponenteAtraccion
                 estaAveriado : Boolean init: false
                 estaInformado : Boolean init: false
         operations
+            comprobarAveria(a:Atraccion, cra:CRA) begin
+                if self.estaAveriado then
+                    self.informarAveria(a, cra);
+                end;
+            end
+
+
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averiado();
@@ -106,26 +124,6 @@ abstract class ComponenteAtraccion
             end
             pre noInformadoAntes: self.estaInformado = false
             post informadoDespues: self.estaInformado = true
-
-        statemachines
-            psm EstadoComponente
-                states
-                    inicio:initial
-                    noAveriado [estaAveriado = false]
-                    averiadoInformado [estaAveriado = true and estaInformado = true]
-                    averiadoNoInformado [estaAveriado = true and estaInformado = false]
-                transitions
-                    --Transicion de creacion
-                    inicio -> noAveriado { create }
-
-                    noAveriado -> averiadoNoInformado { averiar() }
-
-                    averiadoNoInformado -> averiadoInformado { esInformado() }
-
-                    averiadoNoInformado -> noAveriado { reparado() }
-
-                    averiadoInformado -> noAveriado { reparado() }
-            end
 end
 
 class Vehiculo < ComponenteAtraccion
