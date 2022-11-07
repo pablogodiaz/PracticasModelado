@@ -93,6 +93,7 @@ abstract class ComponenteAtraccion
             end
 
 
+
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averiado();
