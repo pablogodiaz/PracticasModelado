@@ -42,6 +42,31 @@ abstract class Atraccion
             parada() begin
                 self.enFuncionamiento := false;
             end
+        statemachines
+            psm FuncionamientoAtraccion
+                states
+                    inicio:initial
+                    noEnFuncionamiento[enFuncionamiento = false]
+                    enFuncionamiento[enFuncionamiento = true]
+                transitions
+                    inicio -> noEnFuncionamiento { create }
+
+                    noEnFuncionamiento -> enFuncionamiento { funcionamiento() }
+
+                    enFuncionamiento -> noEnFuncionamiento { parada() }
+            end
+            psm AveriaAtraccion
+                states
+                    inicio:initial
+                    noAveriado[averia = false]
+                    averiado[averia = true]
+                transitions
+                    inicio -> noAveriado { create }
+
+                    noAveriado -> averiado { averiado() }
+
+                    averiado -> noAveriado { arreglado() }
+            end
 end
 
 abstract class ComponenteAtraccion
@@ -100,7 +125,6 @@ abstract class ComponenteAtraccion
                     averiadoNoInformado -> noAveriado { reparado() }
 
                     averiadoInformado -> noAveriado { reparado() }
-
             end
 end
 

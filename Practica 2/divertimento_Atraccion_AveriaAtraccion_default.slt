@@ -10,29 +10,11 @@
         <showrolenames>true</showrolenames>
         <showgrid>false</showgrid>
     </diagramOptions>
-    <node id="averiadoNoInformado" sizeCalculated="true" type="StateNode">
-        <name>averiadoNoInformado</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>671.0172363549715</x>
-            <y>313.3771834324234</y>
-        </strategy>
-        <showInvariant>true</showInvariant>
-        <hidden>false</hidden>
-    </node>
-    <node id="averiadoInformado" sizeCalculated="true" type="StateNode">
-        <name>averiadoInformado</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>407.7064228211848</x>
-            <y>58.04479956157911</y>
-        </strategy>
-        <showInvariant>true</showInvariant>
-        <hidden>false</hidden>
-    </node>
     <node id="noAveriado" sizeCalculated="true" type="StateNode">
         <name>noAveriado</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>89.45780867218144</x>
-            <y>314.6076448087144</y>
+            <x>427.33510527309176</x>
+            <y>231.0</y>
         </strategy>
         <showInvariant>true</showInvariant>
         <hidden>false</hidden>
@@ -41,8 +23,8 @@
         type="PseudoStateNode" width="14.0">
         <name>inicio</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>32.77704142825868</x>
-            <y>28.08668121630218</y>
+            <x>37.594839088588586</x>
+            <y>52.30057002028692</y>
         </strategy>
         <node id="inicio::StateName" sizeCalculated="true" type="StateName">
             <name>inicio</name>
@@ -60,6 +42,15 @@
             </strategy>
             <hidden>false</hidden>
         </node>
+        <hidden>false</hidden>
+    </node>
+    <node id="averiado" sizeCalculated="true" type="StateNode">
+        <name>averiado</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>51.90586701951911</x>
+            <y>231.0</y>
+        </strategy>
+        <showInvariant>true</showInvariant>
         <hidden>false</hidden>
     </node>
     <edge type="Transition">
@@ -120,11 +111,11 @@
     </edge>
     <edge type="Transition">
         <source>noAveriado</source>
-        <target>averiadoNoInformado</target>
-        <name>averiar()/</name>
+        <target>averiado</target>
+        <name>averiado()/</name>
         <waypoints>
             <edgeproperty
-                id="transition::noAveriado::averiadoNoInformado::::WayPoint::0"
+                id="transition::noAveriado::averiado::::WayPoint::0"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>0</name>
@@ -137,7 +128,7 @@
                 <hidden>false</hidden>
             </edgeproperty>
             <edgeproperty
-                id="transition::noAveriado::averiadoNoInformado::::WayPoint::1"
+                id="transition::noAveriado::averiado::::WayPoint::1"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>1</name>
@@ -153,20 +144,20 @@
         <hidden>false</hidden>
         <Transitions>
             <Transition>
-                <trigger>averiar()</trigger>
+                <trigger>averiado()</trigger>
                 <guard/>
                 <post/>
-                <edgeproperty id="averiar()/" sizeCalculated="true"
+                <edgeproperty id="averiado()/" sizeCalculated="true"
                     type="TransitionLabel" userDefined="false" visible="true">
-                    <name>averiar()/</name>
+                    <name>averiado()/</name>
                     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
                         <userOffsetX>0.0</userOffsetX>
                         <userOffsetY>0.0</userOffsetY>
                         <offsetX>0.0</offsetX>
                         <offsetY>10.0</offsetY>
                         <related length="2">
-                            <related0>transition::noAveriado::averiadoNoInformado::::WayPoint::0</related0>
-                            <related1>transition::noAveriado::averiadoNoInformado::::WayPoint::1</related1>
+                            <related0>transition::noAveriado::averiado::::WayPoint::0</related0>
+                            <related1>transition::noAveriado::averiado::::WayPoint::1</related1>
                         </related>
                     </strategy>
                     <hidden>false</hidden>
@@ -175,12 +166,12 @@
         </Transitions>
     </edge>
     <edge type="Transition">
-        <source>averiadoNoInformado</source>
+        <source>averiado</source>
         <target>noAveriado</target>
-        <name>reparado()/</name>
+        <name>arreglado()/</name>
         <waypoints>
             <edgeproperty
-                id="transition::averiadoNoInformado::noAveriado::::WayPoint::0"
+                id="transition::averiado::noAveriado::::WayPoint::0"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>0</name>
@@ -193,7 +184,7 @@
                 <hidden>false</hidden>
             </edgeproperty>
             <edgeproperty
-                id="transition::averiadoNoInformado::noAveriado::::WayPoint::1"
+                id="transition::averiado::noAveriado::::WayPoint::1"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>1</name>
@@ -209,132 +200,20 @@
         <hidden>false</hidden>
         <Transitions>
             <Transition>
-                <trigger>reparado()</trigger>
+                <trigger>arreglado()</trigger>
                 <guard/>
                 <post/>
-                <edgeproperty id="reparado()/" sizeCalculated="true"
+                <edgeproperty id="arreglado()/" sizeCalculated="true"
                     type="TransitionLabel" userDefined="false" visible="true">
-                    <name>reparado()/</name>
+                    <name>arreglado()/</name>
                     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
                         <userOffsetX>0.0</userOffsetX>
                         <userOffsetY>0.0</userOffsetY>
                         <offsetX>0.0</offsetX>
                         <offsetY>10.0</offsetY>
                         <related length="2">
-                            <related0>transition::averiadoNoInformado::noAveriado::::WayPoint::0</related0>
-                            <related1>transition::averiadoNoInformado::noAveriado::::WayPoint::1</related1>
-                        </related>
-                    </strategy>
-                    <hidden>false</hidden>
-                </edgeproperty>
-            </Transition>
-        </Transitions>
-    </edge>
-    <edge type="Transition">
-        <source>averiadoNoInformado</source>
-        <target>averiadoInformado</target>
-        <name>esInformado()/</name>
-        <waypoints>
-            <edgeproperty
-                id="transition::averiadoNoInformado::averiadoInformado::::WayPoint::0"
-                sizeCalculated="true" type="WayPoint"
-                userDefined="false" visible="true">
-                <name>0</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
-                </strategy>
-                <id>0</id>
-                <specialid>1</specialid>
-                <hidden>false</hidden>
-            </edgeproperty>
-            <edgeproperty
-                id="transition::averiadoNoInformado::averiadoInformado::::WayPoint::1"
-                sizeCalculated="true" type="WayPoint"
-                userDefined="false" visible="true">
-                <name>1</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
-                </strategy>
-                <id>1</id>
-                <specialid>2</specialid>
-                <hidden>false</hidden>
-            </edgeproperty>
-        </waypoints>
-        <hidden>false</hidden>
-        <Transitions>
-            <Transition>
-                <trigger>esInformado()</trigger>
-                <guard/>
-                <post/>
-                <edgeproperty id="esInformado()/" sizeCalculated="true"
-                    type="TransitionLabel" userDefined="true" visible="true">
-                    <name>esInformado()/</name>
-                    <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-                        <userOffsetX>69.0</userOffsetX>
-                        <userOffsetY>-13.0</userOffsetY>
-                        <offsetX>0.0</offsetX>
-                        <offsetY>10.0</offsetY>
-                        <related length="2">
-                            <related0>transition::averiadoNoInformado::averiadoInformado::::WayPoint::0</related0>
-                            <related1>transition::averiadoNoInformado::averiadoInformado::::WayPoint::1</related1>
-                        </related>
-                    </strategy>
-                    <hidden>false</hidden>
-                </edgeproperty>
-            </Transition>
-        </Transitions>
-    </edge>
-    <edge type="Transition">
-        <source>averiadoInformado</source>
-        <target>noAveriado</target>
-        <name>reparado()/</name>
-        <waypoints>
-            <edgeproperty
-                id="transition::averiadoInformado::noAveriado::::WayPoint::0"
-                sizeCalculated="true" type="WayPoint"
-                userDefined="false" visible="true">
-                <name>0</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
-                </strategy>
-                <id>0</id>
-                <specialid>1</specialid>
-                <hidden>false</hidden>
-            </edgeproperty>
-            <edgeproperty
-                id="transition::averiadoInformado::noAveriado::::WayPoint::1"
-                sizeCalculated="true" type="WayPoint"
-                userDefined="false" visible="true">
-                <name>1</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
-                </strategy>
-                <id>1</id>
-                <specialid>2</specialid>
-                <hidden>false</hidden>
-            </edgeproperty>
-        </waypoints>
-        <hidden>false</hidden>
-        <Transitions>
-            <Transition>
-                <trigger>reparado()</trigger>
-                <guard/>
-                <post/>
-                <edgeproperty id="reparado()/" sizeCalculated="true"
-                    type="TransitionLabel" userDefined="false" visible="true">
-                    <name>reparado()/</name>
-                    <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-                        <userOffsetX>0.0</userOffsetX>
-                        <userOffsetY>0.0</userOffsetY>
-                        <offsetX>0.0</offsetX>
-                        <offsetY>10.0</offsetY>
-                        <related length="2">
-                            <related0>transition::averiadoInformado::noAveriado::::WayPoint::0</related0>
-                            <related1>transition::averiadoInformado::noAveriado::::WayPoint::1</related1>
+                            <related0>transition::averiado::noAveriado::::WayPoint::0</related0>
+                            <related1>transition::averiado::noAveriado::::WayPoint::1</related1>
                         </related>
                     </strategy>
                     <hidden>false</hidden>
