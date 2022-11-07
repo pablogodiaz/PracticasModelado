@@ -43,13 +43,13 @@ abstract class Atraccion
                 self.enFuncionamiento := false;
                 if self.oclIsTypeOf(Noria) then
                     for ve in self.oclAsType(Noria).vehiculo
-                        do ve.comprobarAveria();
+                        do ve.comprobarAveria(self, self.parque.cra);
                     end;
                 end;
 
                 if self.oclIsTypeOf(MRusa) then
                     for va in self.oclAsType(MRusa).vagon
-                        do va.comprobarAveria();
+                        do va.comprobarAveria(self, self.parque.cra);
                     end;
                 end;
             end
@@ -225,7 +225,7 @@ end
 
 association Atracciones between
     Atraccion [*] role atraccion
-    Parque [*] role parque
+    Parque [1] role parque
 end
 
 association DispositivoOperario between
