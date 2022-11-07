@@ -203,9 +203,9 @@ class Operario
                 transitions
                     inicio -> libre { create }
 
-                    libre -> ocupado { libre() }
+                    libre -> ocupado { ocupado() }
 
-                    ocupado -> libre { ocupado() }
+                    ocupado -> libre { libre() }
             end
 end
 
