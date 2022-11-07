@@ -39,8 +39,7 @@ abstract class Atraccion
                 self.enFuncionamiento := true;
             end
 
-            parada() begin
-                self.enFuncionamiento := false;
+            mantenimiento() begin
                 if self.oclIsTypeOf(Noria) then
                     for ve in self.oclAsType(Noria).vehiculo
                         do ve.comprobarAveria(self, self.parque.cra);
@@ -52,6 +51,12 @@ abstract class Atraccion
                         do va.comprobarAveria(self, self.parque.cra);
                     end;
                 end;
+            end
+
+            parada() begin
+                self.enFuncionamiento := false;
+                self.mantenimiento()
+                
             end
         statemachines
             psm FuncionamientoAtraccion
@@ -74,9 +79,9 @@ abstract class Atraccion
                 transitions
                     inicio -> noAveriado { create }
 
-                    noAveriado -> averiado { averiado() }
+                    noAveriado -> averiado { mantenimiento() }
 
-                    averiado -> noAveriado { arreglado() }
+                    averiado -> noAveriado { mantenimiento() }
             end
 end
 
@@ -97,7 +102,7 @@ abstract class ComponenteAtraccion
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averiado();
-                cra.buscarOperario(self);
+                --cra.buscarOperario(self);
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado = true
@@ -147,7 +152,7 @@ class CRA
             if(o <> Undefined) then
                 insert(c, o.dispositivo) into AveriaDispositivo;
                 o.ocupado();
-                o.repararAveria(c);
+                --o.repararAveria(c);
             else
                 self.informar(c);
             end
