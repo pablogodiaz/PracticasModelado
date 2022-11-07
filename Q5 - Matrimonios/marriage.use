@@ -1,0 +1,88 @@
+model Marriage
+
+class Clock
+attributes
+    NOW : Integer
+operations
+    tick()
+        begin
+            self.NOW := self.NOW + 1;
+        end
+        post checkTick: self.NOW@pre + 1 = self.NOW;
+
+    run(n : Integer)
+        begin
+            for i in Sequence{1..n}
+                do self.tick();
+            end
+        end
+        pre enteroPositivo: n <> null and n > 0
+        post comprobar: self.NOW@pre + n = self.NOW
+end
+
+class Community
+end
+
+class Person
+    attributes
+        birthYear : Integer
+        deathYear : Integer
+        age : Integer
+        isDead : Boolean derive: not self.deathYear.oclIsUndefined()
+end
+composition CommunityPerson between
+    Community [1] role community
+    Person [*] role person
+end
+class Marriage
+    attributes
+        startYear : Integer
+        endYear : Integer
+end
+
+aggregation CommunityClock between
+    Community [*] role community    
+    Clock [1] role clock
+end
+    
+association WifeHusband between
+    Person [1] role wife
+    Marriage [*] role husband
+end
+
+association HusbandWife between
+    Person [1] role husband
+    Marriage [*] role wife
+end
+
+
+constraints
+
+context Person inv DeathBorn:
+(self.birthYear < self.deathYear) or (self.deahtYear=-1)
+
+context Marriage inv StartBeforeEnd:
+(self.startYear < self.endYear) or (self.endYear=-1)
+
+context Person inv NoDeathMarriage:
+self.isDead implies (self.husband->forAll(endYear >= 0) and 
+self.wife->forAll(endYear >= 0))
+
+context Person inv BornPast:
+self.birthYear <= Clock.allInstances  
+
+context Marriage inv NoFutureMarriage:
+self.startYear <= Clock.allInstances  
+
+context Clock inv OneClock:
+Clock.allInstances -> size()=1
+
+context Person inv NoSelfMarriage:
+(not self.husband.husband -> includes(self)) and 
+(not self.wife.wife -> includes(self))
+
+context Person inv OneMarriage:
+(self.husband -> collect(endYear = -1) -> size() = 1 and
+self.wife -> collect(endYear = -1) -> size() = 0) or
+(self.wife -> collect(endYear = -1) -> size() = 1 and
+self.husband -> collect(endYear = -1) -> size() = 0)

@@ -23,36 +23,37 @@ end
 abstract class Atraccion
         attributes
                 calle : String
-                averia : Boolean
-                enFuncionamiento : Boolean
+                averia : Boolean init: false
+                enFuncionamiento : Boolean init: false
         operations
 
             arreglado() begin
-                averia := false;
+                self.averia := false;
             end
 
             averiado() begin
-                averia := true;
+                self.averia := true;
             end
 
             funcionamiento() begin
-                enFuncionamiento := true;
+                self.enFuncionamiento := true;
             end
 
             parada() begin
-                enFuncionamiento := false;
+                self.enFuncionamiento := false;
             end
 end
 
 abstract class ComponenteAtraccion
         attributes
                 numero : Integer
-                estaAveriado : Boolean
+                estaAveriado : Boolean init: false
+                estaInformado : Boolean init: false
         operations
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averiado();
-                cra.buscarOperario(self)
+                cra.buscarOperario(self);
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado = true
@@ -69,23 +70,37 @@ abstract class ComponenteAtraccion
 
             reparado() begin
                 self.estaAveriado := false;
+                self.estaInformado := false;
             end
             pre averiadoAntes: self.estaAveriado = true
             post noAveriadoDespues: self.estaAveriado = false
+            post noInformadoDespues: self.estaInformado = false
+
+            esInformado() begin
+                self.estaInformado := true;
+            end
+            pre noInformadoAntes: self.estaInformado = false
+            post informadoDespues: self.estaInformado = true
 
         statemachines
             psm EstadoComponente
                 states
                     inicio:initial
                     noAveriado [estaAveriado = false]
-                    Averiado [estaAveriado = true]
+                    averiadoInformado [estaAveriado = true and estaInformado = true]
+                    averiadoNoInformado [estaAveriado = true and estaInformado = false]
                 transitions
                     --Transicion de creacion
                     inicio -> noAveriado { create }
 
-                    noAveriado -> Averiado { averiar() }
+                    noAveriado -> averiadoNoInformado { averiar() }
 
-                    Averiado -> noAveriado { reparado() }
+                    averiadoNoInformado -> averiadoInformado { esInformado() }
+
+                    averiadoNoInformado -> noAveriado { reparado() }
+
+                    averiadoInformado -> noAveriado { reparado() }
+
             end
 end
 
@@ -103,26 +118,34 @@ end
 
 class CRA
     operations
-        buscarOperario(c : ComponenteAtraccion)
-        begin
-            if(self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> size() > 0) then
-                insert(c,self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().dispositivo) into AveriaDispositivo;
-                self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first().estaLibre := false;
+        buscarOperario(c : ComponenteAtraccion) begin
+            declare o : Operario;
+            o := self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first();
+            if(o <> Undefined) then
+                insert(c, o.dispositivo) into AveriaDispositivo;
+                o.ocupado();
+                o.repararAveria(c);
+            else
+                self.informar(c);
             end
-            end
+        end
             pre componenteAveriado: c.estaAveriado = true
             pre craInformada: c.cra <> Undefined
+
+        informar(c : ComponenteAtraccion) begin
+            c.esInformado();
+        end
 end
 
 class Operario
         attributes
-            estaLibre : Boolean
+            estaLibre : Boolean init: true
         operations
             repararAveria(c: ComponenteAtraccion)
             begin
                 delete (c, self.dispositivo) from AveriaDispositivo;
                 delete (c.cra, c) from CRAComponente;
-                self.estaLibre := true;
+                self.libre();
                 self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
                 c.reparado();
                 if c.oclIsTypeOf(Vehiculo) then c.oclAsType(Vehiculo).noria.mantenimiento() end;
@@ -134,6 +157,32 @@ class Operario
             post libre: estaLibre = true
             post arreglado: c.estaAveriado = false
             post masResueltos: dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
+        
+            libre() begin
+                self.estaLibre := true;
+            end
+            pre ocupadoAntes: estaLibre = false
+            post libreDespues: estaLibre = true
+
+            ocupado() begin
+                self.estaLibre := false;
+            end
+            pre libreAntes: estaLibre = true
+            post ocupadoDespues: estaLibre = false
+
+        statemachines
+            psm EstadoOperario
+                states
+                    inicio:initial
+                    libre [estaLibre = true]
+                    ocupado [estaLibre = false]
+                transitions
+                    inicio -> libre { create }
+
+                    libre -> ocupado { libre() }
+
+                    ocupado -> libre { ocupado() }
+            end
 end
 
 association Vagones between

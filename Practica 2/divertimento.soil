@@ -5,9 +5,7 @@ reset
 !new Parque('Parque1')
 
 !new Noria('n1')
-!n1.calle := "Mar menor, 5"
-!n1.enFuncionamiento := false
-!n1.averia := false
+!n1.calle := 'Mar menor, 5'
 
 !new Vehiculo('ve1')
 !ve1.numero := 1
@@ -22,8 +20,7 @@ reset
 !ve3.estaAveriado := false
 
 !new MRusa('mr1')
-!mr1.calle := "Carratraca, 27"
-!mr1.enFuncionamiento := false
+!mr1.calle := 'Carratraca, 27'
 
 !new Vagon('va1')
 !va1.numero := 1
@@ -65,7 +62,3 @@ reset
 !insert(cra, d1) into CRADispositivo
 
 !insert(d1, op1) into DispositivoOperario
-
-!ve1.informarAveria(n1,cra)
-!cra.buscarOperario(ve1)
-!op1.repararAveria(ve1)
