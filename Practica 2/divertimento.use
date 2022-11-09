@@ -7,17 +7,9 @@ class Empresa
 end
 
 class Noria < Atraccion
-        operations
-            mantenimiento() begin 
-                if self.vehiculo->select(v : Vehiculo | v.estaAveriado = true)->size() > 0 then self.averiado() else self.arreglado() end
-            end
 end
 
 class MRusa < Atraccion
-        operations
-            mantenimiento() begin 
-                if self.vagon->select(v : Vagon | v.estaAveriado = true)->size() > 0 then self.averiado() else self.arreglado() end
-            end
 end
 
 abstract class Atraccion
@@ -30,14 +22,19 @@ abstract class Atraccion
             arreglado() begin
                 self.averia := false;
             end
+            pre averiado: self.averia
+            post arreglado: not self.averia
 
             averiado() begin
                 self.averia := true;
             end
+            post averiado: self.averia
 
             funcionamiento() begin
                 self.enFuncionamiento := true;
             end
+            pre noAveriado: not self.averia
+            post enFuncionamient: self.enFuncionamiento
 
             mantenimiento() begin
                 if self.oclIsTypeOf(Noria) then
@@ -56,32 +53,32 @@ abstract class Atraccion
             parada() begin
                 self.enFuncionamiento := false;
                 self.mantenimiento()
-                
             end
+            pre enFuncionamiento: self.enFuncionamiento
+            post parado: not self.enFuncionamiento
+
         statemachines
+            
             psm FuncionamientoAtraccion
                 states
                     inicio:initial
-                    noEnFuncionamiento[enFuncionamiento = false]
-                    enFuncionamiento[enFuncionamiento = true]
+                    parada[not enFuncionamiento]
+                    enFuncionamiento[enFuncionamiento]
+                    averiado[averia]
                 transitions
-                    inicio -> noEnFuncionamiento { create }
+                    inicio -> parada { create }
 
-                    noEnFuncionamiento -> enFuncionamiento { funcionamiento() }
+                    parada -> enFuncionamiento { funcionamiento() }
 
-                    enFuncionamiento -> noEnFuncionamiento { parada() }
-            end
-            psm AveriaAtraccion
-                states
-                    inicio:initial
-                    noAveriado[averia = false]
-                    averiado[averia = true]
-                transitions
-                    inicio -> noAveriado { create }
+                    enFuncionamiento -> parada { parada() }
 
-                    noAveriado -> averiado { mantenimiento() }
+                    enFuncionamiento -> averiado { averiado() }
 
-                    averiado -> noAveriado { mantenimiento() }
+                    parada -> averiado { averiado() }
+
+                    averiado -> averiado { averiado() }
+
+                    averiado -> parada { arreglado() }
             end
 end
 
@@ -102,34 +99,33 @@ abstract class ComponenteAtraccion
             informarAveria(a:Atraccion, cra:CRA) begin
                 insert(cra,self) into CRAComponente;
                 a.averiado();
-                --cra.buscarOperario(self);
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
-            pre estaAveriado: self.estaAveriado = true
+            pre estaAveriado: self.estaAveriado
             post craInformada: self.cra->size() = self.cra@pre->size() + 1
-            post atraccionInformada: a.averia = true
+            post atraccionInformada: a.averia
 
             averiar() begin
                 self.estaAveriado := true;
                 if self.oclIsTypeOf(Vehiculo) then self.oclAsType(Vehiculo).informarAveria(self.oclAsType(Vehiculo).noria, self.oclAsType(Vehiculo).noria.parque.cra -> asOrderedSet() -> first()) end;
                 if self.oclIsTypeOf(Vagon) then self.oclAsType(Vagon).informarAveria(self.oclAsType(Vagon).mrusa, self.oclAsType(Vagon).mrusa.parque.cra -> asOrderedSet() -> first()) end;
             end
-            pre noAveriadoAntes: self.estaAveriado = false
-            post averiadoDespues: self.estaAveriado = true
+            pre noAveriadoAntes: not self.estaAveriado
+            post averiadoDespues: self.estaAveriado
 
             reparado() begin
                 self.estaAveriado := false;
                 self.estaInformado := false;
             end
-            pre averiadoAntes: self.estaAveriado = true
-            post noAveriadoDespues: self.estaAveriado = false
-            post noInformadoDespues: self.estaInformado = false
+            pre averiadoAntes: self.estaAveriado
+            post noAveriadoDespues: not self.estaAveriado
+            post noInformadoDespues: not self.estaInformado
 
             esInformado() begin
                 self.estaInformado := true;
             end
-            pre noInformadoAntes: self.estaInformado = false
-            post informadoDespues: self.estaInformado = true
+            pre noInformadoAntes: not self.estaInformado
+            post informadoDespues: self.estaInformado
 end
 
 class Vehiculo < ComponenteAtraccion
@@ -148,7 +144,7 @@ class CRA
     operations
         buscarOperario(c : ComponenteAtraccion) begin
             declare o : Operario;
-            o := self.dispositivo.operario -> select(o : Operario | o.estaLibre = true) -> asOrderedSet() -> first();
+            o := self.dispositivo.operario -> select(o : Operario | o.estaLibre) -> asOrderedSet() -> first();
             if(o <> Undefined) then
                 insert(c, o.dispositivo) into AveriaDispositivo;
                 o.ocupado();
@@ -157,7 +153,7 @@ class CRA
                 self.informar(c);
             end
         end
-            pre componenteAveriado: c.estaAveriado = true
+            pre componenteAveriado: c.estaAveriado
             pre craInformada: c.cra <> Undefined
 
         informar(c : ComponenteAtraccion) begin
@@ -179,31 +175,31 @@ class Operario
                 if c.oclIsTypeOf(Vehiculo) then c.oclAsType(Vehiculo).noria.mantenimiento() end;
                 if c.oclIsTypeOf(Vagon) then c.oclAsType(Vagon).mrusa.mantenimiento() end;
             end
-            pre asignado: estaLibre = false
-            pre averiado: c.estaAveriado = true
+            pre asignado: not estaLibre
+            pre averiado: c.estaAveriado
             pre componenteAsociado: self.dispositivo.averiado = c
-            post libre: estaLibre = true
-            post arreglado: c.estaAveriado = false
+            post libre: estaLibre
+            post arreglado: not c.estaAveriado
             post masResueltos: dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
         
             libre() begin
                 self.estaLibre := true;
             end
-            pre ocupadoAntes: estaLibre = false
-            post libreDespues: estaLibre = true
+            pre ocupadoAntes: not estaLibre
+            post libreDespues: estaLibre
 
             ocupado() begin
                 self.estaLibre := false;
             end
-            pre libreAntes: estaLibre = true
-            post ocupadoDespues: estaLibre = false
+            pre libreAntes: estaLibre
+            post ocupadoDespues: not estaLibre
 
         statemachines
             psm EstadoOperario
                 states
                     inicio:initial
-                    libre [estaLibre = true]
-                    ocupado [estaLibre = false]
+                    libre [estaLibre]
+                    ocupado [not estaLibre]
                 transitions
                     inicio -> libre { create }
 
