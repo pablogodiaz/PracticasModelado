@@ -86,7 +86,7 @@ abstract class ComponenteAtraccion
         attributes
                 numero : Integer
                 estaAveriado : Boolean init: false
-                estaInformado : Boolean init: false
+                estaAsignado : Boolean init: false
         operations
             comprobarAveria(a:Atraccion, cra:CRA) begin
                 if self.estaAveriado then
@@ -115,17 +115,38 @@ abstract class ComponenteAtraccion
 
             reparado() begin
                 self.estaAveriado := false;
-                self.estaInformado := false;
+                self.estaAsignado := false;
             end
             pre averiadoAntes: self.estaAveriado
             post noAveriadoDespues: not self.estaAveriado
-            post noInformadoDespues: not self.estaInformado
+            post noAsignadoDespues: not self.estaAsignado
 
-            esInformado() begin
-                self.estaInformado := true;
+            esAsignado() begin
+                self.estaAsignado := true;
             end
-            pre noInformadoAntes: not self.estaInformado
-            post informadoDespues: self.estaInformado
+            pre noAsignadoAntes: not self.estaAsignado
+            post asignadoDespues: self.estaAsignado
+
+            statemachines
+            
+            psm FuncionamientoAtraccion
+                states
+                    inicio:initial
+                    averiado[estaAveriado]
+                    noAveriado[not estaAveriado]
+                    asignado[estaAsignado]
+                    
+                transitions
+                    inicio -> noAveriado { create }
+
+                    noAveriado -> averiado { averiar() }
+
+                    averiado -> asignado { esAsignado() }
+
+                    asignado -> noAveriado { reparado() }
+
+                    
+            end
 end
 
 class Vehiculo < ComponenteAtraccion
@@ -148,16 +169,17 @@ class CRA
             if(o <> Undefined) then
                 insert(c, o.dispositivo) into AveriaDispositivo;
                 o.ocupado();
+                self.asignar(c);
                 --o.repararAveria(c);
             else
-                self.informar(c);
+                --self.informar(c);
             end
         end
             pre componenteAveriado: c.estaAveriado
             pre craInformada: c.cra <> Undefined
 
-        informar(c : ComponenteAtraccion) begin
-            c.esInformado();
+        asignar(c : ComponenteAtraccion) begin
+            c.esAsignado();
         end
 end
 
