@@ -15,71 +15,10 @@ end
 abstract class Atraccion
         attributes
                 calle : String
-                averia : Boolean init: false
-                enFuncionamiento : Boolean init: false
-        operations
-
-            arreglado() begin
-                self.averia := false;
-            end
-            pre averiado: self.averia
-            post arreglado: not self.averia
-
-            averiado() begin
-                self.averia := true;
-            end
-            post averiado: self.averia
-
-            funcionamiento() begin
-                self.enFuncionamiento := true;
-            end
-            pre noAveriado: not self.averia
-            post enFuncionamient: self.enFuncionamiento
-
-            mantenimiento() begin
-                if self.oclIsTypeOf(Noria) then
-                    for ve in self.oclAsType(Noria).vehiculo
-                        do ve.comprobarAveria(self, self.parque.cra);
-                    end;
-                end;
-
-                if self.oclIsTypeOf(MRusa) then
-                    for va in self.oclAsType(MRusa).vagon
-                        do va.comprobarAveria(self, self.parque.cra);
-                    end;
-                end;
-            end
-
-            parada() begin
-                self.enFuncionamiento := false;
-                self.mantenimiento()
-            end
-            pre enFuncionamiento: self.enFuncionamiento
-            post parado: not self.enFuncionamiento
-
-        statemachines
-            
-            psm FuncionamientoAtraccion
-                states
-                    inicio:initial
-                    parada[not enFuncionamiento]
-                    enFuncionamiento[enFuncionamiento]
-                    averiado[averia]
-                transitions
-                    inicio -> parada { create }
-
-                    parada -> enFuncionamiento { funcionamiento() }
-
-                    enFuncionamiento -> parada { parada() }
-
-                    enFuncionamiento -> averiado { averiado() }
-
-                    parada -> averiado { averiado() }
-
-                    averiado -> averiado { averiado() }
-
-                    averiado -> parada { arreglado() }
-            end
+                averia : Boolean derive: self.componente.estaAveriado -> includes(true)
+        --- Un operario puede reparar una atraccion en funcionamiento (dicho explicitamente por el profesor en clase).
+        --- De este modo, no vamos a modelar el funcionamiento y parada de una atraccion, tambien dicho por el profesor
+        --- que no sera necesario.
 end
 
 abstract class ComponenteAtraccion
@@ -88,27 +27,17 @@ abstract class ComponenteAtraccion
                 estaAveriado : Boolean init: false
                 estaAsignado : Boolean init: false
         operations
-            comprobarAveria(a:Atraccion, cra:CRA) begin
-                if self.estaAveriado then
-                    self.informarAveria(a, cra);
-                end;
-            end
-
-
-
-            informarAveria(a:Atraccion, cra:CRA) begin
+            informarAveria(cra:CRA) begin
                 insert(cra,self) into CRAComponente;
-                a.averiado();
+                cra.buscarOperario(self);
             end
             pre noInformadoAnteriormente: self.cra->size() = 0
             pre estaAveriado: self.estaAveriado
             post craInformada: self.cra->size() = self.cra@pre->size() + 1
-            post atraccionInformada: a.averia
 
             averiar() begin
                 self.estaAveriado := true;
-                if self.oclIsTypeOf(Vehiculo) then self.oclAsType(Vehiculo).informarAveria(self.oclAsType(Vehiculo).noria, self.oclAsType(Vehiculo).noria.parque.cra -> asOrderedSet() -> first()) end;
-                if self.oclIsTypeOf(Vagon) then self.oclAsType(Vagon).informarAveria(self.oclAsType(Vagon).mrusa, self.oclAsType(Vagon).mrusa.parque.cra -> asOrderedSet() -> first()) end;
+                self.informarAveria(self.atraccion.parque.cra);   
             end
             pre noAveriadoAntes: not self.estaAveriado
             post averiadoDespues: self.estaAveriado
@@ -170,10 +99,10 @@ class CRA
                 insert(c, o.dispositivo) into AveriaDispositivo;
                 o.ocupado();
                 self.asignar(c);
-                --o.repararAveria(c);
-            else
-                --self.informar(c);
             end
+            --- Hemos decidido no modelar el tiempo, de modo que todos las operaciones que se llamen de forma reiterada
+            --- tendran que ser llamadas a mano (por ejemplo, cuando un componente no es asignado a un operario, porque
+            --- no hay ninguno libre, debera informar su averia de nuevo hasta ser asignado).
         end
             pre componenteAveriado: c.estaAveriado
             pre craInformada: c.cra <> Undefined
@@ -194,8 +123,6 @@ class Operario
                 self.libre();
                 self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
                 c.reparado();
-                if c.oclIsTypeOf(Vehiculo) then c.oclAsType(Vehiculo).noria.mantenimiento() end;
-                if c.oclIsTypeOf(Vagon) then c.oclAsType(Vagon).mrusa.mantenimiento() end;
             end
             pre asignado: not estaLibre
             pre averiado: c.estaAveriado
@@ -231,14 +158,9 @@ class Operario
             end
 end
 
-association Vagones between
-    MRusa [1] role mrusa
-    Vagon [*] role vagon
-end
-
-association Enganche between
-    Noria [1] role noria
-    Vehiculo [*] role vehiculo
+association ComponentesAtraccion between
+    Atraccion [1] role atraccion
+    ComponenteAtraccion [*] role componente
 end
 
 association Parques between
@@ -291,6 +213,13 @@ constraints
 
     context Vagon
         inv numeroVagonDistinto: Vagon.allInstances() -> isUnique(numero)
+        ---inv ultimoEngancheNoAveriado: (self.enganchep -> isEmpty()) <> self.estaAveriado
 
     context Vehiculo
         inv numeroVehiculoDistinto: Vehiculo.allInstances() -> isUnique(numero)
+
+    context MRusa
+        inv todosComponentesVagones: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vagon))
+    
+    context Noria
+        inv todosComponentesVehiculos: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vehiculo))

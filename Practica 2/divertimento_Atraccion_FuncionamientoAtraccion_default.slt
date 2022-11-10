@@ -35,11 +35,11 @@
         </node>
         <hidden>false</hidden>
     </node>
-    <node id="noEnFuncionamiento" sizeCalculated="true" type="StateNode">
-        <name>noEnFuncionamiento</name>
+    <node id="averiado" sizeCalculated="true" type="StateNode">
+        <name>averiado</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>61.97515186595473</x>
-            <y>94.94093339625837</y>
+            <x>715.1515636970585</x>
+            <y>321.14101385747165</y>
         </strategy>
         <showInvariant>true</showInvariant>
         <hidden>false</hidden>
@@ -53,13 +53,22 @@
         <showInvariant>true</showInvariant>
         <hidden>false</hidden>
     </node>
+    <node id="parada" sizeCalculated="true" type="StateNode">
+        <name>parada</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>121.71749056156412</x>
+            <y>315.03454422659</y>
+        </strategy>
+        <showInvariant>true</showInvariant>
+        <hidden>false</hidden>
+    </node>
     <edge type="Transition">
-        <source>inicio</source>
-        <target>noEnFuncionamiento</target>
-        <name>create/</name>
+        <source>parada</source>
+        <target>enFuncionamiento</target>
+        <name>funcionamiento()/</name>
         <waypoints>
             <edgeproperty
-                id="transition::inicio::noEnFuncionamiento::::WayPoint::0"
+                id="transition::parada::enFuncionamiento::::WayPoint::0"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>0</name>
@@ -72,7 +81,62 @@
                 <hidden>false</hidden>
             </edgeproperty>
             <edgeproperty
-                id="transition::inicio::noEnFuncionamiento::::WayPoint::1"
+                id="transition::parada::enFuncionamiento::::WayPoint::1"
+                sizeCalculated="true" type="WayPoint"
+                userDefined="false" visible="true">
+                <name>1</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
+                    <userOffsetX>0.0</userOffsetX>
+                    <userOffsetY>0.0</userOffsetY>
+                </strategy>
+                <id>1</id>
+                <specialid>2</specialid>
+                <hidden>false</hidden>
+            </edgeproperty>
+        </waypoints>
+        <hidden>false</hidden>
+        <Transitions>
+            <Transition>
+                <trigger>funcionamiento()</trigger>
+                <guard/>
+                <post/>
+                <edgeproperty id="funcionamiento()/"
+                    sizeCalculated="true" type="TransitionLabel"
+                    userDefined="true" visible="true">
+                    <name>funcionamiento()/</name>
+                    <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+                        <userOffsetX>38.0</userOffsetX>
+                        <userOffsetY>6.0</userOffsetY>
+                        <offsetX>0.0</offsetX>
+                        <offsetY>10.0</offsetY>
+                        <related length="2">
+                            <related0>transition::parada::enFuncionamiento::::WayPoint::0</related0>
+                            <related1>transition::parada::enFuncionamiento::::WayPoint::1</related1>
+                        </related>
+                    </strategy>
+                    <hidden>false</hidden>
+                </edgeproperty>
+            </Transition>
+        </Transitions>
+    </edge>
+    <edge type="Transition">
+        <source>inicio</source>
+        <target>parada</target>
+        <name>create/</name>
+        <waypoints>
+            <edgeproperty id="transition::inicio::parada::::WayPoint::0"
+                sizeCalculated="true" type="WayPoint"
+                userDefined="false" visible="true">
+                <name>0</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
+                    <userOffsetX>0.0</userOffsetX>
+                    <userOffsetY>0.0</userOffsetY>
+                </strategy>
+                <id>0</id>
+                <specialid>1</specialid>
+                <hidden>false</hidden>
+            </edgeproperty>
+            <edgeproperty id="transition::inicio::parada::::WayPoint::1"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>1</name>
@@ -100,8 +164,64 @@
                         <offsetX>0.0</offsetX>
                         <offsetY>10.0</offsetY>
                         <related length="2">
-                            <related0>transition::inicio::noEnFuncionamiento::::WayPoint::0</related0>
-                            <related1>transition::inicio::noEnFuncionamiento::::WayPoint::1</related1>
+                            <related0>transition::inicio::parada::::WayPoint::0</related0>
+                            <related1>transition::inicio::parada::::WayPoint::1</related1>
+                        </related>
+                    </strategy>
+                    <hidden>false</hidden>
+                </edgeproperty>
+            </Transition>
+        </Transitions>
+    </edge>
+    <edge type="Transition">
+        <source>averiado</source>
+        <target>parada</target>
+        <name>arreglado()/</name>
+        <waypoints>
+            <edgeproperty
+                id="transition::averiado::parada::::WayPoint::0"
+                sizeCalculated="true" type="WayPoint"
+                userDefined="false" visible="true">
+                <name>0</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
+                    <userOffsetX>0.0</userOffsetX>
+                    <userOffsetY>0.0</userOffsetY>
+                </strategy>
+                <id>0</id>
+                <specialid>1</specialid>
+                <hidden>false</hidden>
+            </edgeproperty>
+            <edgeproperty
+                id="transition::averiado::parada::::WayPoint::1"
+                sizeCalculated="true" type="WayPoint"
+                userDefined="false" visible="true">
+                <name>1</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyAttachedIntersection">
+                    <userOffsetX>0.0</userOffsetX>
+                    <userOffsetY>0.0</userOffsetY>
+                </strategy>
+                <id>1</id>
+                <specialid>2</specialid>
+                <hidden>false</hidden>
+            </edgeproperty>
+        </waypoints>
+        <hidden>false</hidden>
+        <Transitions>
+            <Transition>
+                <trigger>arreglado()</trigger>
+                <guard/>
+                <post/>
+                <edgeproperty id="arreglado()/" sizeCalculated="true"
+                    type="TransitionLabel" userDefined="false" visible="true">
+                    <name>arreglado()/</name>
+                    <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+                        <userOffsetX>0.0</userOffsetX>
+                        <userOffsetY>0.0</userOffsetY>
+                        <offsetX>0.0</offsetX>
+                        <offsetY>10.0</offsetY>
+                        <related length="2">
+                            <related0>transition::averiado::parada::::WayPoint::0</related0>
+                            <related1>transition::averiado::parada::::WayPoint::1</related1>
                         </related>
                     </strategy>
                     <hidden>false</hidden>
@@ -111,11 +231,11 @@
     </edge>
     <edge type="Transition">
         <source>enFuncionamiento</source>
-        <target>noEnFuncionamiento</target>
-        <name>parada()/</name>
+        <target>parada</target>
+        <name>arreglado()/</name>
         <waypoints>
             <edgeproperty
-                id="transition::enFuncionamiento::noEnFuncionamiento::::WayPoint::0"
+                id="transition::enFuncionamiento::parada::::WayPoint::0"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>0</name>
@@ -128,7 +248,7 @@
                 <hidden>false</hidden>
             </edgeproperty>
             <edgeproperty
-                id="transition::enFuncionamiento::noEnFuncionamiento::::WayPoint::1"
+                id="transition::enFuncionamiento::parada::::WayPoint::1"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>1</name>
@@ -144,20 +264,20 @@
         <hidden>false</hidden>
         <Transitions>
             <Transition>
-                <trigger>parada()</trigger>
+                <trigger>arreglado()</trigger>
                 <guard/>
                 <post/>
-                <edgeproperty id="parada()/" sizeCalculated="true"
-                    type="TransitionLabel" userDefined="false" visible="true">
-                    <name>parada()/</name>
+                <edgeproperty id="arreglado()/" sizeCalculated="true"
+                    type="TransitionLabel" userDefined="true" visible="true">
+                    <name>arreglado()/</name>
                     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-                        <userOffsetX>0.0</userOffsetX>
-                        <userOffsetY>0.0</userOffsetY>
+                        <userOffsetX>-23.0</userOffsetX>
+                        <userOffsetY>-27.0</userOffsetY>
                         <offsetX>0.0</offsetX>
                         <offsetY>10.0</offsetY>
                         <related length="2">
-                            <related0>transition::enFuncionamiento::noEnFuncionamiento::::WayPoint::0</related0>
-                            <related1>transition::enFuncionamiento::noEnFuncionamiento::::WayPoint::1</related1>
+                            <related0>transition::enFuncionamiento::parada::::WayPoint::0</related0>
+                            <related1>transition::enFuncionamiento::parada::::WayPoint::1</related1>
                         </related>
                     </strategy>
                     <hidden>false</hidden>
@@ -166,12 +286,12 @@
         </Transitions>
     </edge>
     <edge type="Transition">
-        <source>noEnFuncionamiento</source>
-        <target>enFuncionamiento</target>
-        <name>funcionamiento()/</name>
+        <source>enFuncionamiento</source>
+        <target>averiado</target>
+        <name>averiado()/</name>
         <waypoints>
             <edgeproperty
-                id="transition::noEnFuncionamiento::enFuncionamiento::::WayPoint::0"
+                id="transition::enFuncionamiento::averiado::::WayPoint::0"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>0</name>
@@ -184,7 +304,7 @@
                 <hidden>false</hidden>
             </edgeproperty>
             <edgeproperty
-                id="transition::noEnFuncionamiento::enFuncionamiento::::WayPoint::1"
+                id="transition::enFuncionamiento::averiado::::WayPoint::1"
                 sizeCalculated="true" type="WayPoint"
                 userDefined="false" visible="true">
                 <name>1</name>
@@ -200,21 +320,20 @@
         <hidden>false</hidden>
         <Transitions>
             <Transition>
-                <trigger>funcionamiento()</trigger>
+                <trigger>averiado()</trigger>
                 <guard/>
                 <post/>
-                <edgeproperty id="funcionamiento()/"
-                    sizeCalculated="true" type="TransitionLabel"
-                    userDefined="false" visible="true">
-                    <name>funcionamiento()/</name>
+                <edgeproperty id="averiado()/" sizeCalculated="true"
+                    type="TransitionLabel" userDefined="false" visible="true">
+                    <name>averiado()/</name>
                     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
                         <userOffsetX>0.0</userOffsetX>
                         <userOffsetY>0.0</userOffsetY>
                         <offsetX>0.0</offsetX>
                         <offsetY>10.0</offsetY>
                         <related length="2">
-                            <related0>transition::noEnFuncionamiento::enFuncionamiento::::WayPoint::0</related0>
-                            <related1>transition::noEnFuncionamiento::enFuncionamiento::::WayPoint::1</related1>
+                            <related0>transition::enFuncionamiento::averiado::::WayPoint::0</related0>
+                            <related1>transition::enFuncionamiento::averiado::::WayPoint::1</related1>
                         </related>
                     </strategy>
                     <hidden>false</hidden>
