@@ -213,7 +213,7 @@ constraints
 
     context Vagon
         inv numeroVagonDistinto: Vagon.allInstances() -> isUnique(numero)
-        ---inv ultimoEngancheNoAveriado: (self.enganchep -> isEmpty()) <> self.estaAveriado
+        inv ultimoEngancheNoAveriado: (self.enganchep -> isEmpty()) and not self.estaAveriado
 
     context Vehiculo
         inv numeroVehiculoDistinto: Vehiculo.allInstances() -> isUnique(numero)
