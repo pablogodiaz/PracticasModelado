@@ -9,30 +9,24 @@ reset
 
 !new Vehiculo('ve1')
 !ve1.numero := 1
-!ve1.estaAveriado := true
 
 !new Vehiculo('ve2')
 !ve2.numero := 2
-!ve2.estaAveriado := false
 
 !new Vehiculo('ve3')
 !ve3.numero := 3
-!ve3.estaAveriado := false
 
 !new MRusa('mr1')
 !mr1.calle := 'Carratraca, 27'
 
 !new Vagon('va1')
 !va1.numero := 1
-!va1.estaAveriado := false
 
 !new Vagon('va2')
 !va2.numero := 2
-!va2.estaAveriado := false
 
 !new Vagon('va3')
 !va3.numero := 3
-!va3.estaAveriado := false
 
 !new CRA('cra')
 
@@ -50,13 +44,13 @@ reset
 !insert(n1,Parque1) into Atracciones
 !insert(mr1, Parque1) into Atracciones
 
-!insert(n1,ve1) into Enganche
-!insert(n1,ve2) into Enganche
-!insert(n1,ve3) into Enganche
+!insert(n1,ve1) into ComponentesAtraccion
+!insert(n1,ve2) into ComponentesAtraccion
+!insert(n1,ve3) into ComponentesAtraccion
 
-!insert(mr1, va1) into Vagones
-!insert(mr1, va2) into Vagones
-!insert(mr1, va3) into Vagones
+!insert(mr1, va1) into ComponentesAtraccion
+!insert(mr1, va2) into ComponentesAtraccion
+!insert(mr1, va3) into ComponentesAtraccion
 
 !insert(va1, va2) into EnganchePosterior
 !insert(va2, va3) into EnganchePosterior
@@ -69,4 +63,6 @@ reset
 !insert(d1, op1) into DispositivoOperario
 !insert(d2, op2) into DispositivoOperario
 
-!ve1.informarAveria(n1,cra)
+!ve1.averiar()
+!ve1.informarAveria(cra)
+!op1.repararAveria()

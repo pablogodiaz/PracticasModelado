@@ -16,9 +16,9 @@ abstract class Atraccion
         attributes
                 calle : String
                 averia : Boolean derive: self.componente.estaAveriado -> includes(true)
-        --- Un operario puede reparar una atraccion en funcionamiento (dicho explicitamente por el profesor en clase).
-        --- De este modo, no vamos a modelar el funcionamiento y parada de una atraccion, tambien dicho por el profesor
-        --- que no sera necesario.
+        --- Un operario puede reparar una atracción en funcionamiento (dicho explícitamente por el profesor en clase).
+        --- De este modo, no vamos a modelar el funcionamiento y parada de una atracción, tambien dicho por el profesor
+        --- que no será necesario.
 end
 
 abstract class ComponenteAtraccion
@@ -28,16 +28,15 @@ abstract class ComponenteAtraccion
                 estaAsignado : Boolean init: false
         operations
             informarAveria(cra:CRA) begin
-                insert(cra,self) into CRAComponente;
+                if self.cra = Undefined then
+                    insert(cra,self) into CRAComponente;
+                end;
                 cra.buscarOperario(self);
             end
-            pre noInformadoAnteriormente: self.cra <> Undefined
             pre estaAveriado: self.estaAveriado
-            post craInformada: self.cra->size() = self.cra@pre->size() + 1
 
             averiar() begin
                 self.estaAveriado := true;
-                self.informarAveria(self.atraccion.parque.cra);   
             end
             pre noAveriadoAntes: not self.estaAveriado
             post averiadoDespues: self.estaAveriado
@@ -116,8 +115,10 @@ class Operario
         attributes
             estaLibre : Boolean init: true
         operations
-            repararAveria(c: ComponenteAtraccion) --Llamar de forma manual cuando el operario pueda reparar
+            repararAveria() --Llamar de forma manual cuando el operario pueda reparar
             begin
+                declare c : ComponenteAtraccion;
+                c := self.dispositivo.averiado;
                 delete (c, self.dispositivo) from AveriaDispositivo;
                 delete (c.cra, c) from CRAComponente;
                 self.libre();
@@ -125,10 +126,9 @@ class Operario
                 c.reparado();
             end
             pre asignado: not estaLibre
-            pre averiado: c.estaAveriado
-            pre componenteAsociado: self.dispositivo.averiado = c
+            pre averiado: self.dispositivo.averiado.estaAveriado
             post libre: estaLibre
-            post arreglado: not c.estaAveriado
+            post dispositivoDesasignado: self.dispositivo.averiado = Undefined
             post masResueltos: dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
         
             libre() begin
