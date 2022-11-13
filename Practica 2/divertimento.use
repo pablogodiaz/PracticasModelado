@@ -31,7 +31,7 @@ abstract class ComponenteAtraccion
                 insert(cra,self) into CRAComponente;
                 cra.buscarOperario(self);
             end
-            pre noInformadoAnteriormente: self.cra->size() = 0
+            pre noInformadoAnteriormente: self.cra <> Undefined
             pre estaAveriado: self.estaAveriado
             post craInformada: self.cra->size() = self.cra@pre->size() + 1
 
@@ -116,7 +116,7 @@ class Operario
         attributes
             estaLibre : Boolean init: true
         operations
-            repararAveria(c: ComponenteAtraccion)
+            repararAveria(c: ComponenteAtraccion) --Llamar de forma manual cuando el operario pueda reparar
             begin
                 delete (c, self.dispositivo) from AveriaDispositivo;
                 delete (c.cra, c) from CRAComponente;
@@ -160,46 +160,46 @@ end
 
 association ComponentesAtraccion between
     Atraccion [1] role atraccion
-    ComponenteAtraccion [*] role componente
+    ComponenteAtraccion [*] role componente -- Una atracción puede no tener aún componentes montados si se registra en el sistema cuando aún está en construcción y no hay aún componentes
 end
 
 association Parques between
-    Empresa [1] role propietaria
+    Empresa [1] role propietaria -- Un parque pertenece a una empresa siempre
     Parque [*] role parque
 end
 
 association Atracciones between
-    Atraccion [*] role atraccion
-    Parque [1] role parque
+    Atraccion [*] role atraccion -- Un parque se puede crear sin tener aún atracciones
+    Parque [1] role parque -- Una atracción debe pertenecer a un parque
 end
 
 association DispositivoOperario between
-    Dispositivo [1] role dispositivo
-    Operario [0..1] role operario
+    Dispositivo [1] role dispositivo -- Se considera que tras modernizar el funcionamiento del parque, los operarios necesitan un dispositivo ya que sin este no pueden hacer su trabajo
+    Operario [0..1] role operario -- Un dispositivo puede no estar aún en uso por ningún operario
 end
 
 association EnganchePosterior between
-    Vagon [0..1] role enganchep
+    Vagon [0..1] role enganchep -- El primero no tiene enganche delante, y el último no lo tiene detrás
     Vagon [0..1] role enganchea
 end
 
 association CRAComponente between
-    CRA [0..1] role cra
-    ComponenteAtraccion [*] role componente
+    CRA [0..1] role cra -- Se asigna a la CRA de ese parque, y solo hay una por parque, así que solo se asigna a una como máximo
+    ComponenteAtraccion [*] role componente -- Una CRA puede tener varios asignados
 end
 
 association CRADispositivo between
-    CRA [1] role cra
+    CRA [1] role cra -- Una CRA tiene varios dispositivos asignados y estos deben estar asignados a una CRA para funcionar
     Dispositivo [*] role dispositivo
 end
 
 association CRAParque between
-    CRA [1] role cra
+    CRA [1] role cra -- Cada parque tiene por fuerza una CRA y solo una
     Parque [1] role parque
 end
 
 association AveriaDispositivo between
-    ComponenteAtraccion [0..1] role averiado
+    ComponenteAtraccion [0..1] role averiado -- Un componente se asigna cuando se avería a un dispositivo
     Dispositivo [0..1] role dispositivo
 end
 
@@ -222,4 +222,4 @@ constraints
         inv todosComponentesVagones: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vagon))
     
     context Noria
-        inv todosComponentesVehiculos: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vehiculo))
+        inv todosComponentesVehiculos: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vehiculo)) 
