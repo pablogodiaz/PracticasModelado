@@ -1,0 +1,225 @@
+model Divertimento
+
+class Parque
+end
+
+class Empresa
+end
+
+class Noria < Atraccion
+end
+
+class MRusa < Atraccion
+end
+
+abstract class Atraccion
+        attributes
+                calle : String
+                averia : Boolean derive: self.componente.estaAveriado -> includes(true)
+        --- Un operario puede reparar una atraccion en funcionamiento (dicho explicitamente por el profesor en clase).
+        --- De este modo, no vamos a modelar el funcionamiento y parada de una atraccion, tambien dicho por el profesor
+        --- que no sera necesario.
+end
+
+abstract class ComponenteAtraccion
+        attributes
+                numero : Integer
+                estaAveriado : Boolean init: false
+                estaAsignado : Boolean init: false
+        operations
+            informarAveria(cra:CRA) begin
+                insert(cra,self) into CRAComponente;
+                cra.buscarOperario(self);
+            end
+            pre noInformadoAnteriormente: self.cra <> Undefined
+            pre estaAveriado: self.estaAveriado
+            post craInformada: self.cra->size() = self.cra@pre->size() + 1
+
+            averiar() begin
+                self.estaAveriado := true;
+                self.informarAveria(self.atraccion.parque.cra);   
+            end
+            pre noAveriadoAntes: not self.estaAveriado
+            post averiadoDespues: self.estaAveriado
+
+            reparado() begin
+                self.estaAveriado := false;
+                self.estaAsignado := false;
+            end
+            pre averiadoAntes: self.estaAveriado
+            post noAveriadoDespues: not self.estaAveriado
+            post noAsignadoDespues: not self.estaAsignado
+
+            esAsignado() begin
+                self.estaAsignado := true;
+            end
+            pre noAsignadoAntes: not self.estaAsignado
+            post asignadoDespues: self.estaAsignado
+
+            statemachines
+            
+            psm FuncionamientoAtraccion
+                states
+                    inicio:initial
+                    averiado[estaAveriado]
+                    noAveriado[not estaAveriado]
+                    asignado[estaAsignado]
+                    
+                transitions
+                    inicio -> noAveriado { create }
+
+                    noAveriado -> averiado { averiar() }
+
+                    averiado -> asignado { esAsignado() }
+
+                    asignado -> noAveriado { reparado() }
+
+                    
+            end
+end
+
+class Vehiculo < ComponenteAtraccion
+end
+
+class Vagon < ComponenteAtraccion
+end
+
+class Dispositivo
+        attributes
+                averiasResueltas : Integer
+                init : 0
+end
+
+class CRA
+    operations
+        buscarOperario(c : ComponenteAtraccion) begin
+            declare o : Operario;
+            o := self.dispositivo.operario -> select(o : Operario | o.estaLibre) -> asOrderedSet() -> first();
+            if(o <> Undefined) then
+                insert(c, o.dispositivo) into AveriaDispositivo;
+                o.ocupado();
+                self.asignar(c);
+            end
+            --- Hemos decidido no modelar el tiempo, de modo que todos las operaciones que se llamen de forma reiterada
+            --- tendran que ser llamadas a mano (por ejemplo, cuando un componente no es asignado a un operario, porque
+            --- no hay ninguno libre, debera informar su averia de nuevo hasta ser asignado).
+        end
+            pre componenteAveriado: c.estaAveriado
+            pre craInformada: c.cra <> Undefined
+
+        asignar(c : ComponenteAtraccion) begin
+            c.esAsignado();
+        end
+end
+
+class Operario
+        attributes
+            estaLibre : Boolean init: true
+        operations
+            repararAveria(c: ComponenteAtraccion) --Llamar de forma manual cuando el operario pueda reparar
+            begin
+                delete (c, self.dispositivo) from AveriaDispositivo;
+                delete (c.cra, c) from CRAComponente;
+                self.libre();
+                self.dispositivo.averiasResueltas := self.dispositivo.averiasResueltas+1;
+                c.reparado();
+            end
+            pre asignado: not estaLibre
+            pre averiado: c.estaAveriado
+            pre componenteAsociado: self.dispositivo.averiado = c
+            post libre: estaLibre
+            post arreglado: not c.estaAveriado
+            post masResueltos: dispositivo.averiasResueltas = dispositivo.averiasResueltas@pre + 1
+        
+            libre() begin
+                self.estaLibre := true;
+            end
+            pre ocupadoAntes: not estaLibre
+            post libreDespues: estaLibre
+
+            ocupado() begin
+                self.estaLibre := false;
+            end
+            pre libreAntes: estaLibre
+            post ocupadoDespues: not estaLibre
+
+        statemachines
+            psm EstadoOperario
+                states
+                    inicio:initial
+                    libre [estaLibre]
+                    ocupado [not estaLibre]
+                transitions
+                    inicio -> libre { create }
+
+                    libre -> ocupado { ocupado() }
+
+                    ocupado -> libre { libre() }
+            end
+end
+
+association ComponentesAtraccion between
+    Atraccion [1] role atraccion
+    ComponenteAtraccion [*] role componente -- Una atracción puede no tener aún componentes montados si se registra en el sistema cuando aún está en construcción y no hay aún componentes
+end
+
+association Parques between
+    Empresa [1] role propietaria -- Un parque pertenece a una empresa siempre
+    Parque [*] role parque
+end
+
+association Atracciones between
+    Atraccion [*] role atraccion -- Un parque se puede crear sin tener aún atracciones
+    Parque [1] role parque -- Una atracción debe pertenecer a un parque
+end
+
+association DispositivoOperario between
+    Dispositivo [1] role dispositivo -- Se considera que tras modernizar el funcionamiento del parque, los operarios necesitan un dispositivo ya que sin este no pueden hacer su trabajo
+    Operario [0..1] role operario -- Un dispositivo puede no estar aún en uso por ningún operario
+end
+
+association EnganchePosterior between
+    Vagon [0..1] role enganchep -- El primero no tiene enganche delante, y el último no lo tiene detrás
+    Vagon [0..1] role enganchea
+end
+
+association CRAComponente between
+    CRA [0..1] role cra -- Se asigna a la CRA de ese parque, y solo hay una por parque, así que solo se asigna a una como máximo
+    ComponenteAtraccion [*] role componente -- Una CRA puede tener varios asignados
+end
+
+association CRADispositivo between
+    CRA [1] role cra -- Una CRA tiene varios dispositivos asignados y estos deben estar asignados a una CRA para funcionar
+    Dispositivo [*] role dispositivo
+end
+
+association CRAParque between
+    CRA [1] role cra -- Cada parque tiene por fuerza una CRA y solo una
+    Parque [1] role parque
+end
+
+association AveriaDispositivo between
+    ComponenteAtraccion [0..1] role averiado -- Un componente se asigna cuando se avería a un dispositivo
+    Dispositivo [0..1] role dispositivo
+end
+
+constraints
+    context Dispositivo
+        inv averiasResueltasMayorIgualZero: self.averiasResueltas >= 0
+        inv averiasResueltasDistintoDeNull: self.averiasResueltas <> Undefined
+    
+    context ComponenteAtraccion
+        inv numeroMayorZero: self.numero > 0
+
+    context Vagon
+        inv numeroVagonDistinto: Vagon.allInstances() -> isUnique(numero)
+        inv ultimoEngancheNoAveriado: (self.enganchep -> isEmpty()) and not self.estaAveriado
+
+    context Vehiculo
+        inv numeroVehiculoDistinto: Vehiculo.allInstances() -> isUnique(numero)
+
+    context MRusa
+        inv todosComponentesVagones: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vagon))
+    
+    context Noria
+        inv todosComponentesVehiculos: self.componente -> forAll(c : ComponenteAtraccion | c.oclIsTypeOf(Vehiculo)) 
