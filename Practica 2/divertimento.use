@@ -58,6 +58,8 @@ abstract class ComponenteAtraccion
             statemachines
             
             psm FuncionamientoAtraccion
+                --- El estado "asignado" se refiere al momento en el que el componente está averiado, 
+                --- pero ha sido asignado a un operario para que lo arregle
                 states
                     inicio:initial
                     averiado[estaAveriado]
