@@ -86,3 +86,44 @@ context Person inv OneMarriage:
 self.wife -> collect(endYear = -1) -> size() = 0) or
 (self.wife -> collect(endYear = -1) -> size() = 1 and
 self.husband -> collect(endYear = -1) -> size() = 0)
+
+context Person inv NoChildrenMarriage:
+(Clock.NOW -> asSequence() -> first() - self.birthYear) < 18 implies (self.wife->size()=0 and self.husband->size()=0)
+
+operations
+
+marriage(p:Person)
+begin
+    declare m:Marriage;
+    m:= new Marriage;
+    m.startYear:=self.community.clock.NOW
+    m.endYear:=-1
+    insert(p,m) into Husband;
+    insert(self,m) into Wife;
+end
+pre NotMe: p<>self
+pre Alive: not self.isDead and not self.isDead
+
+divorce()
+begin
+    if (self.wife -> select(m|m.endYear=-1) -> size() >0) then self.wife ->
+    select(m|m.endYear=-1) -> asSequence() -> first().endYear := self.community.clock.NOW end;
+    if(self.husband -> select(m | m.endYear=-1) -> size() >0) then self.husband ->
+    select(m|m.endYear=-1) -> asSequence() -> first().endYear := self.community.clock.NOW end;
+end
+
+birthday()
+begin
+    self.age := self.age + 1;
+end
+pre: not self.isDead
+post: self.age = self.age@pre +1
+
+kill()
+begin
+    self.isDead:=true;
+    self.deathYear:=self.community.clock.NOW;
+    self.divorce();
+end
+pre: not self.isDead
+post: self.deathYear = self.community.clock.NOW

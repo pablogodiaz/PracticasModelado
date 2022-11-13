@@ -1,0 +1,97 @@
+!c := new Clock
+!co := new Community
+!insert (co,c) into ComunnityClock
+!c.tick()
+ 
+!p1 := new Person
+!p1.birthYear := 1990
+!p1.deathYear := -1
+!p1.age := 29
+!p1.isDead := false
+
+!insert (co,p1) into Belongs
+
+!p2 := new Person
+!p2.birthYear := 1990
+!p2.deathYear := -1
+!p2.age := 29
+!p2.isDead := false
+
+!insert (co,p2) into Belongs
+
+!p3 := new Person
+!p3.birthYear := 1991
+!p3.deathYear := -1
+!p3.age := 28
+!p3.isDead := false
+
+!insert (co,p3) into Belongs
+
+!p4 := new Person
+!p4.birthYear := 1995
+!p4.deathYear := -1
+!p4.age := 29
+!p4.isDead := false
+
+!insert (co,p4) into Belongs
+
+!p5 := new Person
+!p5.birthYear := 1990
+!p5.deathYear := -1
+!p5.age := 29
+!p5.isDead := false
+
+!insert (co,p5) into Belongs
+
+!p6 := new Person
+!p6.birthYear := 1990
+!p6.deathYear := -1
+!p6.age := 29
+!p6.isDead := false
+
+!insert (co,p6) into Belongs
+
+!p7 := new Person
+!p7.birthYear := 1998
+!p7.deathYear := -1
+!p7.age := 29
+!p7.isDead := false
+
+!insert (co,p7) into Belongs
+
+!p8 := new Person
+!p8.birthYear := 1990
+!p8.deathYear := -1
+!p8.age := 29
+!p8.isDead := false
+
+!insert (co,p8) into Belongs
+
+!p9 := new Person
+!p9.birthYear := 1990
+!p9.deathYear := -1
+!p9.age := 29
+!p9.isDead := false
+
+!insert (co,p9) into Belongs
+
+!p10 := new Person
+!p10.birthYear := 1990
+!p10.deathYear := -1
+!p10.age := 29
+!p10.isDead := false
+
+!insert (co,p10) into Belongs
+
+!c.tick()
+
+!p1.marriage(p2)
+!p4.marriage(p5)
+!p6.marriage(p7)
+!p9.marriage(p10)
+!c.tick()
+
+!p3.kill()
+!p6.kill()
+!p8.kill()
+!c.tick()
