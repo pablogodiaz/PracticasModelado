@@ -5,7 +5,7 @@ import java.util.List;
 
 class Paciente {
 
-    private List<Expediente> expedientes;
+    private List<Expediente> expedientes = new LinkedList<>();
     private Expediente expedienteAbierto;
 
     protected Paciente(List<Expediente> expedientes, Expediente expedienteAbierto){
@@ -30,21 +30,24 @@ class Paciente {
         this.expedienteAbierto = expedienteAbierto;
     }
 
+    
     protected Paciente(){
 
         // TODO: Mirar diferencia entre LinkedList y ArrayList
+        addExpediente(new Expediente(this));
 
-        List<Acceso> listaAccesos = new LinkedList<>();
-        Expediente expedienteAbierto = new Expediente(this, listaAccesos);
-
-        this.addExpediente(expedienteAbierto);
-        this.expedienteAbierto = expedienteAbierto;
     }
-
-    
 
     protected void addExpediente(Expediente e){
         assert !e.equals(null);
         expedientes.add(e);
+    }
+
+    protected void setExpedienteAbierto(Expediente e){
+        assert e.getPaciente().equals(this);
+        if(!expedientes.contains(e)){
+            addExpediente(e);
+        }
+        expedienteAbierto = e;
     }
 }

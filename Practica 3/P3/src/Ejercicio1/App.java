@@ -2,6 +2,9 @@ package Ejercicio1;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        
+        Profesional doctorPaco = new Profesional();
+        Paciente pepe = new Paciente();
+    
     }
 }

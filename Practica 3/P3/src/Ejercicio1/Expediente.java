@@ -26,8 +26,21 @@ class Expediente {
         this.paciente = paciente;
     }
 
+    protected Expediente(){
+        paciente = new Paciente(this);
+    }
+
     protected void addAcceso(Acceso a){
         assert !a.equals(null);
         listaAccesos.add(a);
+    }
+
+    protected void setPaciente(Paciente p){
+        assert !p.equals(null);
+        this.paciente = p;
+    }
+
+    protected Paciente getPaciente(){
+        return paciente;
     }
 }
