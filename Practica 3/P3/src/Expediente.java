@@ -19,7 +19,6 @@ class Expediente {
     protected Expediente(Paciente paciente){
         //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
-
         this.paciente = paciente;
         this.listaAccesos = listaAccesos;
     }
