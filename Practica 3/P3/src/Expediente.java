@@ -1,9 +1,10 @@
+import java.util.LinkedList;
 import java.util.List;
 
 class Expediente {
     
     private Paciente paciente;
-    private List<Acceso> listaAccesos;
+    private List<Acceso> listaAccesos = new LinkedList<>();
 
     protected Expediente(Paciente paciente, List<Acceso> listaAccesos){
         //Expediente tiene que tener si o si un paciente
@@ -19,8 +20,8 @@ class Expediente {
     protected Expediente(Paciente paciente){
         //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
+
         this.paciente = paciente;
-        this.listaAccesos = listaAccesos;
     }
 
     protected void addAcceso(Acceso a){
