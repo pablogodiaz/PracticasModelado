@@ -1,3 +1,5 @@
+package Ejercicio1;
+
 import java.util.List;
 
 class Expediente {
@@ -6,10 +8,10 @@ class Expediente {
     private List<Acceso> listaAccesos;
 
     protected Expediente(Paciente paciente, List<Acceso> listaAccesos){
-        //Expediente tiene que tener si o si un paciente
+        //Ejercicio1.Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
-        //Expediente tiene una lista de accesos que puede ser vacia
+        //Ejercicio1.Expediente tiene una lista de accesos que puede ser vacia
         assert !listaAccesos.equals(null);
 
         this.paciente = paciente;
@@ -17,7 +19,7 @@ class Expediente {
     }
 
     protected Expediente(Paciente paciente){
-        //Expediente tiene que tener si o si un paciente
+        //Ejercicio1.Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
         this.paciente = paciente;
         this.listaAccesos = listaAccesos;
