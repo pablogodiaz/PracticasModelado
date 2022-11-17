@@ -16,6 +16,14 @@ class Expediente {
         this.listaAccesos = listaAccesos;
     }
 
+    protected Expediente(Paciente paciente){
+        //Expediente tiene que tener si o si un paciente
+        assert !paciente.equals(null);
+
+        this.paciente = paciente;
+        this.listaAccesos = listaAccesos;
+    }
+
     protected void addAcceso(Acceso a){
         assert !a.equals(null);
         listaAccesos.add(a);
