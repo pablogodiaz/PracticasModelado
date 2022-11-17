@@ -1,3 +1,5 @@
+package Ejercicio1;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ class Paciente {
         //Lista de expediente tiene que tener al menos un elemento
         assert expedientes.size() >= 1;
         
-        //Expediente abierto puede ser null o perteneciente a la lista de expedientes
+        //Ejercicio1.Expediente abierto puede ser null o perteneciente a la lista de expedientes
         assert expedienteAbierto.equals(null) || expedientes.contains(expedienteAbierto);
 
         this.expedientes = expedientes;
@@ -21,7 +23,7 @@ class Paciente {
 
     protected Paciente(Expediente expedienteAbierto){
         
-        //Expediente abierto puede ser null
+        //Ejercicio1.Expediente abierto puede ser null
         assert expedienteAbierto.equals(null);
 
         this.addExpediente(expedienteAbierto);
