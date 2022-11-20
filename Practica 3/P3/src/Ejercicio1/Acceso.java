@@ -1,7 +1,6 @@
 package Ejercicio1;
 
 import java.sql.Date;
-import java.util.List;
 class Acceso {
 
     private Date fecha;
@@ -17,5 +16,37 @@ class Acceso {
 
         expediente.addAcceso(this);
         accesor.addAcceso(this);   
+    }
+
+    protected Date getFecha(){
+        return fecha;
+    }
+
+    protected TipoAcceso getTipo(){
+        return tipo;
+    }
+
+    protected Expediente getExpediente(){
+        return expediente;
+    }
+
+    protected Profesional getAccesor(){
+        return accesor;
+    }
+
+    protected void setFecha(Date fecha){
+        this.fecha = fecha;
+    }
+
+    protected void setTipo(TipoAcceso tipo){
+        this.tipo = tipo;
+    }
+
+    protected void setExpediente(Expediente expediente){
+        this.expediente = expediente;
+    }
+
+    protected void setAccesor(Profesional accesor){
+        this.accesor = accesor;
     }
 }

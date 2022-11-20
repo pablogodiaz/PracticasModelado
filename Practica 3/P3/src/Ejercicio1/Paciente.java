@@ -50,4 +50,22 @@ class Paciente {
         }
         expedienteAbierto = e;
     }
+
+    protected Expediente getExpedienteAbierto(){
+        return expedienteAbierto;
+    }
+
+    protected List<Expediente> getExpedientes(){
+        return expedientes;
+    }
+
+    protected void setExpedientes(List<Expediente> expedientes){
+        assert expedientes.size() >= 1;
+        this.expedientes = expedientes;
+    }
+
+    protected void removeExpediente(Expediente e){
+        assert !e.equals(null);
+        expedientes.remove(e);
+    }
 }
