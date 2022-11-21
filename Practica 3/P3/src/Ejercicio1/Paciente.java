@@ -10,11 +10,11 @@ class Paciente {
 
     protected Paciente(List<Expediente> expedientes, Expediente expedienteAbierto){
 
-        //Lista de expediente tiene que tener al menos un elemento
+        //Lista de expedientes tiene que tener al menos un elemento
         assert expedientes.size() >= 1;
         
-        //Ejercicio1.Expediente abierto puede ser null o perteneciente a la lista de expedientes
-        assert expedienteAbierto.equals(null) || expedientes.contains(expedienteAbierto);
+        //expedienteAbierto puede ser null, si no es null deberá estar en la lista de expedientes
+        assert expedienteAbierto.equals(null) || (!expedienteAbierto.equals(null) && expedientes.contains(expedienteAbierto));
 
         this.expedientes = expedientes;
         this.expedienteAbierto = expedienteAbierto;
@@ -23,19 +23,17 @@ class Paciente {
 
     protected Paciente(Expediente expedienteAbierto){
         
-        //Ejercicio1.Expediente abierto puede ser null
-        assert expedienteAbierto.equals(null);
+        //Expediente abierto puede ser null
 
         this.addExpediente(expedienteAbierto);
         this.expedienteAbierto = expedienteAbierto;
     }
 
     
+    //Un paciente tiene que tener por lo menos un expediente en su lista de expedientes.
+    //Para mantener la consistencia se crea un expediente nuevo y se añade a la lista de expedientes del paciente
     protected Paciente(){
-
-        // TODO: Mirar diferencia entre LinkedList y ArrayList
         addExpediente(new Expediente(this));
-
     }
 
     protected void addExpediente(Expediente e){
@@ -43,6 +41,8 @@ class Paciente {
         expedientes.add(e);
     }
 
+    //Se abre un expediente al paciente de su lista de expedintes, o, en el caso de que ese expediente no
+    //esté en la lista de expedientes del paciente, se añade
     protected void setExpedienteAbierto(Expediente e){
         assert e.getPaciente().equals(this);
         if(!expedientes.contains(e)){

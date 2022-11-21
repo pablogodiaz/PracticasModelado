@@ -9,10 +9,10 @@ class Expediente {
     private List<Acceso> listaAccesos = new LinkedList<>();
 
     protected Expediente(Paciente paciente, List<Acceso> listaAccesos){
-        //Ejercicio1.Expediente tiene que tener si o si un paciente
+        //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
-        //Ejercicio1.Expediente tiene una lista de accesos que puede ser vacia
+        //Expediente tiene una lista de accesos que puede ser vacia
         assert !listaAccesos.equals(null);
 
         this.paciente = paciente;
@@ -20,12 +20,13 @@ class Expediente {
     }
 
     protected Expediente(Paciente paciente){
-        //Ejercicio1.Expediente tiene que tener si o si un paciente
+        //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
         this.paciente = paciente;
     }
 
+    //Si se creara un expediente antes de tener un paciente, se creará un paciente nuevo para mantener la consistencia
     protected Expediente(){
         paciente = new Paciente(this);
     }

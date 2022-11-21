@@ -9,14 +9,14 @@ public class App {
         Paciente pepe = new Paciente();
 
         //Vemos que en la lista de expedientes, el paciente pepe tiene un expediente
-        System.out.println("Paciente: pepe," + ", Expedientes: " + pepe.getExpedientes().size());
+        System.out.println("Paciente: pepe" + ", Expedientes: " + pepe.getExpedientes().size());
 
         //Creamos un nuevo expediente para el paciente pepe, y se lo añadimos como expediente abierto
         Expediente expedientePepe = new Expediente(pepe);
         pepe.setExpedienteAbierto(expedientePepe);
 
         //Vemos que al añadirse el expediente abierto, también se añade a la lista de expedientes del paciente, aumentando el tamaño de la lista
-        System.out.println("Paciente: pepe, " + ", Expedientes: " + pepe.getExpedientes().size());
+        System.out.println("Paciente: pepe" + ", Expedientes: " + pepe.getExpedientes().size());
 
 
         Profesional doctorPaco = new Profesional();

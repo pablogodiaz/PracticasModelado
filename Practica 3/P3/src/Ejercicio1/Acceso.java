@@ -14,6 +14,7 @@ class Acceso {
         this.expediente = expediente;
         this.accesor = accesor;
 
+        //Para mantener la consistencia hay que añadir el acceso que se crea a la lista de accesos del expediente y del profesional
         expediente.addAcceso(this);
         accesor.addAcceso(this);   
     }
@@ -35,18 +36,22 @@ class Acceso {
     }
 
     protected void setFecha(Date fecha){
+        assert !fecha.equals(null);
         this.fecha = fecha;
     }
 
     protected void setTipo(TipoAcceso tipo){
+        assert !tipo.equals(null);
         this.tipo = tipo;
     }
 
     protected void setExpediente(Expediente expediente){
+        assert !expediente.equals(null);
         this.expediente = expediente;
     }
 
     protected void setAccesor(Profesional accesor){
+        assert !accesor.equals(null);
         this.accesor = accesor;
     }
 }
