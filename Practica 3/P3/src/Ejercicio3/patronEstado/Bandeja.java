@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class Bandeja {
-    private final int capacidad;
+    private int capacidad;
     private Estado estado;
     private List<Pieza> piezas;
 
@@ -22,7 +22,7 @@ public class Bandeja {
     }
 
     protected Pieza removePieza() {
-        return piezas.get(piezas.size()-1);
+        return piezas.remove(piezas.size()-1);
     }
 
     protected void setEstado(Estado estado) {

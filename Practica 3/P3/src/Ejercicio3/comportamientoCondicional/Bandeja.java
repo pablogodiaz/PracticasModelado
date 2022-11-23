@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class Bandeja {
-    private final int capacidad;
+    private int capacidad;
     private List<Pieza> piezas;
 
     public Bandeja(int capacidad) {

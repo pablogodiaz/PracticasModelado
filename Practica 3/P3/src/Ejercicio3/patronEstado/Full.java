@@ -1,7 +1,6 @@
 package Ejercicio3.patronEstado;
 
 public class Full extends Estado {
-
     protected Full(Bandeja bandeja) {
         super(bandeja);
     }
