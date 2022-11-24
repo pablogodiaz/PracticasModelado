@@ -13,7 +13,6 @@ public class App {
         bandeja.put(pieza1);
 
         System.out.println(bandeja.getEstado());
-
     }
     
 }
