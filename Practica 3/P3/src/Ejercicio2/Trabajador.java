@@ -3,13 +3,8 @@ package Ejercicio2;
 abstract class Trabajador {
     private String nombre;
     private String numeroSeguridadSocial;
-    protected double salario;
+    private double salario;
 
-    Trabajador(String nombre, String numeroSeguridadSocial, double salario) {
-        setNombre(nombre);
-        setNumeroSeguridadSocial(numeroSeguridadSocial);
-        setSalario(salario);
-    }
 
     public double nomina() {
         return salario;
