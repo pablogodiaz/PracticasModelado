@@ -1,9 +1,9 @@
 package Ejercicio3.patronEstado;
 
-public abstract class Estado {
+abstract class Estado {
     Bandeja bandeja;
 
-    protected Estado(Bandeja bandeja) {
+    Estado(Bandeja bandeja) {
         assert(bandeja != null);
         this.bandeja = bandeja;
     }

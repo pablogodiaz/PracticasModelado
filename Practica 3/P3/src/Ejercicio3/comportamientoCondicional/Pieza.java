@@ -1,6 +1,6 @@
 package Ejercicio3.comportamientoCondicional;
 
-public class Pieza {
+class Pieza {
     private Bandeja bandeja;
 
     void addBandeja(Bandeja bandeja) {

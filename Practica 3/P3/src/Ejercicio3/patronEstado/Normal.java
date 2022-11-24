@@ -1,7 +1,7 @@
 package Ejercicio3.patronEstado;
 
-public class Normal extends Estado {
-    protected Normal(Bandeja bandeja) {
+class Normal extends Estado {
+    Normal(Bandeja bandeja) {
         super(bandeja);
     }
     @Override
