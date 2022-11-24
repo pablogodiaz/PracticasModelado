@@ -29,6 +29,10 @@ class Bandeja {
         this.estado = estado;
     }
 
+    Estado getEstado(){
+        return estado;
+    }
+
     Enumeration<Pieza> getPiezas() {
         return Collections.enumeration(piezas);
     }
