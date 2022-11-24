@@ -33,8 +33,8 @@ class Bandeja {
         return estado;
     }
 
-    Enumeration<Pieza> getPiezas() {
-        return Collections.enumeration(piezas);
+    List<Pieza> getPiezas() {
+        return piezas;
     }
 
     int getCapacidad() {

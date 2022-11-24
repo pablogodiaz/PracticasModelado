@@ -6,6 +6,8 @@ class Normal extends Estado {
     }
     @Override
     protected void put(Pieza pieza) {
+        assert pieza != null;
+        assert !bandeja.getPiezas().contains(pieza);
         bandeja.addPieza(pieza);
         pieza.addBandeja(bandeja);
         if (bandeja.getCapacidad() == bandeja.size()) {
@@ -22,5 +24,9 @@ class Normal extends Estado {
             bandeja = null;
         }
         return pieza;
+    }
+
+    public String toString() {
+        return "Normal";
     }
 }

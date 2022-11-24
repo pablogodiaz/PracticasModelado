@@ -7,6 +7,7 @@ class Full extends Estado {
 
     @Override
     protected void put(Pieza p) {
+        throw new RuntimeException("La bandeja ya está llena");
     }
 
     @Override
@@ -19,5 +20,9 @@ class Full extends Estado {
         }
         bandeja = null;
         return pieza;
+    }
+
+    public String toString() {
+        return "Full";
     }
 }

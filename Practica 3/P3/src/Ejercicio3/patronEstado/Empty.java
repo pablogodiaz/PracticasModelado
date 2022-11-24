@@ -8,6 +8,8 @@ class Empty extends Estado {
 
     @Override
     protected void put(Pieza p) {
+        assert p != null;
+        assert !bandeja.getPiezas().contains(p);
         bandeja.addPieza(p);
         p.addBandeja(bandeja);
         if (bandeja.getCapacidad() == 1) {
@@ -20,6 +22,11 @@ class Empty extends Estado {
 
     @Override
     protected Pieza get() {
-        return null;
+        throw new RuntimeException("La bandeja está vacía");
+    }
+    
+
+    public String toString() {
+        return "Empty";
     }
 }
