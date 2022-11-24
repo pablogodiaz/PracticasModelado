@@ -1,7 +1,6 @@
 package Ejercicio3.patronEstado;
 
 class Empty extends Estado {
-    private Bandeja bandeja;
 
     Empty(Bandeja bandeja) {
         super(bandeja);

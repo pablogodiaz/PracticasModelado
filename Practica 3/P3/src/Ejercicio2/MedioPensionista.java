@@ -12,17 +12,19 @@ class MedioPensionista {
         setPensionista(new Pensionista(nombre, numeroSeguridadSocial, salarioPensionista));
     }
 
+
+
     // En el método incrementar solo es necesario delegar la acción a cada variable.
     public void incrementar() {
         getActivo().incrementar();
         getPensionista().incrementar();
     }
 
-    public void setActivo(Activo activo) {
+    protected void setActivo(Activo activo) {
         this.activo = activo;
     }
 
-    public void setPensionista(Pensionista pensionista) {
+    protected void setPensionista(Pensionista pensionista) {
         this.pensionista = pensionista;
     }
 
