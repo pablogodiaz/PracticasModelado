@@ -8,7 +8,7 @@ class Expediente {
     private Paciente paciente;
     private List<Acceso> listaAccesos = new LinkedList<>();
 
-    protected Expediente(Paciente paciente, List<Acceso> listaAccesos){
+    Expediente(Paciente paciente, List<Acceso> listaAccesos){
         //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
@@ -19,7 +19,7 @@ class Expediente {
         this.listaAccesos = listaAccesos;
     }
 
-    protected Expediente(Paciente paciente){
+    Expediente(Paciente paciente){
         //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
@@ -27,34 +27,34 @@ class Expediente {
     }
 
     //Si se creara un expediente antes de tener un paciente, se creará un paciente nuevo para mantener la consistencia
-    protected Expediente(){
+    Expediente(){
         paciente = new Paciente(this);
     }
 
-    protected void addAcceso(Acceso a){
+    void addAcceso(Acceso a){
         assert !a.equals(null);
         listaAccesos.add(a);
     }
 
-    protected void setPaciente(Paciente p){
+    void setPaciente(Paciente p){
         assert !p.equals(null);
         this.paciente = p;
     }
 
-    protected Paciente getPaciente(){
+    Paciente getPaciente(){
         return paciente;
     }
 
-    protected List<Acceso> getListaAccesos(){
+    List<Acceso> getListaAccesos(){
         return listaAccesos;
     }
 
-    protected void setListaAccesos(List<Acceso> listaAccesos){
+    void setListaAccesos(List<Acceso> listaAccesos){
         assert !listaAccesos.equals(null);
         this.listaAccesos = listaAccesos;
     }
 
-    protected void removeAcceso(Acceso a){
+    void removeAcceso(Acceso a){
         assert !a.equals(null);
         listaAccesos.remove(a);
     }

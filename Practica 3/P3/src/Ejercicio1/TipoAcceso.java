@@ -1,6 +1,6 @@
 package Ejercicio1;
 
-public enum TipoAcceso {
+enum TipoAcceso {
     consulta,
     modificacion,
     creacion,

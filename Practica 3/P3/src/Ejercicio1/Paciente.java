@@ -8,7 +8,7 @@ class Paciente {
     private List<Expediente> expedientes = new LinkedList<>();
     private Expediente expedienteAbierto;
 
-    protected Paciente(List<Expediente> expedientes, Expediente expedienteAbierto){
+    Paciente(List<Expediente> expedientes, Expediente expedienteAbierto){
 
         //Lista de expedientes tiene que tener al menos un elemento
         assert expedientes.size() >= 1;
@@ -21,7 +21,7 @@ class Paciente {
     }
 
 
-    protected Paciente(Expediente expedienteAbierto){
+    Paciente(Expediente expedienteAbierto){
         
         //Expediente abierto puede ser null
 
@@ -32,18 +32,18 @@ class Paciente {
     
     //Un paciente tiene que tener por lo menos un expediente en su lista de expedientes.
     //Para mantener la consistencia se crea un expediente nuevo y se añade a la lista de expedientes del paciente
-    protected Paciente(){
+    Paciente(){
         addExpediente(new Expediente(this));
     }
 
-    protected void addExpediente(Expediente e){
+    void addExpediente(Expediente e){
         assert !e.equals(null);
         expedientes.add(e);
     }
 
     //Se abre un expediente al paciente de su lista de expedintes, o, en el caso de que ese expediente no
     //esté en la lista de expedientes del paciente, se añade
-    protected void setExpedienteAbierto(Expediente e){
+    void setExpedienteAbierto(Expediente e){
         assert e.getPaciente().equals(this);
         if(!expedientes.contains(e)){
             addExpediente(e);
@@ -51,20 +51,20 @@ class Paciente {
         expedienteAbierto = e;
     }
 
-    protected Expediente getExpedienteAbierto(){
+    Expediente getExpedienteAbierto(){
         return expedienteAbierto;
     }
 
-    protected List<Expediente> getExpedientes(){
+    List<Expediente> getExpedientes(){
         return expedientes;
     }
 
-    protected void setExpedientes(List<Expediente> expedientes){
+    void setExpedientes(List<Expediente> expedientes){
         assert expedientes.size() >= 1;
         this.expedientes = expedientes;
     }
 
-    protected void removeExpediente(Expediente e){
+    void removeExpediente(Expediente e){
         assert !e.equals(null);
         expedientes.remove(e);
     }

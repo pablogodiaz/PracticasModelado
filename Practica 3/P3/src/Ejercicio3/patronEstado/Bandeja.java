@@ -11,7 +11,7 @@ public class Bandeja {
     private List<Pieza> piezas;
 
     public Bandeja(int capacidad) {
-        assert(capacidad > 0);
+        assert capacidad > 0;
         this.capacidad = capacidad;
         estado = new Empty(this);
         piezas = new ArrayList<>();

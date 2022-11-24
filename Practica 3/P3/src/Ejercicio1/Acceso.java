@@ -8,7 +8,7 @@ class Acceso {
     private Expediente expediente;
     private Profesional accesor;
 
-    protected Acceso(Date fecha, TipoAcceso tipo, Expediente expediente, Profesional accesor){
+    Acceso(Date fecha, TipoAcceso tipo, Expediente expediente, Profesional accesor){
         this.fecha = fecha;
         this.tipo = tipo;
         this.expediente = expediente;
@@ -19,38 +19,38 @@ class Acceso {
         accesor.addAcceso(this);   
     }
 
-    protected Date getFecha(){
+    Date getFecha(){
         return fecha;
     }
 
-    protected TipoAcceso getTipo(){
+    TipoAcceso getTipo(){
         return tipo;
     }
 
-    protected Expediente getExpediente(){
+    Expediente getExpediente(){
         return expediente;
     }
 
-    protected Profesional getAccesor(){
+    Profesional getAccesor(){
         return accesor;
     }
 
-    protected void setFecha(Date fecha){
+    void setFecha(Date fecha){
         assert !fecha.equals(null);
         this.fecha = fecha;
     }
 
-    protected void setTipo(TipoAcceso tipo){
+    void setTipo(TipoAcceso tipo){
         assert !tipo.equals(null);
         this.tipo = tipo;
     }
 
-    protected void setExpediente(Expediente expediente){
+    void setExpediente(Expediente expediente){
         assert !expediente.equals(null);
         this.expediente = expediente;
     }
 
-    protected void setAccesor(Profesional accesor){
+    void setAccesor(Profesional accesor){
         assert !accesor.equals(null);
         this.accesor = accesor;
     }

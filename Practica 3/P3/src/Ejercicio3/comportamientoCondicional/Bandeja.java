@@ -8,39 +8,55 @@ import java.util.List;
 class Bandeja {
     private int capacidad;
     private List<Pieza> piezas;
+    private Estado estado;
 
-    protected Bandeja(int capacidad) {
-        assert(capacidad > 0);
+    Bandeja(int capacidad) {
+        assert capacidad > 0;
         this.capacidad = capacidad;
         piezas = new ArrayList<>();
     }
 
-    protected Enumeration<Pieza> getPiezas() {
+    Enumeration<Pieza> getPiezas() {
         return Collections.enumeration(piezas);
     }
 
-    protected int getCapacidad() {
+    int getCapacidad() {
         return capacidad;
     }
 
-    protected void put(Pieza p) {
+    void put(Pieza p) {
         if (piezas.size() < capacidad) {
             piezas.add(p);
             p.addBandeja(this);
+        }else{
+            throw new RuntimeException ("No se puede agregar la pieza, la bandeja esta llena");
         }
     }
 
-    protected Pieza get() {
+    Pieza get() {
         if (piezas.size() > 0) {
             Pieza pieza = piezas.get(piezas.size() - 1);
+            piezas.remove(pieza);
             pieza.removeBandeja();
             return pieza;
         } else {
-            return null;
+            throw new RuntimeException("No se puede sacar la pieza, la bandeja esta vacia");
         }
+        
     }
 
-    protected int size() {
+    int size() {
         return piezas.size();
+    }
+
+    Estado getEstado() {
+        if (piezas.size() == 0) {
+            estado = Estado.Empty;
+        } else if (piezas.size() == capacidad) {
+            estado = Estado.Full;
+        } else {
+            estado = Estado.Normal;
+        }
+        return estado;
     }
 }
