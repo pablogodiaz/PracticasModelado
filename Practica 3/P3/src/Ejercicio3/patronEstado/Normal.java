@@ -1,9 +1,11 @@
 package Ejercicio3.patronEstado;
 
 class Normal extends Estado {
+
     Normal(Bandeja bandeja) {
         super(bandeja);
     }
+    
     @Override
     protected void put(Pieza pieza) {
         bandeja.addPieza(pieza);
