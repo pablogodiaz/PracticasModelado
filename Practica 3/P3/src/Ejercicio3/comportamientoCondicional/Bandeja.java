@@ -9,28 +9,28 @@ class Bandeja {
     private int capacidad;
     private List<Pieza> piezas;
 
-    protected Bandeja(int capacidad) {
+    Bandeja(int capacidad) {
         assert(capacidad > 0);
         this.capacidad = capacidad;
         piezas = new ArrayList<>();
     }
 
-    protected Enumeration<Pieza> getPiezas() {
+    Enumeration<Pieza> getPiezas() {
         return Collections.enumeration(piezas);
     }
 
-    protected int getCapacidad() {
+    int getCapacidad() {
         return capacidad;
     }
 
-    protected void put(Pieza p) {
+    void put(Pieza p) {
         if (piezas.size() < capacidad) {
             piezas.add(p);
             p.addBandeja(this);
         }
     }
 
-    protected Pieza get() {
+    Pieza get() {
         if (piezas.size() > 0) {
             Pieza pieza = piezas.get(piezas.size() - 1);
             pieza.removeBandeja();
@@ -40,7 +40,7 @@ class Bandeja {
         }
     }
 
-    protected int size() {
+    int size() {
         return piezas.size();
     }
 }

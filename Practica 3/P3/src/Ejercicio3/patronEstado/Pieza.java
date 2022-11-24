@@ -1,13 +1,13 @@
 package Ejercicio3.patronEstado;
 
-public class Pieza {
+class Pieza {
     private Bandeja bandeja;
 
-    protected void addBandeja(Bandeja bandeja) {
+    void addBandeja(Bandeja bandeja) {
         this.bandeja = bandeja;
     }
 
-    protected void removeBandeja() {
+    void removeBandeja() {
         bandeja = null;
     }
 }
