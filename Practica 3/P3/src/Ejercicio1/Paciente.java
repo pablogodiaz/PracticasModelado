@@ -1,14 +1,16 @@
 package Ejercicio1;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 class Paciente {
 
-    private List<Expediente> expedientes = new LinkedList<>();
+    private Set<Expediente> expedientes = new HashSet<>();
     private Expediente expedienteAbierto;
 
-    Paciente(List<Expediente> expedientes, Expediente expedienteAbierto){
+    Paciente(Set<Expediente> expedientes, Expediente expedienteAbierto){
 
         //Lista de expedientes tiene que tener al menos un elemento
         assert expedientes.size() >= 1;
@@ -55,11 +57,11 @@ class Paciente {
         return expedienteAbierto;
     }
 
-    List<Expediente> getExpedientes(){
+    Set<Expediente> getExpedientes(){
         return expedientes;
     }
 
-    void setExpedientes(List<Expediente> expedientes){
+    void setExpedientes(Set<Expediente> expedientes){
         assert expedientes.size() >= 1;
         this.expedientes = expedientes;
     }
@@ -68,4 +70,5 @@ class Paciente {
         assert !e.equals(null);
         expedientes.remove(e);
     }
+    
 }

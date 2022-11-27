@@ -9,14 +9,24 @@ class Acceso {
     private Profesional accesor;
 
     Acceso(Date fecha, TipoAcceso tipo, Expediente expediente, Profesional accesor){
+
+        
         this.fecha = fecha;
         this.tipo = tipo;
         this.expediente = expediente;
         this.accesor = accesor;
 
+        if(expediente.getListaAccesos().contains(this) || accesor.getListaAccesos().contains(this)){
+            throw new RuntimeException("El profesional no puede acceder más de una vez al mismo expediente");
+        }
+            
+        
+
         //Para mantener la consistencia hay que añadir el acceso que se crea a la lista de accesos del expediente y del profesional
         expediente.addAcceso(this);
         accesor.addAcceso(this);   
+
+        
     }
 
     Date getFecha(){
@@ -54,4 +64,15 @@ class Acceso {
         assert !accesor.equals(null);
         this.accesor = accesor;
     }
+
+    @Override
+    public boolean equals(Object o){
+        return o instanceof Acceso && (((Acceso) o).getExpediente().equals(this.expediente) && ((Acceso) o).getAccesor().equals(this.accesor));
+    }
+
+    @Override
+    public int hashCode(){
+        return expediente.hashCode() + accesor.hashCode();
+    }
+
 }

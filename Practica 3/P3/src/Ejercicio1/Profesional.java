@@ -1,13 +1,16 @@
 package Ejercicio1;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 class Profesional {
     
-    private List<Acceso> listaAccesos = new LinkedList<>();
+    private Set<Acceso> listaAccesos = new HashSet<>();
 
-    Profesional(List<Acceso> listaAccesos){
+    Profesional(Set<Acceso> listaAccesos){
         assert !listaAccesos.equals(null);
         this.listaAccesos = listaAccesos;
     }
@@ -21,11 +24,11 @@ class Profesional {
         listaAccesos.add(a);
     }
 
-    List<Acceso> getListaAccesos(){
+    Set<Acceso> getListaAccesos(){
         return listaAccesos;
     }
 
-    void setListaAccesos(List<Acceso> listaAccesos){
+    void setListaAccesos(Set<Acceso> listaAccesos){
         assert !listaAccesos.equals(null);
         this.listaAccesos = listaAccesos;
     }
@@ -34,4 +37,5 @@ class Profesional {
         assert !a.equals(null);
         listaAccesos.remove(a);
     }
+
 }

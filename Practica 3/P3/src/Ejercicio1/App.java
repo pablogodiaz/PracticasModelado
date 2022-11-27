@@ -22,8 +22,12 @@ public class App {
         Profesional doctorPaco = new Profesional();
         Acceso acceso1 = new Acceso(new Date(122, 10, 20), TipoAcceso.consulta, expedientePepe, doctorPaco);
 
+
         //Vemos que el expediente abierto del paciente pepe tiene un acceso
-        System.out.println("Número de accesos expediente del paciente pepe: " + pepe.getExpedienteAbierto().getListaAccesos().size());
+        System.out.println("Número de accesos expediente abierto del paciente pepe: " + expedientePepe.getListaAccesos().size());
+
+        //No se añade el acceso a la lista de accesos del profesional, ya que el profesional no puede acceder más de una vez al mismo expediente
+        Acceso accesoDuplicado = new Acceso(new Date(122, 10, 20), TipoAcceso.consulta, expedientePepe, doctorPaco);
 
     }
 }

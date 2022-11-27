@@ -1,14 +1,17 @@
 package Ejercicio1;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 class Expediente {
     
     private Paciente paciente;
-    private List<Acceso> listaAccesos = new LinkedList<>();
+    private Set<Acceso> listaAccesos = new HashSet<>();
 
-    Expediente(Paciente paciente, List<Acceso> listaAccesos){
+    Expediente(Paciente paciente, Set<Acceso> listaAccesos){
         //Expediente tiene que tener si o si un paciente
         assert !paciente.equals(null);
 
@@ -45,11 +48,11 @@ class Expediente {
         return paciente;
     }
 
-    List<Acceso> getListaAccesos(){
+    Set<Acceso> getListaAccesos(){
         return listaAccesos;
     }
 
-    void setListaAccesos(List<Acceso> listaAccesos){
+    void setListaAccesos(Set<Acceso> listaAccesos){
         assert !listaAccesos.equals(null);
         this.listaAccesos = listaAccesos;
     }
@@ -58,4 +61,5 @@ class Expediente {
         assert !a.equals(null);
         listaAccesos.remove(a);
     }
+
 }
