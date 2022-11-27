@@ -33,6 +33,7 @@ class MedioPensionista extends Trabajador{
     public void incrementar() {
         getActivo().incrementar();
         getPensionista().incrementar();
+        setSalario(activo.nomina()+pensionista.nomina());
     }
 
     public void setActivo(Activo activo) {
@@ -50,7 +51,5 @@ class MedioPensionista extends Trabajador{
     public Pensionista getPensionista() {
         return pensionista;
     }
-    public double nomina() {
-    	return activo.nomina()+pensionista.nomina();
-    }
+
     }
