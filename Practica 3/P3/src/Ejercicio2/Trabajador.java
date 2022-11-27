@@ -6,7 +6,13 @@ abstract class Trabajador {
     private double salario;
 
 
-    public double nomina() {
+    Trabajador(String nombre, String numeroSeguridadSocial, double salario) {
+    	this.nombre=nombre;
+    	this.numeroSeguridadSocial=numeroSeguridadSocial;
+    	this.salario=salario;
+    }
+
+	public double nomina() {
         return salario;
     }
 
