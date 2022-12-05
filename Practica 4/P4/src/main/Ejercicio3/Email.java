@@ -1,4 +1,5 @@
-package ejercicio3;
+package Ejercicio3;
+
 class Email {
     private String from;
     private String subject;

@@ -1,3 +1,6 @@
+package Ejercicio3;
+
+
 class OrderedBySubject implements Strategy{
 
     @Override

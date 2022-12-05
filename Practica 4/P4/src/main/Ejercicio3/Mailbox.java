@@ -1,4 +1,5 @@
 package ejercicio3;
+
 class Mailbox{
 
     private List<Email> emails;
@@ -10,6 +11,10 @@ class Mailbox{
 
     Mailbox(){
         this.emails = new LinkedList<Email>();
+    }
+
+    private void show(){
+        System.out.println("Mailbox: " + this.emails);
     }
 
     private void sort(){
