@@ -2,8 +2,8 @@ package a;
 
 public abstract class EstadoSemaforo {
 	
-	public abstract void abrir(Semaforo s);
-	public abstract void cerrar(Semaforo s);
+	protected abstract void abrir(Semaforo s);
+	protected abstract void cerrar(Semaforo s);
 	
-	public abstract String estado();
+	protected abstract String estado();
 }
