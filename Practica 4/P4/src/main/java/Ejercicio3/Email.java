@@ -1,6 +1,6 @@
 package Ejercicio3;
 
-class Email {
+public class Email {
     private String from;
     private String subject;
     private Date date;

@@ -1,6 +1,6 @@
 package Ejercicio3;
 
 
-interface Strategy {
+public interface Strategy {
     before(Email m1, Email m2);
 }

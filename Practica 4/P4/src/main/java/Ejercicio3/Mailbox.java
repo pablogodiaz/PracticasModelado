@@ -1,6 +1,6 @@
 package ejercicio3;
 
-class Mailbox{
+public class Mailbox{
 
     private List<Email> emails;
     private Strategy orderedStrategy;

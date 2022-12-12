@@ -1,7 +1,7 @@
 package Ejercicio3;
 
 
-class OrderedByFrom implements Strategy {
+public class OrderedByFrom implements Strategy {
 
     @Override
     boolean before(Email m1, Email m2){
