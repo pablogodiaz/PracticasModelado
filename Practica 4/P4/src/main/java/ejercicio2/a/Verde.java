@@ -6,11 +6,11 @@ public class Verde extends EstadoSemaforo{
 		
 	}
 	
-	public void abrir(Semaforo s) {
+	void abrir(Semaforo s) {
 		throw new RuntimeException("Ya está abierto el semaforo: " + s);
 	}
 	
-	public void cerrar(Semaforo s) {
+	void cerrar(Semaforo s) {
 		s.estadoSemaforo = new Rojo();
 	}
 	
