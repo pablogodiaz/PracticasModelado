@@ -5,7 +5,7 @@ import java.util.Date;
 import ejercicio3.Mailbox;
 
 public class App {
-    public static void main(String[] args {
+    public static void main(String[] args) {
         Email e1 = new Email("victor", "Hola", new Date(), Priority.HIGH, "Hola");
         Email e2 = new Email("pepe", "holaa", new Date(), Priority.LOW, "Hola");
         Email e3 = new Email("juan", "holaaa", new Date(), Priority.MEDIUM, "Hola");
