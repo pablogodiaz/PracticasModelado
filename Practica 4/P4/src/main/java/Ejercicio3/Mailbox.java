@@ -13,7 +13,7 @@ public class Mailbox{
         this.emails = new LinkedList<Email>();
     }
 
-    private void show(){
+    public void show(){
         System.out.println("Mailbox: " + this.emails);
     }
 
@@ -29,7 +29,7 @@ public class Mailbox{
         }
     }
 
-    void setOrderedStrategy(Strategy orderedStrategy){
+    public void setOrderedStrategy(Strategy orderedStrategy){
         this.orderedStrategy = orderedStrategy;
     }
 
