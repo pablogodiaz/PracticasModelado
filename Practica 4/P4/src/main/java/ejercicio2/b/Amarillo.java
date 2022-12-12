@@ -1,4 +1,4 @@
-package b;
+package ejercicio2.b;
 
 public class Amarillo extends EstadoSemaforo{
 
@@ -6,12 +6,12 @@ public class Amarillo extends EstadoSemaforo{
 		
 	}
 	
-	void abrir(Semaforo s) {
-		s.estadoSemaforo = new Verde();
+	protected void abrir(Semaforo s) {
+		s.setEstadoSemaforo(new Verde());
 	}
 	
-	void cerrar(Semaforo s) {
-		s.estadoSemaforo = new Rojo();
+	protected void cerrar(Semaforo s) {
+		s.setEstadoSemaforo(new Rojo());
 	}
 	
 	public String estado() {

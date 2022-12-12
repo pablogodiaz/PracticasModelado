@@ -1,5 +1,7 @@
 package Ejercicio3;
 
+import java.util.Date;
+
 public class Email {
     private String from;
     private String subject;
@@ -13,5 +15,29 @@ public class Email {
         this.date = date;
         this.priority = priority;
         this.text = text;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String toString() {
+        return "From: " + from + " Subject: " + subject + " Date: " + date + " Priority: " + priority + " Text: " + text;
     }
 }

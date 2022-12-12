@@ -1,4 +1,4 @@
-package b;
+package ejercicio2.b;
 
 public abstract class EstadoSemaforo {
 	

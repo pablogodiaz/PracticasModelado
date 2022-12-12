@@ -1,4 +1,4 @@
-package b;
+package ejercicio2.b;
 
 public class Verde extends EstadoSemaforo{
 
@@ -6,12 +6,12 @@ public class Verde extends EstadoSemaforo{
 		
 	}
 	
-	void abrir(Semaforo s) {
+	protected void abrir(Semaforo s) {
 		throw new RuntimeException("Ya está abierto el semaforo: " + s);
 	}
 	
-	void cerrar(Semaforo s) {
-		s.estadoSemaforo = new Amarillo();
+	protected void cerrar(Semaforo s) {
+		s.setEstadoSemaforo(new Amarillo());
 	}
 	
 	public String estado() {

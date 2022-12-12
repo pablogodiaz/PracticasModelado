@@ -1,4 +1,4 @@
-package b;
+package ejercicio2.b;
 
 public class Semaforo {
 	
@@ -8,16 +8,20 @@ public class Semaforo {
 		estadoSemaforo = new Rojo();
 	}
 	
-	void abrir() {
+	protected void abrir() {
 		estadoSemaforo.abrir(this);
 	}
 	
-	void cerrar() {
+	protected void cerrar() {
 		estadoSemaforo.cerrar(this);
 	}
 
 	public String estado() {
 		return estadoSemaforo.estado();
+	}
+
+	protected void setEstadoSemaforo(EstadoSemaforo estadoSemaforo) {
+		this.estadoSemaforo = estadoSemaforo;
 	}
 	
 }
