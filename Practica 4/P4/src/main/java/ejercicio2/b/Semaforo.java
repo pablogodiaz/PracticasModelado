@@ -2,17 +2,17 @@ package b;
 
 public class Semaforo {
 	
-	protected EstadoSemaforo estadoSemaforo;
+	private EstadoSemaforo estadoSemaforo;
 	
-	public Semaforo () {
+	Semaforo () {
 		estadoSemaforo = new Rojo();
 	}
 	
-	public void abrir() {
+	void abrir() {
 		estadoSemaforo.abrir(this);
 	}
 	
-	public void cerrar() {
+	void cerrar() {
 		estadoSemaforo.cerrar(this);
 	}
 

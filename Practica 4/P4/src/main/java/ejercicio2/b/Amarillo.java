@@ -2,15 +2,15 @@ package b;
 
 public class Amarillo extends EstadoSemaforo{
 
-	public Amarillo() {
+	Amarillo() {
 		
 	}
 	
-	public void abrir(Semaforo s) {
+	void abrir(Semaforo s) {
 		s.estadoSemaforo = new Verde();
 	}
 	
-	public void cerrar(Semaforo s) {
+	void cerrar(Semaforo s) {
 		s.estadoSemaforo = new Rojo();
 	}
 	
