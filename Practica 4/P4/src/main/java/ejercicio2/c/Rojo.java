@@ -1,25 +1,19 @@
-package c;
+package ejercicio2.c;
 
-public class Rojo extends EstadoSemaforo{
-
-	public Rojo() {
-		
-	}
-	
-	public void abrir(Semaforo s) {
-		if(s.cambio) {
-			s.estadoSemaforo = new Verde();
+class Rojo extends EstadoSemaforo {
+	protected void abrir(Semaforo s) {
+		if(s.esTriestable()) {
+			s.setEstadoSemaforo(new Amarillo());
 		} else {
-			s.estadoSemaforo = new Amarillo();
+			s.setEstadoSemaforo(new Verde());
 		}
 	}
 	
 	public void cerrar(Semaforo s) {
-		throw new RuntimeException("Ya está cerrado el semaforo: " + s);
+		throw new RuntimeException("Ya está cerrado el semáforo: " + s);
 	}
 	
 	public String estado() {
-		return "Rojo";
+		return "cerrado";
 	}
-	
 }

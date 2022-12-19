@@ -4,15 +4,15 @@ public class Semaforo {
 	
 	private EstadoSemaforo estadoSemaforo;
 	
-	Semaforo () {
+	public Semaforo() {
 		estadoSemaforo = new Rojo();
 	}
 	
-	protected void abrir() {
+	public void abrir() {
 		estadoSemaforo.abrir(this);
 	}
 	
-	protected void cerrar() {
+	public void cerrar() {
 		estadoSemaforo.cerrar(this);
 	}
 
@@ -23,5 +23,4 @@ public class Semaforo {
 	protected void setEstadoSemaforo(EstadoSemaforo estadoSemaforo) {
 		this.estadoSemaforo = estadoSemaforo;
 	}
-	
 }

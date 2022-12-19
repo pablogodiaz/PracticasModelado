@@ -1,18 +1,17 @@
 package ejercicio2.b;
 
 public class Semaforo {
-	
 	private EstadoSemaforo estadoSemaforo;
 	
-	Semaforo () {
+	public Semaforo () {
 		estadoSemaforo = new Rojo();
 	}
 	
-	protected void abrir() {
+	public void abrir() {
 		estadoSemaforo.abrir(this);
 	}
 	
-	protected void cerrar() {
+	public void cerrar() {
 		estadoSemaforo.cerrar(this);
 	}
 

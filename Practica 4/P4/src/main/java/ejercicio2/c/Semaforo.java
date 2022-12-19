@@ -1,9 +1,8 @@
-package c;
+package ejercicio2.c;
 
 public class Semaforo {
-	
-	protected EstadoSemaforo estadoSemaforo;
-	protected boolean cambio;
+	private EstadoSemaforo estadoSemaforo;
+	private boolean esTriestable;
 	
 	public Semaforo () {
 		estadoSemaforo = new Rojo();
@@ -22,6 +21,14 @@ public class Semaforo {
 	}
 	
 	public void cambio() {
-		cambio = !cambio;
+		esTriestable = !esTriestable;
+	}
+
+	protected void setEstadoSemaforo(EstadoSemaforo estadoSemaforo) {
+		this.estadoSemaforo = estadoSemaforo;
+	}
+
+	protected boolean esTriestable() {
+		return this.esTriestable;
 	}
 }

@@ -1,6 +1,6 @@
 package ejercicio2.b;
 
-public abstract class EstadoSemaforo {
+abstract class EstadoSemaforo {
 	
 	protected abstract void abrir(Semaforo s);
 	protected abstract void cerrar(Semaforo s);

@@ -1,21 +1,15 @@
-package c;
+package ejercicio2.c;
 
-public class Amarillo extends EstadoSemaforo{
-
-	public Amarillo() {
-		
+class Amarillo extends EstadoSemaforo {
+	protected void abrir(Semaforo s) {
+		s.setEstadoSemaforo(new Verde());
 	}
 	
-	public void abrir(Semaforo s) {
-		s.estadoSemaforo = new Verde();
+	protected void cerrar(Semaforo s) {
+		s.setEstadoSemaforo(new Rojo());
 	}
 	
-	public void cerrar(Semaforo s) {
-		s.estadoSemaforo = new Rojo();
+	protected String estado() {
+		return "precaución";
 	}
-	
-	public String estado() {
-		return "Amarillo";
-	}
-	
 }
